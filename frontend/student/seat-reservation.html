@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Library - Seat Reservation</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="src/css/sidebar.css">
+  <link rel="stylesheet" href="src/css/seat-reservation.css">
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Dynamic Sidebar Mount -->
+    <div id="sidebar-placeholder"></div>
+
+    <div class="main-wrapper">
+      <!-- Topbar Header -->
+              <header class="topbar">
+          <div class="header-right">
+            <div class="notification-btn" id="notif-btn" title="Notifications" onclick="window.location.href='notifications.html'">
+              <i class="fa-regular fa-bell"></i>
+              <span class="notification-badge" id="notif-badge" style="display: none;">0</span>
+            </div>
+
+            <a class="user-profile" href="profile.html" title="View Profile">
+              <div class="user-avatar-circle" id="avatar-fallback">GP</div>
+              <img src="" alt="" id="student-avatar" class="avatar-img" style="display:none;" />
+              <span class="user-name" id="student-name">Gauri Pakhare</span>
+              <span id="student-role" hidden>Student</span>
+              <i class="fa-solid fa-chevron-down profile-chevron"></i>
+            </a>
+          </div>
+        </header>
+
+      <!-- Main Workspace -->
+      <main class="page-content">
+        <!-- Welcome Banner with Live Time -->
+        <section class="welcome-banner">
+          <div class="welcome-left">
+            <h2 class="welcome-heading">Welcome Back, <span id="greeting-name">Student</span> 👋</h2>
+            <p class="welcome-sub">Live seat overview, real-time library stats, and easy session check-in / check-out.</p>
+          </div>
+          <div class="live-clock-pill" id="live-clock-box">
+            <i class="fa-regular fa-clock"></i> <span id="live-clock-time">--:--:--</span>
+          </div>
+        </section>
+
+        <!-- Library Operational Schedule Info Bar -->
+        <section class="schedule-banner">
+          <div class="schedule-banner-left">
+            <span class="schedule-banner-title"><i class="fa-solid fa-calendar-check"></i> Library Operational Timings:</span>
+            <div class="schedule-badges-wrap">
+              <span class="timing-badge badge-male" id="rule-badge-male">
+                <i class="fa-solid fa-mars"></i> <strong>Male (Mon-Sat):</strong> 08:00 AM - 12:00 AM (08:00 - 24:00)
+              </span>
+              <span class="timing-badge badge-female" id="rule-badge-female">
+                <i class="fa-solid fa-venus"></i> <strong>Female (Mon-Sat):</strong> 08:00 AM - 09:00 PM (08:00 - 21:00)
+              </span>
+              <span class="timing-badge badge-sunday" id="rule-badge-sunday">
+                <i class="fa-solid fa-sun"></i> <strong>Sunday (All):</strong> 11:00 AM - 05:00 PM (11:00 - 17:00)
+              </span>
+            </div>
+          </div>
+          <div class="schedule-switcher" id="schedule-switcher">
+            <span class="switch-label">Preview Timing:</span>
+            <div class="switch-btn-group">
+              <button type="button" class="switch-pill-btn active" id="btn-sched-female" onclick="setSchedulePreview('Female')">Female</button>
+              <button type="button" class="switch-pill-btn" id="btn-sched-male" onclick="setSchedulePreview('Male')">Male</button>
+              <button type="button" class="switch-pill-btn" id="btn-sched-sunday" onclick="setSchedulePreview('Sunday')">Sunday</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Real-Time Metric Stat Cards -->
+        <section class="metrics-grid">
+          <!-- Card 1: Today's Date -->
+          <div class="metric-card">
+            <div class="metric-icon-box purple"><i class="fa-regular fa-calendar"></i></div>
+            <div class="metric-info">
+              <p class="metric-label">Today</p>
+              <p class="metric-value" id="metric-today">Loading...</p>
+              <span class="metric-sub-badge" id="metric-day-name">Daily Schedule</span>
+            </div>
+          </div>
+
+          <!-- Card 2: Library Hours & Open Status -->
+          <div class="metric-card">
+            <div class="metric-icon-box teal"><i class="fa-regular fa-clock"></i></div>
+            <div class="metric-info">
+              <div class="metric-label-row">
+                <span class="metric-label">Library Hours</span>
+                <span class="gender-tag-pill" id="metric-gender-tag">Female</span>
+              </div>
+              <p class="metric-value" id="metric-hours">08:00 AM - 09:00 PM</p>
+              <div class="metric-status-row">
+                <span class="open-badge" id="library-status-badge"><i class="fa-solid fa-circle status-dot"></i> Open Today</span>
+                <span class="schedule-rule-note" id="metric-schedule-rule">Mon - Sat (Female)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Real-Time Available Seats -->
+          <div class="metric-card">
+            <div class="metric-icon-box blue"><i class="fa-solid fa-chair"></i></div>
+            <div class="metric-info">
+              <p class="metric-label">Available Seats</p>
+              <p class="metric-value" id="metric-seats">Loading...</p>
+              <span class="metric-sub-badge" id="metric-total-seats">Real-Time Inventory</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Active Reservation Live Banner (Shown if student has an active booking) -->
+        <section id="active-booking-container" style="display: none;">
+          <div class="active-session-card" id="active-session-card">
+            <div class="active-card-left">
+              <div class="active-seat-icon">
+                <i class="fa-solid fa-chair"></i>
+              </div>
+              <div class="active-seat-details">
+                <div class="active-seat-pill" id="active-seat-pill">
+                  <span id="active-seat-status">RESERVED</span>
+                </div>
+                <h3 class="active-floor-heading" id="active-seat-name">Seat: G-REL-B3 (Ground Floor)</h3>
+                <p class="active-meta-line" id="active-meta-line">Time Slot: Scheduled • Ready for Geofence Check-in</p>
+              </div>
+            </div>
+            <div class="active-card-actions" id="active-card-actions">
+              <!-- Dynamically injected button: Check-In or Red Check-Out -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Quick Actions Module (Arranged Cleanly) -->
+        <section class="section-block">
+          <div class="section-header-row">
+            <h3 class="section-title">Quick Actions</h3>
+            <span class="section-subtitle">Manage all your seat operations in one click</span>
+          </div>
+
+          <div class="actions-grid">
+            <!-- 1. Book a Seat -->
+            <a href="book-seat.html" class="action-card">
+              <div class="action-top-row">
+                <div class="metric-icon-box purple"><i class="fa-solid fa-chair"></i></div>
+                <span class="action-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+              <h4>Book a Seat</h4>
+              <p>Reserve your seat on Ground or First Floor maps.</p>
+              <div class="action-pill-btn">Choose Seat</div>
+            </a>
+
+            <!-- 2. My Bookings -->
+            <a href="confirm-booking.html" class="action-card">
+              <div class="action-top-row">
+                <div class="metric-icon-box teal"><i class="fa-solid fa-laptop"></i></div>
+                <span class="action-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+              <h4>My Bookings</h4>
+              <p>View your reservations and past history.</p>
+              <div class="action-pill-btn teal-pill">View History</div>
+            </a>
+
+            <!-- 3. Check-in -->
+            <a href="check-in.html" class="action-card">
+              <div class="action-top-row">
+                <div class="metric-icon-box blue"><i class="fa-regular fa-calendar-check"></i></div>
+                <span class="action-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+              <h4>Check-in</h4>
+              <p>Verify live GPS and record your attendance.</p>
+              <div class="action-pill-btn blue-pill">Self Check-In</div>
+            </a>
+
+            <!-- 4. Check-out (Red Accent) -->
+            <a href="check-in.html" class="action-card checkout-card">
+              <div class="action-top-row">
+                <div class="metric-icon-box red"><i class="fa-solid fa-arrow-right-from-bracket"></i></div>
+                <span class="action-arrow red-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+              <h4 style="color: #b91c1c;">Check-out</h4>
+              <p>Complete your session and release the seat for others.</p>
+              <div class="action-pill-btn red-pill">Check-Out Seat</div>
+            </a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="src/js/api-config.js"></script>
+  <script src="src/js/seat-reservation.js"></script>
+  <script src="src/js/student-header.js"></script>
+</body>
+</html>

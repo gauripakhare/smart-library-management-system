@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - Student Panel</title>
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Profile Page CSS -->
+  <link rel="stylesheet" href="src/css/profile.css">
+  <link rel="stylesheet" href="src/css/sidebar.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <div id="sidebar-placeholder"></div>
+
+    <!-- ==========================================================================
+         MAIN CONTENT WRAPPER
+         ========================================================================== -->
+    <main class="main-wrapper">
+      
+      <!-- Sticky Top Header -->
+      <header class="top-header">
+        <div class="header-search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" class="header-search-input" placeholder="Search books, authors, or categories..." />
+        </div>
+
+        <div class="header-right">
+          <!-- Notification Bell Icon (Header Bell access as specified) -->
+          <div class="notification-btn" title="Notifications" onclick="window.location.href='notifications.html'">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-badge">3</span>
+          </div>
+
+          <a class="user-profile" href="profile.html" title="View Profile">
+            <div class="user-avatar-circle" id="avatar-fallback">GP</div>
+            <img src="" alt="" id="student-avatar" class="avatar-img" style="display:none;" />
+            <span class="user-name" id="student-name">Gauri Pakhare</span>
+            <span id="student-role" hidden>Student</span>
+            <i class="fa-solid fa-chevron-down profile-chevron"></i>
+          </a>
+        </div>
+      </header>
+
+      <!-- Content Body -->
+      <div class="content-body">
+        
+        <!-- Page Title Header -->
+        <div class="page-title-box">
+          <div class="page-icon">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div>
+            <h1 class="page-title">Profile</h1>
+            <p class="page-subtitle">View your personal information and account details</p>
+          </div>
+        </div>
+
+        <!-- Main Layout Grid -->
+        <div class="profile-grid">
+          
+          <!-- Left Column: Student Summary Card -->
+          <div class="profile-summary-card">
+            <div class="profile-banner"></div>
+            
+            <div class="profile-avatar-wrapper">
+              <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><circle cx='50' cy='50' r='50' fill='%2360A5FA'/><circle cx='50' cy='46' r='22' fill='%23FED7AA'/><path d='M30 40 C30 22 70 22 70 40 C65 28 35 28 30 40 Z' fill='%231E293B'/><path d='M15 95 C15 70 85 70 85 95 Z' fill='%232563EB'/></svg>" alt="Rahul Patil" class="avatar-lg" />
+              <h2 class="student-name">Student</h2>
+              <span class="student-role">Student</span>
+              <span class="stu-id-badge">STU001</span>
+            </div>
+
+            <div class="profile-meta-list">
+              <div class="meta-item">
+                <div class="meta-icon"><i class="fa-solid fa-user"></i></div>
+                <div class="meta-details">
+                  <span class="meta-label">Class</span>
+                  <span class="meta-value">B.E. Computer</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <div class="meta-icon"><i class="fa-regular fa-calendar"></i></div>
+                <div class="meta-details">
+                  <span class="meta-label">Batch</span>
+                  <span class="meta-value">2023-2027</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <div class="meta-icon"><i class="fa-solid fa-building-columns"></i></div>
+                <div class="meta-details">
+                  <span class="meta-label">Department</span>
+                  <span class="meta-value">Computer Engineering</span>
+                </div>
+              </div>
+
+              <div class="meta-item">
+                <div class="meta-icon"><i class="fa-solid fa-users"></i></div>
+                <div class="meta-details">
+                  <span class="meta-label">College</span>
+                  <span class="meta-value">ABC College of Engineering</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Detailed Information Cards -->
+          <div class="profile-info-cards">
+            
+            <!-- 1. Personal Information -->
+            <div class="info-card">
+              <div class="info-card-header">
+                <i class="fa-solid fa-user"></i>
+                <h3 class="info-card-title">Personal Information</h3>
+              </div>
+              <div class="info-card-body">
+                <div class="field-group">
+                  <span class="field-label">Full Name</span>
+                  <span class="field-value">Rahul Patil</span>
+                </div>
+
+                <div class="field-group">
+                  <span class="field-label">Email ID</span>
+                  <span class="field-value">rahul.patil@example.com</span>
+                </div>
+
+                <div class="field-group">
+                  <span class="field-label">Phone Number</span>
+                  <span class="field-value">+91 98765 43210</span>
+                </div>
+
+                <div class="field-group">
+                  <span class="field-label">Date of Birth</span>
+                  <span class="field-value">15 Jan 2005</span>
+                </div>
+
+                <div class="field-group">
+                  <span class="field-label">Gender</span>
+                  <span class="field-value">Male</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Academic Information -->
+            <div class="info-card">
+              <div class="info-card-header">
+                <i class="fa-solid fa-book-bookmark"></i>
+                <h3 class="info-card-title">Academic Information</h3>
+              </div>
+              <div class="info-card-body">
+                <div class="field-group">
+                  <span class="field-label">Class</span>
+                  <span class="field-value">B.E. Computer</span>
+                </div>
+
+                <div class="field-group">
+                  <span class="field-label">Batch</span>
+                  <span class="field-value">2023-2027</span>
+                </div>
+
+                <div class="field-group">
+                  <span class="field-label">Department</span>
+                  <span class="field-value">Computer Engineering</span>
+                </div>
+
+                <div class="field-group">
+                  <span class="field-label">College</span>
+                  <span class="field-value">ABC College of Engineering</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Account Information -->
+            <div class="info-card">
+              <div class="info-card-header">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h3 class="info-card-title">Account Information</h3>
+              </div>
+              <div class="info-card-body">
+                <div class="field-group">
+                  <span class="field-label">Roll Number</span>
+                  <span class="field-value">-</span>
+                </div>
+
+                <div class="field-group">
+                  <span class="field-label">Library Card Number</span>
+                  <span class="field-value">-</span>
+                </div>
+
+                <div class="field-group">
+                  <span class="field-label">Role</span>
+                  <span class="field-value">Student</span>
+                </div>
+
+                <div class="field-group">
+                  <span class="field-label">Account Created</span>
+                  <span class="field-value">10 Aug 2023</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="src/js/profile.js"></script>
+  <script src="src/js/shared-sidebar-loader.js"></script>
+  <script src="src/js/student-header.js"></script>
+</body>
+</html>

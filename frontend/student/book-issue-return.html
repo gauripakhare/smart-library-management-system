@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Library Management System</title>
+    <meta name="description" content="Student portal for book issue, renewal, fine management, and borrowing history." />
+    <meta property="og:title" content="Smart Library Management System" />
+    <meta property="og:description" content="Student portal for book issue, renewal, fine management, and borrowing history." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="stylesheet" href="src/css/book-issue-return.css" />
+    <link rel="stylesheet" href="src/css/sidebar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  </head>
+  <body>
+    <div class="app-layout">
+      <div id="sidebar-placeholder"></div>
+
+      <!-- Main Content Area -->
+      <div class="main-wrapper">
+        <!-- Topbar -->
+                <header class="topbar">
+          <div class="header-right">
+            <div class="notification-btn" id="notif-btn" title="Notifications" onclick="window.location.href='notifications.html'">
+              <i class="fa-regular fa-bell"></i>
+              <span class="notification-badge" id="notif-badge" style="display: none;">0</span>
+            </div>
+
+            <a class="user-profile" href="profile.html" title="View Profile">
+              <div class="user-avatar-circle" id="avatar-fallback">GP</div>
+              <img src="" alt="" id="student-avatar" class="avatar-img" style="display:none;" />
+              <span class="user-name" id="student-name">Gauri Pakhare</span>
+              <span id="student-role" hidden>Student</span>
+              <i class="fa-solid fa-chevron-down profile-chevron"></i>
+            </a>
+          </div>
+        </header>
+
+        <!-- Main Body -->
+        <main class="content-container">
+          <!-- Page Header -->
+          <div class="page-header" id="pageHeader">
+            <div class="header-icon-box" id="headerIconBox">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <div>
+              <h1 class="page-title" id="pageTitle">Book Issue & Return</h1>
+              <p class="page-subtitle" id="pageSubtitle">Track your issued books, due dates, and renewals.</p>
+            </div>
+          </div>
+
+          <!-- Dynamic Stat Cards Area -->
+          <div class="stats-grid" id="statsContainer">
+            <!-- Populated by JavaScript -->
+          </div>
+
+          <!-- Navigation Tabs -->
+          <div class="tab-switcher">
+            <button class="tab-btn active" data-tab="issued">Issued Books</button>
+            <button class="tab-btn" data-tab="fine">Fine</button>
+            <button class="tab-btn" data-tab="history">History</button>
+          </div>
+
+          <!-- Tab Views Container -->
+          <div id="tabContentArea">
+            <!-- Views rendered by JavaScript -->
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Pay Fine Modal -->
+    <div class="modal-backdrop" id="payModal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <button class="back-btn" id="closePayModalBack">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+              <span>Back</span>
+            </button>
+            <div>
+              <h3 class="modal-title" id="payModalTitle">Pay Fine</h3>
+              <p class="modal-sub" id="payModalSub"></p>
+            </div>
+          </div>
+          <button class="modal-close" id="closePayModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="summary-box">
+            <div class="summary-row">
+              <span class="label">Book</span>
+              <span class="val" id="payBookTitle"></span>
+            </div>
+            <div class="summary-row">
+              <span class="label">Author</span>
+              <span class="val" id="payBookAuthor"></span>
+            </div>
+            <div class="summary-row">
+              <span class="label">Overdue Days</span>
+              <span class="val text-danger" id="payOverdueDays"></span>
+            </div>
+            <div class="summary-row total-row">
+              <span class="label">Amount Payable</span>
+              <span class="val text-bold" id="payTotalAmount"></span>
+            </div>
+          </div>
+
+          <div class="section-heading">Payment Method</div>
+          <div class="payment-methods" id="paymentMethods">
+            <label class="method-option active">
+              <input type="radio" name="paymentMethod" value="UPI" checked />
+              <span>UPI / QR Code</span>
+              <span class="check-icon">&#10003;</span>
+            </label>
+            <label class="method-option">
+              <input type="radio" name="paymentMethod" value="Card" />
+              <span>Credit / Debit Card</span>
+              <span class="check-icon">&#10003;</span>
+            </label>
+            <label class="method-option">
+              <input type="radio" name="paymentMethod" value="Net Banking" />
+              <span>Net Banking</span>
+              <span class="check-icon">&#10003;</span>
+            </label>
+            <label class="method-option">
+              <input type="radio" name="paymentMethod" value="Cash" />
+              <span>Pay at Counter (Cash)</span>
+              <span class="check-icon">&#10003;</span>
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancelPayBtn">Cancel</button>
+          <button class="btn btn-primary" id="confirmPayBtn">Pay ₹100</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div class="modal-backdrop" id="reviewModal">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <button class="back-btn" id="closeReviewModalBack">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+              <span>Back</span>
+            </button>
+            <div>
+              <h3 class="modal-title">Book Review</h3>
+              <p class="modal-sub" id="reviewModalSub"></p>
+            </div>
+          </div>
+          <button class="modal-close" id="closeReviewModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="section-heading">Your Rating</div>
+          <div class="star-rating" id="starRating">
+            <button type="button" class="star-btn" data-star="1">&#9733;</button>
+            <button type="button" class="star-btn" data-star="2">&#9733;</button>
+            <button type="button" class="star-btn" data-star="3">&#9733;</button>
+            <button type="button" class="star-btn" data-star="4">&#9733;</button>
+            <button type="button" class="star-btn" data-star="5">&#9733;</button>
+          </div>
+
+          <div class="section-heading">Your Review (Optional)</div>
+          <textarea id="reviewText" class="form-textarea" placeholder="What did you think of this book? Share notes or key takeaways..."></textarea>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="cancelReviewBtn">Cancel</button>
+          <button class="btn btn-primary" id="submitReviewBtn" disabled>Submit Review</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fine Payment Receipt Modal -->
+    <div class="modal-backdrop" id="receiptModal">
+      <div class="modal-card receipt-modal-card">
+        <div class="modal-header">
+          <div class="modal-title-wrap">
+            <div class="receipt-header-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div>
+              <h3 class="modal-title">Payment Receipt</h3>
+              <p class="modal-sub">Official Library Fine Payment Acknowledgement</p>
+            </div>
+          </div>
+          <button class="modal-close" id="closeReceiptModal">&times;</button>
+        </div>
+
+        <div class="modal-body receipt-modal-body" id="receiptPrintArea">
+          <div class="receipt-container">
+            <div class="receipt-badge-success">
+              <span class="badge-icon">&#10003;</span>
+              <span>PAYMENT SUCCESSFUL</span>
+            </div>
+
+            <div class="receipt-institution">
+              <h4>CENTRAL LIBRARY</h4>
+              <p class="receipt-sub-inst">Shri Sant Gajanan Maharaj College of Engineering, Shegaon</p>
+              <div class="receipt-divider"></div>
+            </div>
+
+            <div class="receipt-meta-grid">
+              <div class="receipt-meta-col">
+                <span class="r-label">Receipt No: </span>
+                <span class="r-val" id="rcptNo">REC-2026-001</span>
+              </div>
+              <div class="receipt-meta-col text-right">
+                <span class="r-label">Date &amp; Time: </span>
+                <span class="r-val" id="rcptDateTime">-</span>
+              </div>
+            </div>
+
+            <div class="receipt-section-box">
+              <div class="r-row">
+                <span class="r-label">Student Name</span>
+                <span class="r-val" id="rcptStudentName">-</span>
+              </div>
+              <div class="r-row">
+                <span class="r-label">Roll Number</span>
+                <span class="r-val" id="rcptStudentId">-</span>
+              </div>
+              <div class="r-row">
+                <span class="r-label">Class</span>
+                <span class="r-val" id="rcptStudentClass">-</span>
+              </div>
+            </div>
+
+            <div class="receipt-section-box">
+              <div class="r-row">
+                <span class="r-label">Book Title</span>
+                <span class="r-val" id="rcptBookTitle" style="max-width: 250px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">-</span>
+              </div>
+              <div class="r-row">
+                <span class="r-label">Author / ISBN</span>
+                <span class="r-val" id="rcptBookAuthor">-</span>
+              </div>
+              <div class="r-row">
+                <span class="r-label">Overdue Days</span>
+                <span class="r-val" id="rcptOverdueDays">-</span>
+              </div>
+            </div>
+
+            <div class="receipt-section-box highlight-box">
+              <div class="r-row">
+                <span class="r-label">Payment Method</span>
+                <span class="r-val" id="rcptPaymentMethod">UPI / Online</span>
+              </div>
+              <div class="r-row">
+                <span class="r-label">Transaction ID</span>
+                <span class="r-val mono" id="rcptTxnId">TXN-12345678</span>
+              </div>
+              <div class="r-row total-amount-row">
+                <span class="r-label">Amount Paid</span>
+                <span class="r-val total-amt" id="rcptAmount">₹100.00</span>
+              </div>
+              <div class="r-row">
+                <span class="r-label">Payment Status</span>
+                <span class="r-status-paid"><span class="dot"></span> PAID</span>
+              </div>
+            </div>
+
+            <div class="receipt-footer-notes">
+              <p>This is a computer-generated receipt for library fine clearance.</p>
+              <p>Keep this receipt for your records. Thank you!</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" id="closeReceiptBtn">Close</button>
+          <button class="btn btn-primary" id="printReceiptBtn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+            Print / Save Receipt
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="src/js/book-issue-return.js?v=20260924-2"></script>
+    <script src="src/js/shared-sidebar-loader.js"></script>
+    <script src="src/js/student-header.js"></script>
+  </body>
+</html>

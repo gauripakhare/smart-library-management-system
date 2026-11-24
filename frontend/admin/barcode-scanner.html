@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Attendance - Barcode Scanner Kiosk</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="src/css/admin-sidebar.css">
+  <link rel="stylesheet" href="src/css/barcode-scanner.css">
+</head>
+
+<body class="bg-slate-50 text-slate-800 flex flex-col h-screen overflow-hidden">
+
+  <!-- Top Navigation Header -->
+  <header class="bg-white border-b border-slate-200 px-8 py-3.5 flex justify-end items-center shrink-0">
+    <div class="admin-header-actions"></div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 flex flex-col overflow-y-auto p-6 md:p-8">
+    <div class="w-full max-w-6xl mx-auto space-y-6">
+
+      <!-- Page Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center text-xl shadow-md shadow-blue-500/20">
+              <i class="fa-solid fa-barcode"></i>
+            </div>
+            <div>
+              <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+                Barcode Attendance Scanner
+              </h2>
+              <p class="text-xs text-slate-500">
+                Library Entrance Kiosk • Auto Check-In & Check-Out via College ID Barcode
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Clock & Scanner Mode Indicator -->
+        <div class="flex items-center gap-3">
+          <!-- Live Real-Time Clock -->
+          <div class="flex items-center gap-2 bg-white border border-slate-200 text-slate-700 px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm">
+            <i class="fa-regular fa-clock text-blue-600"></i>
+            <span id="live-clock-time" class="font-mono text-sm text-slate-900">--:--:--</span>
+          </div>
+
+          <!-- Scanner Mode Indicator -->
+          <div class="flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1.5 rounded-full text-xs font-semibold shadow-sm">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>USB Scanner Active</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="flex items-center space-x-2 border-b border-slate-200 pb-3 text-xs font-medium overflow-x-auto">
+        <a href="attendence_overview.html" class="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:bg-slate-200/60 rounded-xl transition">
+          <i class="fa-solid fa-house"></i>
+          <span>Overview</span>
+        </a>
+        <a href="attendence_log.html" class="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:bg-slate-200/60 rounded-xl transition">
+          <i class="fa-solid fa-bars-staggered"></i>
+          <span>Attendance log</span>
+        </a>
+        <a href="barcode-scanner.html" class="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-xl shadow-sm transition">
+          <i class="fa-solid fa-barcode"></i>
+          <span>Barcode Scanner</span>
+        </a>
+        <a href="student.html" class="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:bg-slate-200/60 rounded-xl transition">
+          <i class="fa-solid fa-user-group"></i>
+          <span>Students</span>
+        </a>
+      </div>
+
+      <!-- SCANNER HERO & INPUT BOX -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- Left: Scan Console (7 cols) -->
+        <div class="lg:col-span-7 bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                ID CARD SCANNER CONSOLE
+              </span>
+              <button id="toggle-camera-btn" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 transition">
+                <i class="fa-solid fa-camera"></i>
+                <span id="camera-btn-text">Open Webcam Scanner</span>
+              </button>
+            </div>
+
+            <!-- Webcam Viewfinder (Collapsible) -->
+            <div id="camera-container" class="hidden mb-4 p-3 bg-slate-900 rounded-xl border border-slate-800 text-center relative overflow-hidden">
+              <video id="webcam-video" class="w-full max-h-56 object-cover rounded-lg mx-auto" autoplay playsinline muted></video>
+              <div class="camera-scan-guide"></div>
+              <p class="text-[11px] text-slate-400 mt-2">Hold your College ID Card barcode in front of the camera</p>
+            </div>
+
+            <!-- USB Scanner / Keyboard Input Form -->
+            <form id="barcode-form" class="space-y-4" onsubmit="event.preventDefault();">
+              <div>
+                <label for="barcode-input" class="block text-xs font-semibold text-slate-700 mb-1.5">
+                  Scan Barcode or Enter Roll / Library Number
+                </label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 text-lg">
+                    <i class="fa-solid fa-barcode"></i>
+                  </div>
+                  <input
+                    type="text"
+                    id="barcode-input"
+                    autofocus
+                    autocomplete="off"
+                    placeholder="Click here & scan barcode or type roll number (e.g. 308255)..."
+                    class="w-full pl-12 pr-28 py-3.5 bg-slate-50 border-2 border-slate-200 focus:border-blue-600 focus:bg-white rounded-xl text-slate-800 text-base font-semibold transition outline-none shadow-inner tracking-wide"
+                  />
+                  <button
+                    type="submit"
+                    id="submit-scan-btn"
+                    class="absolute right-2 top-2 bottom-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-lg transition flex items-center gap-2 shadow-sm"
+                  >
+                    <span>Scan</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <!-- Instructions & Logic Explanation -->
+            <div class="mt-4 p-3.5 bg-blue-50/70 border border-blue-100 rounded-xl text-xs text-blue-900 flex items-start gap-3">
+              <i class="fa-solid fa-circle-info text-blue-600 mt-0.5 text-sm shrink-0"></i>
+              <div class="w-full">
+                <strong class="font-semibold">How Auto Check-In / Check-Out Works:</strong>
+                <ul class="list-disc list-inside mt-1 space-y-0.5 text-blue-800/90 text-[11px]">
+                  <li><strong>1st Scan:</strong> Marks student as <strong>PRESENT</strong> and activates booked seat (Check-In).</li>
+                  <li><strong>2nd Scan:</strong> Checks the student out and <strong>releases the seat</strong> for other students (Check-Out).</li>
+                  <li>Plug-and-play USB scanners automatically type the code and press Enter instantly.</li>
+                </ul>
+
+                <!-- Mobile Scanner / Barcode to PC Tips -->
+                <div class="mt-2.5 pt-2 border-t border-blue-200/60 text-[11px] text-blue-900">
+                  <span class="font-bold text-blue-950"><i class="fa-solid fa-mobile-screen-button"></i> Mobile App ("Barcode to PC") Scanning Tips:</span>
+                  <ul class="mt-1 space-y-1 text-slate-700">
+                    <li>• <strong>App Settings:</strong> In the Barcode to PC app, go to <em>Settings -> Barcode Formats</em> and enable <strong>Code 39</strong> and <strong>Code 128</strong>.</li>
+                    <li>• <strong>Distance & Focus:</strong> Hold your phone camera <strong>15–20 cm (6 inches) away</strong> from the ID card. If held too close, the camera blurs and cannot read thin lines.</li>
+                    <li>• <strong>Orientation:</strong> Align the camera so the red scanner line cuts straight horizontally across all black bars.</li>
+                    <li>• <strong>Digital Barcode:</strong> Students can also open their Student Portal (<code class="bg-blue-100 text-blue-800 px-1 rounded">check-in.html</code>) on their phone for an instant, high-contrast digital barcode.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Test Pills (Students from DB) -->
+          <div class="mt-5 pt-4 border-t border-slate-100">
+            <span class="text-[11px] font-semibold text-slate-400 block mb-2">QUICK TEST WITH REGISTERED ROLL NUMBERS:</span>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" class="test-roll-btn px-2.5 py-1 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-xs font-mono font-medium text-slate-600 transition" data-roll="308255">
+                308255 (Gauri Pakhare)
+              </button>
+              <button type="button" class="test-roll-btn px-2.5 py-1 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-xs font-mono font-medium text-slate-600 transition" data-roll="308259">
+                308259 (Laukik Shirbhate)
+              </button>
+              <button type="button" class="test-roll-btn px-2.5 py-1 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-xs font-mono font-medium text-slate-600 transition" data-roll="308443">
+                308443 (Shravani Raut)
+              </button>
+              <button type="button" class="test-roll-btn px-2.5 py-1 bg-slate-100 hover:bg-blue-50 hover:text-blue-600 rounded-lg text-xs font-mono font-medium text-slate-600 transition" data-roll="308922">
+                308922 (Rutuja Kambale)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Real-time Scan Result Card (5 cols) -->
+        <div class="lg:col-span-5 flex flex-col">
+          <div id="result-card-container" class="h-full bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm flex flex-col justify-center items-center text-center transition-all duration-300">
+            
+            <!-- Default Idle State -->
+            <div id="idle-state" class="py-12 space-y-3">
+              <div class="w-20 h-20 mx-auto rounded-full bg-slate-100 flex items-center justify-center text-slate-400 text-3xl">
+                <i class="fa-solid fa-id-card"></i>
+              </div>
+              <h3 class="text-base font-bold text-slate-700">Waiting for Barcode Scan</h3>
+              <p class="text-xs text-slate-400 max-w-xs mx-auto">
+                Swipe student ID card under scanner or type roll number to view live attendance card.
+              </p>
+            </div>
+
+            <!-- Dynamic Scan Result (Hidden by default) -->
+            <div id="active-result" class="hidden w-full space-y-4 py-2">
+              
+              <!-- Action Badge Pill -->
+              <div id="res-badge-pill" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm">
+                <i id="res-badge-icon" class="fa-solid fa-circle-check"></i>
+                <span id="res-badge-text">CHECK-IN SUCCESSFUL</span>
+              </div>
+
+              <!-- Student Avatar / Initials -->
+              <div class="relative w-24 h-24 mx-auto">
+                <div id="res-avatar-fallback" class="w-24 h-24 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-bold shadow-lg shadow-blue-500/20">
+                  GP
+                </div>
+                <img id="res-avatar-img" src="" alt="Student Avatar" class="hidden w-24 h-24 rounded-full object-cover border-4 border-white shadow-lg" />
+                <div id="res-action-circle" class="absolute bottom-0 right-0 w-8 h-8 rounded-full bg-emerald-500 text-white flex items-center justify-center text-sm shadow">
+                  <i class="fa-solid fa-check"></i>
+                </div>
+              </div>
+
+              <!-- Student Details -->
+              <div>
+                <h3 id="res-student-name" class="text-xl font-bold text-slate-900">Gauri Pakhare</h3>
+                <div class="flex items-center justify-center gap-2 text-xs text-slate-500 mt-1">
+                  <span id="res-roll-no" class="font-mono font-semibold bg-slate-100 px-2 py-0.5 rounded">Roll: 308255</span>
+                  <span>•</span>
+                  <span id="res-dept">Computer Eng.</span>
+                </div>
+              </div>
+
+              <!-- Seat & Attendance Summary Box -->
+              <div class="bg-slate-50 border border-slate-100 rounded-xl p-3.5 text-left space-y-2">
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-slate-500 font-medium"><i class="fa-solid fa-chair text-slate-400 mr-1.5"></i> Assigned Seat:</span>
+                  <span id="res-seat-code" class="font-bold text-slate-800">Seat G-R1-C1-A</span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-slate-500 font-medium"><i class="fa-regular fa-clock text-slate-400 mr-1.5"></i> Timestamp:</span>
+                  <span id="res-timestamp" class="font-semibold text-slate-700">10:30 AM</span>
+                </div>
+                <div id="res-duration-row" class="hidden flex justify-between items-center text-xs pt-1 border-t border-slate-200">
+                  <span class="text-slate-500 font-medium"><i class="fa-solid fa-hourglass-half text-slate-400 mr-1.5"></i> Time Spent:</span>
+                  <span id="res-duration" class="font-bold text-blue-600">45 mins</span>
+                </div>
+              </div>
+
+              <!-- Feedback Message -->
+              <p id="res-message" class="text-xs text-slate-500 italic">
+                Check-in recorded. Seat is active.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- LIVE TODAY'S SCANS FEED TABLE -->
+      <div class="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <h3 class="text-base font-bold text-slate-900">Today's Scanned Students</h3>
+            <span id="scan-count-badge" class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-xs font-bold">0</span>
+          </div>
+          <button id="refresh-logs-btn" type="button" class="text-xs text-slate-500 hover:text-blue-600 flex items-center gap-1">
+            <i class="fa-solid fa-rotate-right"></i>
+            <span>Refresh</span>
+          </button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-600">
+            <thead class="bg-slate-50 text-slate-500 font-semibold border-y border-slate-200">
+              <tr>
+                <th class="py-3 px-4">Student</th>
+                <th class="py-3 px-4">Roll Number</th>
+                <th class="py-3 px-4">Action</th>
+                <th class="py-3 px-4">Assigned Seat</th>
+                <th class="py-3 px-4">Check-In Time</th>
+                <th class="py-3 px-4">Check-Out Time</th>
+                <th class="py-3 px-4">Method</th>
+              </tr>
+            </thead>
+            <tbody id="logs-tbody" class="divide-y divide-slate-100 font-medium">
+              <tr>
+                <td colspan="7" class="py-8 text-center text-slate-400">Loading today's attendance logs...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ZXing Barcode Scanning Library -->
+  <script src="https://unpkg.com/@zxing/library@latest/umd/index.min.js"></script>
+  <!-- Custom JavaScript -->
+  <script src="src/js/barcode-scanner.js"></script>
+  <script src="src/js/shared-sidebar-loader.js"></script>
+  <script src="src/js/admin-header.js"></script>
+</body>
+</html>

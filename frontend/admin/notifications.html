@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications & Announcements - Smart Library System</title>
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="src/css/notifications.css">
+  <link rel="stylesheet" href="src/css/admin-sidebar.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- ==========================================================================
+         SIDEBAR NAVIGATION
+         ========================================================================== -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <!-- System Brand Header -->
+        <a href="#" class="sidebar-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-book-open-reader"></i>
+          </div>
+          <div class="brand-details">
+            <span class="brand-title">Smart Library</span>
+            <span class="brand-subtitle">Management System</span>
+          </div>
+        </a>
+
+        <!-- Admin Navigation Options -->
+        <nav class="nav-menu">
+          <a href="book-management.html" class="nav-item">
+            <i class="fa-solid fa-border-all"></i>
+            <span>Dashboard</span>
+          </a>
+          <a href="search-books.html" class="nav-item">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Book Search</span>
+          </a>
+          <a href="student-management.html" class="nav-item">
+            <i class="fa-solid fa-users"></i>
+            <span>Student Management</span>
+          </a>
+          <a href="book-management.html" class="nav-item">
+            <i class="fa-solid fa-book-open"></i>
+            <span>Book Management</span>
+          </a>
+          <a href="book-issue-return.html" class="nav-item">
+            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+            <span>Book Issue Return</span>
+          </a>
+          <a href="book-management.html" class="nav-item">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Attendance</span>
+          </a>
+          <a href="seat-reservation.html" class="nav-item">
+            <i class="fa-solid fa-chair"></i>
+            <span>Seat Reservation</span>
+          </a>
+          <a href="reports.html" class="nav-item">
+            <i class="fa-solid fa-chart-column"></i>
+            <span>Report</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Logout Footer Option -->
+      <div class="sidebar-footer">
+        <a href="#" class="nav-item logout-item" id="sidebar-logout-btn">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN CONTENT WRAPPER
+         ========================================================================== -->
+    <main class="main-wrapper">
+      
+      <!-- Sticky Top Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="back-btn" id="header-back-btn" style="display: none;" title="Go Back">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div class="header-title-box">
+            <div class="header-page-icon">
+              <i class="fa-regular fa-bell"></i>
+            </div>
+            <div>
+              <h1 class="header-title" id="page-header-title">Notifications & Announcements</h1>
+              <p class="header-subtitle" id="page-header-subtitle">Send announcements, manage notifications and keep your library community informed.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Notification Icon -->
+          <div class="notification-btn active" title="Notifications" onclick="window.location.href='notifications.html'" style="background-color: #EEF2FF; border-color: #3D539F; color: #3D539F; cursor: pointer;">
+            <i class="fa-solid fa-bell"></i>
+            <span class="notification-badge" style="display: none;">0</span>
+          </div>
+
+          <!-- User Profile Dropdown -->
+          <div class="user-profile">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><circle cx='40' cy='40' r='40' fill='%23F87171'/><circle cx='40' cy='30' r='14' fill='%23FFF0F0'/><path d='M15 68 C15 50, 65 50, 65 68 Z' fill='%23FFF0F0'/></svg>" alt="Admin Avatar" class="user-avatar">
+            <div class="user-info">
+              <span class="user-name">Admin User</span>
+              <span class="user-role">Administrator</span>
+            </div>
+            <i class="fa-solid fa-chevron-down" style="color: #64748B; font-size: 0.8rem; margin-left: 4px;"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- View Containers -->
+      <div class="content-body">
+        
+        <!-- ===================================================================
+             1. NOTIFICATIONS & ANNOUNCEMENTS MAIN LIST VIEW
+             =================================================================== -->
+        <section id="view-list" class="view-section active-view">
+          
+          <!-- Top Bar: Filter Pills + Create Announcement Button -->
+          <div class="top-action-bar">
+            <div class="filter-pills">
+              <button class="pill-btn active" data-filter="All">
+                <i class="fa-solid fa-layer-group"></i> All
+              </button>
+              <button class="pill-btn" data-filter="Announcement">
+                <i class="fa-solid fa-bullhorn"></i> Announcements
+              </button>
+              <button class="pill-btn" data-filter="Notification">
+                <i class="fa-regular fa-bell"></i> Notifications
+              </button>
+              <button class="pill-btn" data-filter="Alert">
+                <i class="fa-solid fa-triangle-exclamation"></i> Alerts
+              </button>
+            </div>
+
+            <button class="btn-primary" onclick="switchView('view-create')">
+              <i class="fa-solid fa-plus"></i>
+              <span>Create Announcement</span>
+              <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem; margin-left: 4px;"></i>
+            </button>
+          </div>
+
+          <!-- ===================================================================
+               AI AGENT AUTOMATION & LIVE DEMO HUB
+               =================================================================== -->
+          <div class="ai-demo-hub-card" style="background: #FFFFFF; border: 1px solid #C7D2FE; border-radius: 16px; padding: 20px 24px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(61, 83, 159, 0.06);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid #EEF2FF; padding-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 40px; height: 40px; border-radius: 10px; background: #EEF2FF; color: #3D539F; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                  <i class="fa-solid fa-robot"></i>
+                </div>
+                <div>
+                  <h3 style="font-size: 1.05rem; font-weight: 700; color: #0F172A; margin: 0; display: flex; align-items: center; gap: 8px;">
+                    AI Agent Presentation & Live Automation Hub
+                    <span style="font-size: 0.7rem; font-weight: 700; background: #DCFCE7; color: #15803D; padding: 2px 8px; border-radius: 999px;">Live</span>
+                  </h3>
+                  <p style="font-size: 0.8rem; color: #64748B; margin: 2px 0 0 0;">Trigger instant database scans, send AI-crafted emails, or place live demo phone calls to teachers.</p>
+                </div>
+              </div>
+
+              <!-- Quick Global Triggers -->
+              <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button type="button" class="btn-secondary" onclick="triggerOverdueDbScan()" id="btn-scan-overdue" style="background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; font-weight: 600; padding: 8px 14px; font-size: 0.825rem;">
+                  <i class="fa-solid fa-bolt"></i> <span>Run 10 AM Overdue Scanner Now</span>
+                </button>
+                <button type="button" class="btn-secondary" onclick="triggerSeatExpiryScan()" id="btn-scan-seat" style="background: #FEF2F2; color: #DC2626; border-color: #FECACA; font-weight: 600; padding: 8px 14px; font-size: 0.825rem;">
+                  <i class="fa-solid fa-chair"></i> <span>Check Expired Seats (15-min)</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 2 Interactive Demo Testing Boxes -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+              
+              <!-- BOX A: AI EMAIL DEMO -->
+              <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                  <i class="fa-solid fa-envelope" style="color: #2563EB;"></i>
+                  <h4 style="font-size: 0.9rem; font-weight: 700; color: #1E293B; margin: 0;">1. AI Email Dispatcher (Demo)</h4>
+                </div>
+                
+                <form id="form-demo-email" onsubmit="sendDemoAiEmail(event)" style="display: flex; flex-direction: column; gap: 10px;">
+                  <div>
+                    <label style="font-size: 0.75rem; font-weight: 600; color: #475569; display: block; margin-bottom: 3px;">Student Email Address</label>
+                    <input type="email" id="demo-email-to" value="gauripakhare05@gmail.com" placeholder="e.g. teacher@gmail.com" required style="width: 100%; padding: 7px 10px; font-size: 0.825rem; border: 1px solid #CBD5E1; border-radius: 8px; outline: none; background: #FFF;" />
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                      <label style="font-size: 0.75rem; font-weight: 600; color: #475569; display: block; margin-bottom: 3px;">Student Name</label>
+                      <input type="text" id="demo-email-name" value="Gauri Pakhare" placeholder="Name" required style="width: 100%; padding: 7px 10px; font-size: 0.825rem; border: 1px solid #CBD5E1; border-radius: 8px; outline: none; background: #FFF;" />
+                    </div>
+                    <div>
+                      <label style="font-size: 0.75rem; font-weight: 600; color: #475569; display: block; margin-bottom: 3px;">Email Type</label>
+                      <select id="demo-email-type" style="width: 100%; padding: 7px 10px; font-size: 0.825rem; border: 1px solid #CBD5E1; border-radius: 8px; outline: none; background: #FFF;">
+                        <option value="overdue">Overdue Book Notice (₹100 Fine)</option>
+                        <option value="seat_cancelled">Seat Expired Notice (15-Min)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <button type="submit" id="btn-send-demo-email" class="btn-primary" style="padding: 8px 12px; font-size: 0.825rem; justify-content: center; margin-top: 4px; background: #2563EB;">
+                    <i class="fa-solid fa-paper-plane"></i> <span>Send AI Email Now</span>
+                  </button>
+                </form>
+              </div>
+
+              <!-- BOX B: AI VOICE CALL DEMO -->
+              <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <i class="fa-solid fa-phone-volume" style="color: #059669;"></i>
+                    <h4 style="font-size: 0.9rem; font-weight: 700; color: #1E293B; margin: 0;">2. AI Voice Calling Agent (Vobiz)</h4>
+                  </div>
+                  <span id="call-mode-badge" style="font-size: 0.7rem; font-weight: 700; background: #FEF3C7; color: #B45309; padding: 2px 8px; border-radius: 6px;">Simulation Mode (₹0)</span>
+                </div>
+
+                <form id="form-demo-call" onsubmit="triggerDemoVoiceCall(event)" style="display: flex; flex-direction: column; gap: 10px;">
+                  <div>
+                    <label style="font-size: 0.75rem; font-weight: 600; color: #475569; display: block; margin-bottom: 3px;">Destination Mobile Number</label>
+                    <input type="tel" id="demo-call-phone" value="8329772607" placeholder="e.g. 9876543210" required style="width: 100%; padding: 7px 10px; font-size: 0.825rem; border: 1px solid #CBD5E1; border-radius: 8px; outline: none; background: #FFF;" />
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                      <label style="font-size: 0.75rem; font-weight: 600; color: #475569; display: block; margin-bottom: 3px;">Student Name</label>
+                      <input type="text" id="demo-call-name" value="Gauri Pakhare" placeholder="Name" required style="width: 100%; padding: 7px 10px; font-size: 0.825rem; border: 1px solid #CBD5E1; border-radius: 8px; outline: none; background: #FFF;" />
+                    </div>
+                    <div>
+                      <label style="font-size: 0.75rem; font-weight: 600; color: #475569; display: block; margin-bottom: 3px;">Call Purpose</label>
+                      <select id="demo-call-type" style="width: 100%; padding: 7px 10px; font-size: 0.825rem; border: 1px solid #CBD5E1; border-radius: 8px; outline: none; background: #FFF;">
+                        <option value="overdue">Overdue Book Notice (₹100 Fine)</option>
+                        <option value="seat_cancelled">Seat Cancelled Notice (15-Min Expiry)</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label style="font-size: 0.75rem; font-weight: 600; color: #475569; display: block; margin-bottom: 3px;">Calling Mode</label>
+                    <select id="demo-call-mode" onchange="onCallModeChanged()" style="width: 100%; padding: 7px 10px; font-size: 0.825rem; border: 1px solid #CBD5E1; border-radius: 8px; outline: none; background: #FFF;">
+                      <option value="simulation" selected>Simulation (Zero Credits - Free)</option>
+                      <option value="live">Live Call (Real Phone Ring via Vobiz)</option>
+                    </select>
+                  </div>
+
+                  <button type="submit" id="btn-trigger-demo-call" class="btn-primary" style="padding: 8px 12px; font-size: 0.825rem; justify-content: center; margin-top: 4px; background: #059669;">
+                    <i class="fa-solid fa-phone"></i> <span>Trigger Voice Call</span>
+                  </button>
+                </form>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Full Width Layout: Notifications Table -->
+          <div class="page-grid-full">
+            <div>
+              <!-- Search & Filter Card -->
+              <div class="toolbar-card">
+                <div class="search-box">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <input type="text" id="notif-search-input" class="search-input" placeholder="Search by title or message..." oninput="renderNotificationsTable()" />
+                </div>
+
+                <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="font-size: 0.825rem; font-weight: 600; color: #0F172A;">Type</span>
+                    <select id="notif-type-filter" class="select-input" onchange="renderNotificationsTable()">
+                      <option value="All">All</option>
+                      <option value="Announcement">Announcement</option>
+                      <option value="Notification">Notification</option>
+                      <option value="Alert">Alert</option>
+                    </select>
+                  </div>
+
+                  <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="font-size: 0.825rem; font-weight: 600; color: #0F172A;">Audience</span>
+                    <select id="notif-aud-filter" class="select-input" onchange="renderNotificationsTable()">
+                      <option value="All">All</option>
+                      <option value="All Students">All Students</option>
+                      <option value="All Users">All Users</option>
+                      <option value="Seat Booked Students">Seat Booked Students</option>
+                    </select>
+                  </div>
+
+                  <button class="btn-secondary" style="padding: 10px 12px;" title="Filter by Date">
+                    <i class="fa-regular fa-calendar"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Notifications Table Card -->
+              <div class="table-card">
+                <div class="table-responsive">
+                  <table class="custom-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 40px;"><input type="checkbox" /></th>
+                        <th>Type</th>
+                        <th>Title</th>
+                        <th>Message</th>
+                        <th>Audience</th>
+                        <th>Date & Time</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="notifications-table-body">
+                      <!-- Dynamic rows rendered via JS -->
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="table-footer">
+                  <span style="font-size: 0.85rem; color: #64748B;">Showing 1 to 7 of 7 notifications</span>
+                  <div class="pagination">
+                    <button class="page-btn disabled">&laquo;</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn disabled">&raquo;</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             2. CREATE ANNOUNCEMENT FORM VIEW
+             =================================================================== -->
+        <section id="view-create" class="view-section">
+          <form id="create-ann-form" onsubmit="saveAnnouncement(event)">
+            <div class="page-grid">
+              
+              <!-- Left Column: Form -->
+              <div>
+                <!-- 1. Basic Details -->
+                <div class="form-card">
+                  <h3 class="form-section-num-title">1. Basic Details</h3>
+                  
+                  <div style="margin-bottom: 20px;">
+                    <label style="font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; display: block;">Title <span style="color: #EF4444;">*</span></label>
+                    <input type="text" id="create-ann-title" class="text-input" placeholder="Enter announcement title..." required />
+                  </div>
+
+                  <div>
+                    <label style="font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; display: block;">Message <span style="color: #EF4444;">*</span></label>
+                    <div class="editor-box">
+                      <div class="editor-toolbar">
+                        <button type="button" class="editor-btn" title="Bold"><strong>B</strong></button>
+                        <button type="button" class="editor-btn" title="Italic"><em>I</em></button>
+                        <button type="button" class="editor-btn" title="Underline"><u>U</u></button>
+                        <button type="button" class="editor-btn" title="Link"><i class="fa-solid fa-link"></i></button>
+                        <button type="button" class="editor-btn" title="List"><i class="fa-solid fa-list-ul"></i></button>
+                        <button type="button" class="editor-btn" title="Numbered List"><i class="fa-solid fa-list-ol"></i></button>
+                        <button type="button" class="editor-btn" title="Clear Formatting"><i class="fa-solid fa-text-slash"></i></button>
+                      </div>
+                      <textarea id="create-ann-msg" class="editor-textarea" placeholder="Write your message here..." maxlength="1000" required></textarea>
+                    </div>
+                    <div style="text-align: right; font-size: 0.75rem; color: #94A3B8; margin-top: 4px;" id="editor-char-counter">0/1000</div>
+                  </div>
+                </div>
+
+                <!-- 2. Audience -->
+                <div class="form-card">
+                  <h3 class="form-section-num-title">2. Audience</h3>
+                  <label style="font-size: 0.8rem; color: #64748B; margin-bottom: 12px; display: block;">Send to</label>
+                  
+                  <div class="audience-grid">
+                    <div class="audience-card selected" data-audience-label="All Students">
+                      <div class="aud-icon"><i class="fa-solid fa-user-group"></i></div>
+                      <div>
+                        <span class="aud-title">All Students</span>
+                        <span class="aud-desc">Send to all registered students</span>
+                      </div>
+                    </div>
+
+                    <div class="audience-card" data-audience-label="Specific Group">
+                      <div class="aud-icon" style="background-color: #F0FDF4; color: #059669;"><i class="fa-solid fa-graduation-cap"></i></div>
+                      <div>
+                        <span class="aud-title">Specific Group</span>
+                        <span class="aud-desc">Select class/department</span>
+                      </div>
+                    </div>
+
+                    <div class="audience-card" data-audience-label="Individual Students">
+                      <div class="aud-icon" style="background-color: #FFF7ED; color: #EA580C;"><i class="fa-solid fa-user"></i></div>
+                      <div>
+                        <span class="aud-title">Individual Students</span>
+                        <span class="aud-desc">Choose specific students</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3. Schedule -->
+                <div class="form-card">
+                  <h3 class="form-section-num-title">3. Schedule</h3>
+                  
+                  <div style="display: flex; gap: 24px; margin-bottom: 16px;">
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 0.875rem; font-weight: 600; cursor: pointer;">
+                      <input type="radio" name="schedule_type" value="now" checked />
+                      <span>Publish Immediately</span>
+                    </label>
+
+                    <label style="display: flex; align-items: center; gap: 8px; font-size: 0.875rem; font-weight: 600; cursor: pointer;">
+                      <input type="radio" name="schedule_type" value="later" />
+                      <span>Schedule for Later</span>
+                    </label>
+                  </div>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                    <div>
+                      <label style="font-size: 0.8rem; color: #64748B; margin-bottom: 4px; display: block;">Select Date</label>
+                      <input type="date" class="text-input" />
+                    </div>
+                    <div>
+                      <label style="font-size: 0.8rem; color: #64748B; margin-bottom: 4px; display: block;">Select Time</label>
+                      <input type="time" class="text-input" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 4. Attachments -->
+                <div class="form-card">
+                  <h3 class="form-section-num-title">4. Attachments (Optional)</h3>
+                  
+                  <div style="border: 2px dashed #C7D2FE; background-color: #EEF2FF; border-radius: 12px; padding: 24px; text-align: center; cursor: pointer;">
+                    <i class="fa-solid fa-paperclip" style="font-size: 1.5rem; color: #3D539F; margin-bottom: 8px;"></i>
+                    <span style="display: block; font-size: 0.875rem; font-weight: 700; color: #1E3A8A;">Click to upload file or drag and drop</span>
+                    <span style="font-size: 0.75rem; color: #64748B;">Supports PDF, DOC, DOCX, JPG, PNG (Max 5MB)</span>
+                  </div>
+
+                  <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px;">
+                    <button type="button" class="btn-secondary" onclick="switchView('view-list')">Cancel</button>
+                    <button type="submit" class="btn-primary"><i class="fa-solid fa-paper-plane"></i> Send Announcement</button>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Right Column: Live Preview & Tips -->
+              <div class="right-panel">
+                <div class="widget-card">
+                  <h3 class="widget-title">Preview</h3>
+                  
+                  <div class="announcement-preview-card">
+                    <div class="preview-header">
+                      <div class="preview-icon-circle"><i class="fa-solid fa-book-open"></i></div>
+                      <div class="preview-meta">
+                        <span class="preview-type">Library Announcement</span>
+                        <span class="preview-by">By Admin • 18 Aug 2025, 09:00 AM</span>
+                      </div>
+                    </div>
+
+                    <h4 class="preview-body-title" id="preview-title">Library Timing Update</h4>
+                    <p class="preview-body-msg" id="preview-msg">
+                      The library will be open from 8:00 AM to 6:00 PM (Monday to Friday) and 8:00 AM to 2:00 PM on Saturday.
+                    </p>
+                    <span class="audience-pill" id="preview-audience">All Students</span>
+                  </div>
+                </div>
+
+                <!-- Quick Tips Card -->
+                <div class="widget-card">
+                  <h3 class="widget-title"><i class="fa-regular fa-lightbulb" style="color: #F59E0B;"></i> Quick Tips</h3>
+                  <ul style="font-size: 0.8rem; color: #64748B; padding-left: 18px; line-height: 1.6;">
+                    <li>Keep the message clear and concise.</li>
+                    <li>Use proper language and avoid special characters.</li>
+                    <li>Attach relevant files if needed.</li>
+                    <li>Schedule announcements for important events like holidays, exams, or library updates.</li>
+                  </ul>
+                </div>
+
+                <!-- Stay Connected Banner -->
+                <div class="stay-connected-box">
+                  <div class="sc-icon"><i class="fa-regular fa-paper-plane"></i></div>
+                  <h4 style="font-size: 1rem; font-weight: 700; color: #1E3A8A; margin-bottom: 4px;">Stay Connected</h4>
+                  <p style="font-size: 0.775rem; color: #475569; line-height: 1.4;">
+                    Keep your library community informed with important updates.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="src/js/notifications.js"></script>
+  <script src="src/js/shared-sidebar-loader.js"></script>
+  <script src="src/js/admin-header.js"></script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Smart Library - Book a Seat</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="src/css/sidebar.css">
+  <link rel="stylesheet" href="src/css/book-seat.css">
+</head>
+<body>
+  <div class="layout-container">
+    <div id="sidebar-placeholder"></div>
+
+    <div class="main-wrapper">
+              <header class="topbar">
+          <div class="header-right">
+            <div class="notification-btn" id="notif-btn" title="Notifications" onclick="window.location.href='notifications.html'">
+              <i class="fa-regular fa-bell"></i>
+              <span class="notification-badge" id="notif-badge" style="display: none;">0</span>
+            </div>
+
+            <a class="user-profile" href="profile.html" title="View Profile">
+              <div class="user-avatar-circle" id="avatar-fallback">GP</div>
+              <img src="" alt="" id="student-avatar" class="avatar-img" style="display:none;" />
+              <span class="user-name" id="student-name">Gauri Pakhare</span>
+              <span id="student-role" hidden>Student</span>
+              <i class="fa-solid fa-chevron-down profile-chevron"></i>
+            </a>
+          </div>
+        </header>
+
+      <main class="page-content">
+        <section class="booking-header">
+          <div class="header-icon">
+            <i class="fa-solid fa-chair"></i>
+          </div>
+          <div>
+            <h2 class="page-title">Book a Seat</h2>
+            <p class="page-subtitle">Select your preferences and choose a seat from the available map.</p>
+          </div>
+        </section>
+
+        <!-- Stepper -->
+        <section class="stepper-container">
+          <div class="step-item active" id="step-1">
+            <span class="step-circle">1</span>
+            <span class="step-label">Select Date & Time</span>
+          </div>
+          <div class="step-line active"></div>
+          <div class="step-item active" id="step-2">
+            <span class="step-circle">2</span>
+            <span class="step-label">Choose Floor</span>
+          </div>
+          <div class="step-line active"></div>
+          <div class="step-item active" id="step-3">
+            <span class="step-circle">3</span>
+            <span class="step-label">Select Seat</span>
+          </div>
+          <div class="step-line"></div>
+          <div class="step-item" id="step-4">
+            <span class="step-circle">4</span>
+            <span class="step-label">Confirm</span>
+          </div>
+        </section>
+
+        <!-- Form and Map -->
+        <div class="workspace-grid">
+          <aside class="selection-card">
+            <div class="card-header">
+              <i class="fa-regular fa-calendar-check"></i>
+              <h3>Select Date & Time</h3>
+            </div>
+
+            <form id="filter-form" class="filter-form">
+              <div class="form-group">
+                <label for="booking-date">Date</label>
+                <div class="input-container">
+                  <input type="date" id="booking-date" name="booking-date" readonly required />
+                  <i class="fa-regular fa-calendar input-icon"></i>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <label for="time-slot" style="margin-bottom: 0;">Start Time</label>
+                  <span id="window-indicator" style="font-size: 0.72rem; color: #2563eb; font-weight: 600; background: #eff6ff; padding: 2px 6px; border-radius: 4px;">Max +30 min</span>
+                </div>
+                <div class="input-container time-input-container">
+                  <input type="time" id="time-slot" name="time-slot" required />
+                </div>
+                <!-- 30-Minute Quick Slot Selectors -->
+                <div class="quick-slots" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px;">
+                  <button type="button" class="btn-slot-quick active" data-offset="0" style="padding: 6px 2px; font-size: 0.72rem; border-radius: 6px; border: 1px solid #2563eb; background: #2563eb; color: #fff; cursor: pointer; font-weight: 500;">Now</button>
+                  <button type="button" class="btn-slot-quick" data-offset="10" style="padding: 6px 2px; font-size: 0.72rem; border-radius: 6px; border: 1px solid #cbd5e1; background: #fff; color: #475569; cursor: pointer; font-weight: 500;">+10m</button>
+                  <button type="button" class="btn-slot-quick" data-offset="20" style="padding: 6px 2px; font-size: 0.72rem; border-radius: 6px; border: 1px solid #cbd5e1; background: #fff; color: #475569; cursor: pointer; font-weight: 500;">+20m</button>
+                  <button type="button" class="btn-slot-quick" data-offset="30" style="padding: 6px 2px; font-size: 0.72rem; border-radius: 6px; border: 1px solid #cbd5e1; background: #fff; color: #475569; cursor: pointer; font-weight: 500;">+30m</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="floor-select">Floor</label>
+                <div class="input-container">
+                  <select id="floor-select" name="floor-select">
+                    <option value="ground" selected>Ground Floor</option>
+                    <option value="first">First Floor</option>
+                  </select>
+                  <i class="fa-solid fa-layer-group input-icon"></i>
+                </div>
+              </div>
+            </form>
+
+            <div class="info-callout" style="border-left: 3px solid #2563eb; background: #f8fafc; padding: 12px; border-radius: 8px; font-size: 0.78rem; color: #475569; margin-top: 14px;">
+              <i class="fa-solid fa-circle-info" style="color: #2563eb; margin-right: 4px;"></i>
+              <strong>Booking Rules:</strong>
+              <ul style="margin: 6px 0 0 16px; padding: 0; line-height: 1.4;">
+                <li>Booking is permitted up to <strong>30 minutes</strong> from current time.</li>
+                <li>Duration is 30 minutes. No timer starts immediately upon booking.</li>
+                <li>When your slot begins, a <strong>15-minute check-in window</strong> opens on the check-in page.</li>
+                <li style="margin-top: 4px;"><strong>Library Operating Hours:</strong>
+                  <div style="font-size: 0.72rem; margin-top: 2px; color: #334155; line-height: 1.45;">
+                    • <strong>Male (Mon-Sat):</strong> 08:00 AM - 12:00 AM (08:00 - 24:00)<br>
+                    • <strong>Female (Mon-Sat):</strong> 08:00 AM - 09:00 PM (08:00 - 21:00)<br>
+                    • <strong>Sunday (Everyone):</strong> 11:00 AM - 05:00 PM (11:00 - 17:00)
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </aside>
+
+          <!-- Seat Map Area with Floor Tabs -->
+          <div class="seat-map-column">
+            <!-- Floor Navigation Tabs & Legend (matches UI mockup) -->
+            <div class="floor-tabs-topbar">
+              <div class="floor-nav-tabs">
+                <button type="button" class="floor-nav-btn active" data-floor="ground" id="tab-floor-ground">
+                  <i class="fa-solid fa-landmark"></i> Ground Floor
+                </button>
+                <button type="button" class="floor-nav-btn" data-floor="first" id="tab-floor-first">
+                  <i class="fa-solid fa-building"></i> First Floor
+                </button>
+              </div>
+
+              <div class="topbar-legend">
+                <div class="legend-item"><span class="seat-pill available"></span><span>Available</span></div>
+                <div class="legend-item"><span class="seat-pill reserved"></span><span>Reserved</span></div>
+                <div class="legend-item"><span class="seat-pill occupied"></span><span>Occupied</span></div>
+              </div>
+            </div>
+
+            <section class="seat-map-card">
+              <div class="map-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <div class="map-title-wrapper">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <h3 id="map-floor-title">Ground Floor – Seat Map</h3>
+                </div>
+                <div class="floor-status-counts" style="display: flex; align-items: center; gap: 16px; font-size: 0.82rem; font-weight: 600;">
+                  <span style="display: inline-flex; align-items: center; gap: 6px; color: #1e3a8a;">
+                    <span class="seat-pill reserved" style="width: 12px; height: 12px; border-radius: 50%;"></span>
+                    <span id="student-booked-count">0</span> Booked
+                  </span>
+                  <span style="display: inline-flex; align-items: center; gap: 6px; color: #14532d;">
+                    <span class="seat-pill available" style="width: 12px; height: 12px; border-radius: 50%;"></span>
+                    <span id="student-available-count">--</span> Available
+                  </span>
+                  <span style="display: inline-flex; align-items: center; gap: 6px; color: #7f1d1d;">
+                    <span class="seat-pill occupied" style="width: 12px; height: 12px; border-radius: 50%;"></span>
+                    <span id="student-occupied-count">0</span> Occupied
+                  </span>
+                </div>
+                <span class="seat-counter" id="total-seat-counter" style="display: none !important;"></span>
+              </div>
+
+              <div class="seat-matrix-wrapper">
+                <div class="seat-matrix" id="seat-matrix"></div>
+              </div>
+
+              <div class="map-footer">
+                <div class="legend-container">
+                  <div class="legend-item"><span class="seat-pill available"></span><span>Available</span></div>
+                  <div class="legend-item"><span class="seat-pill reserved"></span><span>Reserved</span></div>
+                  <div class="legend-item"><span class="seat-pill occupied"></span><span>Occupied</span></div>
+                </div>
+
+                <button type="button" class="btn-primary" id="next-action-btn" disabled>
+                  Proceed to Booking <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="src/js/api-config.js"></script>
+  <script src="src/js/book-seat.js"></script>
+  <script src="src/js/student-header.js"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — Smart Library</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="src/css/admin-sidebar.css">
+<link rel="stylesheet" href="src/css/dashboard.css">
+</head>
+<body>
+
+<div class="layout">
+  <!-- Shared Sidebar Placeholder -->
+  <div id="sidebar-placeholder"></div>
+
+  <!-- Main content -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <button class="hamburger" id="hamburgerBtn" aria-label="Toggle sidebar">☰</button>
+      <div class="topbar-right">
+        <button class="icon-btn" id="notifBtn" aria-label="Notifications" title="Notifications">
+          🔔
+          <span class="badge" id="notifCount">0</span>
+        </button>
+        <div class="admin-chip" id="adminChip">
+          <img id="adminAvatar" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150" alt="Admin avatar">
+          <div class="admin-text">
+            <strong id="adminName">System Admin</strong>
+            <span id="adminRole">Chief Librarian / Admin</span>
+          </div>
+          <span class="chevron">⌄</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+      <!-- Welcome Header -->
+      <section class="welcome-row">
+        <div>
+          <h2 id="welcomeHeading">Welcome, Admin</h2>
+          <p id="welcomeSub">Here's what's happening with your library today.</p>
+        </div>
+        <div class="date-box">
+          <span class="date-icon">📅</span>
+          <div>
+            <div id="todayDate">Loading date…</div>
+            <div id="todayTime" style="font-size: 11px; color: var(--text-muted);">Loading time…</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stat cards -->
+      <section class="stats-grid" id="statsGrid" aria-busy="true">
+        <!-- Cards injected by dashboard.js from /api/dashboard/summary -->
+      </section>
+
+      <!-- Chart + activity -->
+      <section class="grid-2">
+        <div class="card chart-card">
+          <div class="card-header">
+            <h3>📈 Seat Reservation Trend</h3>
+            <span class="legend"><i class="dot"></i> Reservations</span>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="trendChart" height="220"></canvas>
+          </div>
+        </div>
+
+        <div class="card activity-card">
+          <div class="card-header">
+            <h3>🕒 Recent Activity</h3>
+          </div>
+          <ul class="activity-list" id="activityList" aria-busy="true">
+            <!-- injected from /api/dashboard/recent-activity -->
+          </ul>
+        </div>
+      </section>
+
+      <!-- Upcoming reservations + quick actions -->
+      <section class="grid-2">
+        <div class="card table-card">
+          <div class="card-header">
+            <h3>🗓️ Upcoming Seat Reservations</h3>
+            <a href="seat-reservation.html" class="link">View All</a>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Seat No.</th>
+                  <th>Time</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="reservationsBody" aria-busy="true">
+                <!-- injected from /api/dashboard/upcoming-reservations -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card quick-actions-card">
+          <div class="card-header">
+            <h3>⚡ Quick Actions</h3>
+          </div>
+          <div class="quick-actions-grid" id="quickActionsGrid" aria-busy="true">
+            <!-- injected from /api/dashboard/quick-actions -->
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script src="src/js/shared-sidebar-loader.js"></script>
+<script src="src/js/dashboard.js"></script>
+<script src="src/js/admin-header.js"></script>
+</body>
+</html>

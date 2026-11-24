@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Admin - Search Student</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="src/css/admin-sidebar.css">
+  <link rel="stylesheet" href="src/css/student-details.css">
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Admin Sidebar / Mobile Dock placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <div class="main-wrapper">
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="topbar-right">
+          <div class="admin-dropdown" id="admin-profile-toggle">
+            <div class="user-avatar-circle">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <span class="admin-name" id="admin-username">Admin</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Workspace -->
+      <main class="page-content">
+        <!-- Page Title with Back Arrow & Breadcrumb -->
+        <section class="page-header">
+          <div class="title-with-icon">
+            <a href="student-management.html" class="back-link-icon" title="Go back">
+              <i class="fa-solid fa-arrow-left"></i>
+            </a>
+            <h2 class="page-title">Search Student</h2>
+          </div>
+          <nav class="breadcrumb-nav">
+            <a href="dashboard.html"><i class="fa-solid fa-house"></i></a>
+            <span class="separator">&gt;</span>
+            <a href="student-management.html">Student Management</a>
+            <span class="separator">&gt;</span>
+            <span class="current">Search Student</span>
+          </nav>
+        </section>
+
+        <!-- Search Bar Form -->
+        <div class="search-section">
+          <div class="search-box-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-leading-icon"></i>
+            <input 
+              type="text" 
+              id="student-search-input" 
+              placeholder="Enter roll number, library card no, name or class..." 
+              autocomplete="off"
+            >
+          </div>
+          <button type="button" class="btn-search" id="btn-search-trigger">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search</span>
+          </button>
+        </div>
+
+        <!-- Student Details Card Container -->
+        <div class="details-card" id="details-card">
+          <div class="details-card-header">
+            <h3 class="section-heading">Student Details</h3>
+          </div>
+
+          <!-- Empty/Loading State Container -->
+          <div class="status-state-box" id="status-state-box" style="display: none;">
+            <i class="fa-solid fa-user-slash status-icon"></i>
+            <p id="status-message">Enter a query above to search for student records.</p>
+          </div>
+
+          <!-- Active Details Content Container -->
+          <div class="student-profile-content" id="student-content">
+            <div class="avatar-column">
+              <div class="large-avatar-badge">
+                <i class="fa-solid fa-user"></i>
+              </div>
+            </div>
+
+            <!-- Two-Column Dynamic Attribute Grid -->
+            <div class="attributes-grid">
+              <div class="attr-item">
+                <span class="attr-label">Roll Number</span>
+                <span class="colon">:</span>
+                <span class="attr-value" id="val-roll">-</span>
+              </div>
+
+              <div class="attr-item">
+                <span class="attr-label">Library Card No</span>
+                <span class="colon">:</span>
+                <span class="attr-value" id="val-library">-</span>
+              </div>
+
+              <div class="attr-item">
+                <span class="attr-label">Name</span>
+                <span class="colon">:</span>
+                <span class="attr-value" id="val-name">-</span>
+              </div>
+
+              <div class="attr-item">
+                <span class="attr-label">Contact</span>
+                <span class="colon">:</span>
+                <span class="attr-value" id="val-contact">-</span>
+              </div>
+
+              <div class="attr-item">
+                <span class="attr-label">Class</span>
+                <span class="colon">:</span>
+                <span class="attr-value" id="val-class">-</span>
+              </div>
+
+              <div class="attr-item">
+                <span class="attr-label">Gender</span>
+                <span class="colon">:</span>
+                <span class="attr-value" id="val-gender">-</span>
+              </div>
+
+              <div class="attr-item">
+                <span class="attr-label">Email</span>
+                <span class="colon">:</span>
+                <span class="attr-value" id="val-email">-</span>
+              </div>
+
+              <div class="attr-item">
+                <span class="attr-label">Date of Birth</span>
+                <span class="colon">:</span>
+                <span class="attr-value" id="val-dob">-</span>
+              </div>
+
+              <div class="attr-item" style="grid-column: 1 / -1;">
+                <span class="attr-label">Address</span>
+                <span class="colon">:</span>
+                <span class="attr-value" id="val-address">-</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer Action Buttons -->
+          <div class="details-footer" id="details-footer">
+            <button type="button" class="btn-edit" id="btn-edit-student">
+              <i class="fa-solid fa-pen"></i>
+              <span>Edit</span>
+            </button>
+            <button type="button" class="btn-back" id="btn-back-nav">
+              <i class="fa-solid fa-arrow-left"></i>
+              <span>Back</span>
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="src/js/student-details.js"></script>
+  <script src="src/js/admin-header.js"></script>
+</body>
+</html>

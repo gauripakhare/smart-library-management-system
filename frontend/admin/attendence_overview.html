@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Library Attendance System</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- ================================
+<!-- Custom CSS -->
+<link rel="stylesheet" href="src/css/attendence_overview.css">
+<link rel="stylesheet" href="src/css/admin-sidebar.css">
+
+</head>
+
+<body class="bg-slate-50 text-slate-800 flex flex-col h-screen overflow-hidden">
+
+<!-- ================================
+================================= -->
+
+<header class="bg-white border-b border-slate-200 px-8 py-3.5 flex justify-end items-center shrink-0">
+    <div class="admin-header-actions"></div>
+</header>
+
+
+
+<!-- ================================
+     MAIN CONTENT AREA
+================================= -->
+
+<main class="flex-1 flex flex-col overflow-y-auto p-8">
+
+    <div class="w-full space-y-6">
+
+
+        <!-- ================================
+             PAGE TITLE
+        ================================= -->
+
+        <div>
+
+            <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+                Attendance Overview
+            </h2>
+
+            <p
+                class="text-xs font-semibold text-slate-800 mt-1"
+                id="current-date-text">
+                Loading date...
+            </p>
+
+            <p class="text-xs text-slate-500 mt-0.5">
+                View student attendance and data
+            </p>
+
+        </div>
+
+
+
+        <!-- ================================
+             NAVIGATION TABS
+        ================================= -->
+
+        <div class="flex items-center space-x-2 border-b border-slate-200 pb-4 text-xs font-medium">
+
+
+            <!-- Overview -->
+            <a
+                href="attendence_overview.html"
+                class="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-xl shadow-sm transition">
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>Overview</span>
+
+            </a>
+
+
+            <!-- Attendance Log -->
+            <a
+                href="attendence_log.html"
+                class="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:bg-slate-200/60 rounded-xl transition">
+
+                <i class="fa-solid fa-bars-staggered"></i>
+
+                <span>Attendance log</span>
+
+            </a>
+
+
+            <!-- Barcode Scanner -->
+            <a
+                href="barcode-scanner.html"
+                class="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:bg-slate-200/60 rounded-xl transition">
+
+                <i class="fa-solid fa-barcode"></i>
+
+                <span>Barcode Scanner</span>
+
+            </a>
+
+
+            <!-- Students -->
+            <a
+                href="student.html"
+                class="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:bg-slate-200/60 rounded-xl transition">
+
+                <i class="fa-solid fa-user-group"></i>
+
+                <span>Students</span>
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- ================================
+             STAT CARDS
+        ================================= -->
+
+        <div class="grid grid-cols-4 gap-4">
+
+
+            <!-- Total Students -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
+
+                <div class="flex justify-between items-start">
+
+                    <span class="text-xs font-medium text-slate-500">
+                        Total <br>students
+                    </span>
+
+                    <div class="text-slate-700 text-base">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+
+                </div>
+
+
+                <div class="mt-4">
+
+                    <h3
+                        class="text-3xl font-bold text-blue-600 tracking-tight"
+                        id="stat-total-students">
+                        --
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Present Today -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
+
+                <div class="flex justify-between items-start">
+
+                    <span class="text-xs font-medium text-slate-500">
+                        Present <br>today
+                    </span>
+
+                    <div class="text-slate-600 text-base">
+                        <i class="fa-regular fa-circle-check"></i>
+                    </div>
+
+                </div>
+
+
+                <div class="mt-4">
+
+                    <h3
+                        class="text-3xl font-bold text-blue-600 tracking-tight"
+                        id="stat-present-today">
+                        --
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Absent Today -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
+
+                <div class="flex justify-between items-start">
+
+                    <span class="text-xs font-medium text-slate-500">
+                        Absent <br>today
+                    </span>
+
+                    <div class="text-slate-500 text-base">
+                        <i class="fa-regular fa-circle-xmark"></i>
+                    </div>
+
+                </div>
+
+
+                <div class="mt-4">
+
+                    <h3
+                        class="text-3xl font-bold text-red-600 tracking-tight"
+                        id="stat-absent-today">
+                        --
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Average Attendance -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col justify-between">
+
+                <div class="flex justify-between items-start">
+
+                    <span class="text-xs font-medium text-slate-500">
+                        Avg. <br>attendance 30d
+                    </span>
+
+                    <div class="text-slate-600 text-base">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+
+                </div>
+
+
+                <div class="mt-4">
+
+                    <h3
+                        class="text-3xl font-bold text-blue-600 tracking-tight"
+                        id="stat-avg-attendance">
+                        --
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================
+             ATTENDANCE BAR CHART
+        ================================= -->
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+
+            <div class="mb-4">
+
+                <h3 class="font-bold text-slate-800 text-sm tracking-wide">
+                    Present count - last 7 days
+                </h3>
+
+            </div>
+
+
+            <div class="h-72 w-full">
+
+                <canvas id="attendanceChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</main>
+
+
+
+<!-- ================================
+     CUSTOM JAVASCRIPT
+================================= -->
+
+<script src="src/js/attendence_overview.js"></script>
+<script src="src/js/shared-sidebar-loader.js"></script>
+<script src="src/js/admin-header.js"></script>
+
+</body>
+</html>

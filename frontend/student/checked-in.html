@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Library Attendance System</title>
+<script>window.location.replace('check-in.html' + window.location.search);</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/css/checked-in.css">
+<link rel="stylesheet" href="src/css/sidebar.css">
+</head>
+<body>
+
+<div class="phone">
+
+  <!-- Header -->
+          <header class="topbar">
+          <div class="header-right">
+            <div class="notification-btn" id="notif-btn" title="Notifications" onclick="window.location.href='notifications.html'">
+              <i class="fa-regular fa-bell"></i>
+              <span class="notification-badge" id="notif-badge" style="display: none;">0</span>
+            </div>
+
+            <a class="user-profile" href="profile.html" title="View Profile">
+              <div class="user-avatar-circle" id="avatar-fallback">GP</div>
+              <img src="" alt="" id="student-avatar" class="avatar-img" style="display:none;" />
+              <span class="user-name" id="student-name">Gauri Pakhare</span>
+              <span id="student-role" hidden>Student</span>
+              <i class="fa-solid fa-chevron-down profile-chevron"></i>
+            </a>
+          </div>
+        </header>
+
+  <!-- Scrollable content -->
+  <main class="screen">
+
+    <h2 class="page-title">STUDENT CHECK-IN</h2>
+
+    <!-- ===== Loading skeleton (shown while fetching) ===== -->
+    <section class="status-card skeleton" id="skeletonCard" aria-hidden="true">
+      <div class="sk-line sk-w60"></div>
+      <div class="sk-line sk-w30 sk-big"></div>
+      <div class="sk-line sk-w30 sk-big"></div>
+      <div class="sk-line sk-w50"></div>
+      <div class="sk-line sk-w70"></div>
+    </section>
+
+    <!-- ===== Error state ===== -->
+    <section class="error-card" id="errorCard" hidden>
+      <p>Attendance data load is not possible.</p>
+      <button id="retryBtn">Please try later</button>
+    </section>
+
+    <!-- ===== Real content, populated from backend ===== -->
+    <div id="content" hidden>
+
+      <section class="status-card">
+        <div class="row row-top">
+          <svg class="bars" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2"  y="14" width="4" height="8"  rx="1"/>
+            <rect x="9"  y="9"  width="4" height="13" rx="1"/>
+            <rect x="16" y="4"  width="4" height="18" rx="1"/>
+          </svg>
+          <div>
+            <span class="label">REGISTRATION STATUS:</span>
+            <span class="value" id="registrationStatus">—</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <span class="label">ATTENDANCE LOG:</span>
+          <span class="big" id="attendanceLog">—</span>
+        </div>
+
+        <div class="row">
+          <span class="label">TOTAL HOURS:</span>
+          <span class="big" id="totalHours">—</span>
+        </div>
+
+        <div class="row">
+          <span class="label">AUTO-LOGOUT:</span>
+          <span class="value" id="autoLogout">—</span>
+        </div>
+
+        <div class="row row-verified">
+          <svg class="check" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" fill="none" stroke="#fff" stroke-width="2"/>
+            <path d="M7.5 12.3l3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div>
+            <span class="label">STUDENT ID VERIFIED:</span>
+            <span class="campus" id="campusName">—</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Location pin -->
+      <div class="pin-wrap">
+        <div class="pin-ring">
+          <div class="pin-circle">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2c-3.9 0-7 3.1-7 7 0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z" fill="#fff"/>
+              <circle cx="12" cy="9" r="2.6" fill="#1B3A8F"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verification note -->
+      <section class="verify-box">
+        <p class="verify-head">ATTENDANCE STATUS: <strong id="attendanceStatus">—</strong></p>
+        <p class="verify-body" id="verificationMessage">—</p>
+      </section>
+
+      <button class="scan-btn" id="scanBtn">SCAN QR &amp; CHECK-IN</button>
+
+      <p class="toast" id="toast" hidden></p>
+    </div>
+
+  </main>
+
+  <!-- Bottom navigation -->
+  <nav class="tabbar">
+    <button class="tab is-active" data-tab="Home">
+      <svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9z"/></svg>
+      <span>Home</span>
+    </button>
+    <button class="tab" data-tab="My QR">
+      <svg viewBox="0 0 24 24"><path d="M3 3h7v7H3V3zm2 2v3h3V5H5zm9-2h7v7h-7V3zm2 2v3h3V5h-3zM3 14h7v7H3v-7zm2 2v3h3v-3H5zm9-2h3v3h-3v-3zm5 0h2v2h-2v-2zm-5 5h3v3h-3v-3zm5 0h2v2h-2v-2z"/></svg>
+      <span>My QR</span>
+    </button>
+    <button class="tab" data-tab="My History">
+      <svg viewBox="0 0 24 24"><path d="M5 4h14a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm1 4v11h12V8H6zm2-6h2v3H8V2zm6 0h2v3h-2V2zm-2 8h2v4h-2v-4z"/></svg>
+      <span>My History</span>
+    </button>
+    <button class="tab" data-tab="Library Docs">
+      <svg viewBox="0 0 24 24"><path d="M6 2h8l4 4v16H6V2zm7 1.5V7h3.5L13 3.5zM8 11h8v2H8v-2zm0 4h8v2H8v-2z"/></svg>
+      <span>Library Docs</span>
+    </button>
+    <button class="tab" data-tab="My Profile">
+      <svg viewBox="0 0 24 24"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9zm0 2c-4 0-8 2-8 5v2h16v-2c0-3-4-5-8-5z"/></svg>
+      <span>My Profile</span>
+    </button>
+  </nav>
+
+</div>
+
+<script src="src/js/checked-in.js"></script>
+<script src="src/js/shared-sidebar-loader.js"></script>
+<script src="src/js/student-header.js"></script>
+</body>
+</html>

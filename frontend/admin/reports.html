@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Reports - Smart Library System</title>
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Reports & Sidebar Stylesheets -->
+  <link rel="stylesheet" href="src/css/reports.css">
+  <link rel="stylesheet" href="src/css/admin-sidebar.css">
+  <style>
+    .reports-tabs {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      border-bottom: 2px solid #E2E8F0;
+      margin-bottom: 20px;
+      padding-bottom: 4px;
+    }
+    .tab-btn {
+      padding: 10px 18px;
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: #64748B;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab-btn:hover {
+      color: #3D539F;
+    }
+    .tab-btn.active {
+      color: #3D539F;
+      border-bottom-color: #3D539F;
+      background-color: #EEF2FF;
+      border-radius: 8px 8px 0 0;
+    }
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      background: #FFFFFF;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 1px solid #E2E8F0;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .filter-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .filter-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #475569;
+    }
+    .filter-input, .filter-select {
+      padding: 8px 14px;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+      background-color: #F8FAFC;
+    }
+    .filter-input:focus, .filter-select:focus {
+      border-color: #3D539F;
+      background-color: #FFFFFF;
+    }
+    .btn-export-dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .export-options {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      margin-top: 6px;
+      background-color: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+      z-index: 50;
+      min-width: 150px;
+      overflow: hidden;
+    }
+    .export-options button {
+      width: 100%;
+      padding: 10px 16px;
+      text-align: left;
+      border: none;
+      background: none;
+      font-size: 13px;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .export-options button:hover {
+      background-color: #F1F5F9;
+      color: #3D539F;
+    }
+    .btn-export-dropdown:hover .export-options {
+      display: block;
+    }
+    .table-container {
+      overflow-x: auto;
+    }
+    .badge-status {
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      display: inline-block;
+    }
+    .status-available, .status-returned, .status-paid, .status-present {
+      background-color: #DCFCE7;
+      color: #15803D;
+    }
+    .status-issued, .status-reserved, .status-active {
+      background-color: #DBEAFE;
+      color: #1D4ED8;
+    }
+    .status-overdue, .status-unpaid, .status-lowstock {
+      background-color: #FEE2E2;
+      color: #B91C1C;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Sidebar Container -->
+    <div id="sidebar-placeholder"></div>
+
+    <!-- Main Content Wrapper -->
+    <main class="main-wrapper">
+      
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="global-search-input" placeholder="Search reports, students, or books...">
+        </div>
+
+        <div class="header-right">
+          <div class="notification-btn" title="Notifications" onclick="window.location.href='notifications.html'">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-badge" id="notif-badge-count" style="display: none;">0</span>
+          </div>
+
+          <div class="user-profile">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><circle cx='40' cy='40' r='40' fill='%233D539F'/><circle cx='40' cy='30' r='14' fill='%23FFFFFF'/><path d='M15 68 C15 50, 65 50, 65 68 Z' fill='%23FFFFFF'/></svg>" alt="Admin Avatar" class="user-avatar">
+            <div class="user-info">
+              <span class="user-name" id="admin-header-name">Librarian Admin</span>
+              <span class="user-role">System Administrator</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Scrollable Content Container -->
+      <div class="content-container" style="padding: 24px 32px;">
+        
+        <!-- Page Title & Download Actions -->
+        <div class="page-title-bar" style="margin-bottom: 16px;">
+          <div class="title-group">
+            <div class="title-icon-box">
+              <i class="fa-solid fa-chart-column"></i>
+            </div>
+            <div>
+              <h1 class="page-title">Library Analytics & Reports</h1>
+              <p class="page-subtitle">Comprehensive database analytics across books, students, issues, fines, attendance, seats, and notifications.</p>
+            </div>
+          </div>
+
+          <div class="title-actions">
+            <div class="btn-export-dropdown">
+              <button class="btn-primary" id="download-report-btn">
+                <i class="fa-solid fa-download"></i>
+                <span>Download Report</span>
+                <i class="fa-solid fa-chevron-down" style="font-size: 11px; margin-left: 4px;"></i>
+              </button>
+              <div class="export-options">
+                <button id="export-pdf-btn"><i class="fa-solid fa-file-pdf" style="color: #EF4444;"></i> Export PDF</button>
+                <button id="export-csv-btn"><i class="fa-solid fa-file-csv" style="color: #10B981;"></i> Export CSV</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8 Subtabs Bar -->
+        <div class="reports-tabs">
+          <button class="tab-btn active" data-tab="overview"><i class="fa-solid fa-table-cells-large"></i> Overview</button>
+          <button class="tab-btn" data-tab="books"><i class="fa-solid fa-book"></i> Books</button>
+          <button class="tab-btn" data-tab="students"><i class="fa-solid fa-users"></i> Students</button>
+          <button class="tab-btn" data-tab="issues"><i class="fa-solid fa-arrow-right-arrow-left"></i> Issues & Returns</button>
+          <button class="tab-btn" data-tab="fines"><i class="fa-solid fa-indian-rupee-sign"></i> Fines</button>
+          <button class="tab-btn" data-tab="attendance"><i class="fa-regular fa-calendar-days"></i> Attendance</button>
+          <button class="tab-btn" data-tab="seats"><i class="fa-solid fa-chair"></i> Seats</button>
+          <button class="tab-btn" data-tab="notifications"><i class="fa-regular fa-bell"></i> Notifications</button>
+        </div>
+
+        <!-- Filter Controls Bar -->
+        <div class="filter-bar">
+          <div class="filter-group">
+            <label for="date-preset-filter"><i class="fa-regular fa-calendar"></i> Date Range:</label>
+            <select id="date-preset-filter" class="filter-select">
+              <option value="all">All Time</option>
+              <option value="today">Today</option>
+              <option value="this_week">This Week</option>
+              <option value="this_month">This Month</option>
+              <option value="last_month">Last Month</option>
+            </select>
+          </div>
+
+          <div class="filter-group" id="dept-filter-container">
+            <label for="dept-filter"><i class="fa-solid fa-building"></i> Category / Dept:</label>
+            <select id="dept-filter" class="filter-select">
+              <option value="all">All Departments</option>
+            </select>
+          </div>
+
+          <div class="filter-group" id="status-filter-container">
+            <label for="status-filter"><i class="fa-solid fa-filter"></i> Status:</label>
+            <select id="status-filter" class="filter-select">
+              <option value="all">All Statuses</option>
+              <option value="issued">Issued / Reserved</option>
+              <option value="returned">Returned / Available</option>
+              <option value="overdue">Overdue / Unpaid</option>
+            </select>
+          </div>
+
+          <div class="filter-group" style="margin-left: auto;">
+            <input type="text" id="report-search-input" class="filter-input" placeholder="Filter current view..." style="width: 220px;">
+            <button class="btn-primary" id="btn-refresh-report" style="padding: 8px 14px; font-size: 13px;">
+              <i class="fa-solid fa-rotate-right"></i> Refresh
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic KPI Cards Section -->
+        <div class="kpi-grid" id="kpi-cards-grid">
+          <!-- Dynamically populated via JS -->
+        </div>
+
+        <!-- Dynamic Charts Grid -->
+        <div class="charts-grid" id="charts-section-grid" style="margin-top: 24px;">
+          <!-- Chart 1 -->
+          <div class="chart-card" id="chart-card-primary">
+            <div class="chart-card-header">
+              <div class="chart-card-title">
+                <i class="fa-solid fa-chart-column"></i>
+                <span id="primary-chart-title">Issue vs Return Monthly Trend</span>
+              </div>
+            </div>
+            <div class="chart-container" style="height: 280px; position: relative;">
+              <canvas id="primaryReportChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 2 -->
+          <div class="chart-card" id="chart-card-secondary">
+            <div class="chart-card-header">
+              <div class="chart-card-title">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span id="secondary-chart-title">Distribution & Utilization</span>
+              </div>
+            </div>
+            <div class="chart-container" style="height: 280px; position: relative;">
+              <canvas id="secondaryReportChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data Table Section -->
+        <div class="reports-table-card" style="margin-top: 24px;">
+          <div class="table-card-header">
+            <div class="table-card-title">
+              <i class="fa-solid fa-table"></i>
+              <span id="table-section-title">Detailed Records</span>
+            </div>
+            <span id="table-records-count" style="font-size: 13px; font-weight: 600; color: #64748B;">Showing 0 records</span>
+          </div>
+
+          <div class="table-container">
+            <table class="reports-table" id="dynamic-report-table">
+              <thead id="report-table-head">
+                <!-- Dynamically populated -->
+              </thead>
+              <tbody id="report-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Page Scripts -->
+  <script src="src/js/shared-sidebar-loader.js"></script>
+  <script src="src/js/admin-header.js"></script>
+  <script src="src/js/reports.js"></script>
+</body>
+</html>

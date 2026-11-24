@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Library - Login</title>
+    
+    <!-- Third-Party Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Linked CSS -->
+    <link rel="stylesheet" href="src/css/login.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <a href="student_dashboard.html" class="home-icon-inside" title="Go to Dashboard">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+        </a>
+
+        <!-- Brand Header -->
+        <div class="brand-header">
+            <div class="logo-wrapper">
+                <div class="brand-icon-box">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                </div>
+            </div>
+            <h1>CET<span>GURU</span></h1>
+            <p><span class="highlight-tag">Library</span> Management System</p>
+        </div>
+
+        <!-- Feedback Alert Board -->
+        <div id="feedbackMessage" class="feedback-board" style="display: none;"></div>
+
+        <!-- Login Form Grid -->
+        <form id="loginForm" novalidate>
+            <!-- Username / Email / Roll Number Input -->
+            <div class="input-group">
+                <input type="text" id="identifier" placeholder="Email, Roll No, or Username" required autocomplete="username">
+                <i class="fa-solid fa-user field-icon"></i>
+            </div>
+
+            <!-- Password Input -->
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+                <i class="fa-solid fa-lock field-icon"></i>
+                <i class="fa-solid fa-eye-slash toggle-password" onclick="togglePasswordVisibility('password', this)"></i>
+            </div>
+
+            <!-- Form Actions Row -->
+            <div class="form-actions">
+                <a href="forgot-password.html" class="forgot-pass">Forgot Password?</a>
+            </div>
+
+            <!-- Login Submission Button -->
+            <button type="submit" class="btn-login" id="btnLogin">
+                <span>Log In</span>
+                <i class="fa-solid fa-right-to-bracket"></i>
+            </button>
+        </form>
+
+        <div class="notice-footer">
+            <i class="fa-solid fa-circle-info"></i>
+            Students are registered by Library Admin.<br>Default password: <strong>Ssgmce@1234</strong>
+        </div>
+    </div>
+
+    <!-- API Base configuration -->
+    <script src="src/js/api-config.js"></script>
+    <script src="src/js/login.js"></script>
+</body>
+</html>

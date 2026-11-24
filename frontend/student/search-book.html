@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Books - Student Panel</title>
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Student Book Search CSS -->
+  <link rel="stylesheet" href="src/css/search-books.css">
+  <link rel="stylesheet" href="src/css/sidebar.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <div id="sidebar-placeholder"></div>
+
+    <!-- ==========================================================================
+         MAIN CONTENT WRAPPER
+         ========================================================================== -->
+    <main class="main-wrapper">
+      
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search books, authors, or categories...">
+        </div>
+
+        <div class="header-right">
+          <!-- Notification Icon -->
+          <div class="notification-btn" title="Notifications" onclick="window.location.href='notifications.html'">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-badge">3</span>
+          </div>
+
+          <!-- User Profile -->
+          <div class="user-profile" onclick="window.location.href='profile.html'">
+            <div class="user-avatar-circle">ST</div>
+            <span class="user-name">Student</span>
+            <i class="fa-solid fa-chevron-down" style="font-size: 12px; color: #94A3B8;"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Container -->
+      <div class="content-container">
+        
+        <!-- Page Title Box -->
+        <div class="page-header-box">
+          <div class="page-header-icon">
+            <i class="fa-solid fa-book"></i>
+          </div>
+          <div>
+            <h1 class="page-title">Search Books</h1>
+            <p class="page-subtitle">Find your favorite books, explore new ones, and expand your knowledge.</p>
+          </div>
+        </div>
+
+        <!-- Filter Toolbar Card -->
+        <div class="filter-card">
+          <div class="filter-input-box">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="search-input" value="" placeholder="Search by title, author, category, ISBN or accession number...">
+            <i class="fa-solid fa-xmark clear-icon" id="clear-search"></i>
+          </div>
+
+          <select class="filter-select" id="category-select">
+            <option value="">All Categories</option>
+          </select>
+
+          <select class="filter-select" id="author-select">
+            <option value="">All Authors</option>
+          </select>
+
+          <button class="btn-search" onclick="if(window.fetchBooksFromDatabase) window.fetchBooksFromDatabase(document.getElementById('search-input').value, document.getElementById('category-select').value, document.getElementById('author-select').value)">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search</span>
+          </button>
+        </div>
+
+        <!-- Results Meta Bar -->
+        <div class="results-meta-bar">
+          <div class="results-count" id="results-count">
+            Search Results <span>(12 books found)</span>
+          </div>
+          <div class="sort-box">
+            <span>Sort by:</span>
+            <select class="sort-select" id="sort-select">
+              <option value="relevance">Relevance</option>
+              <option value="title">Title (A-Z)</option>
+              <option value="availability">Availability</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 4-Column Book Cards Grid -->
+        <div class="books-grid" id="books-grid">
+          <!-- Dynamically populated by search-books.js -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination-container" id="pagination-container">
+          <!-- Dynamically populated by search-books.js -->
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Detail Modal Container -->
+  <div class="modal-overlay" id="book-modal">
+    <div class="modal-card" id="modal-content">
+      <!-- Populated via JS -->
+    </div>
+  </div>
+
+  <!-- Page Script -->
+  <script src="src/js/search-books.js"></script>
+  <script src="src/js/shared-sidebar-loader.js"></script>
+  <script src="src/js/student-header.js"></script>
+</body>
+</html>

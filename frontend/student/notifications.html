@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications - Student Panel</title>
+
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Student Notifications CSS -->
+  <link rel="stylesheet" href="src/css/notifications.css">
+  <link rel="stylesheet" href="src/css/sidebar.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <div id="sidebar-placeholder"></div>
+
+    <!-- ==========================================================================
+         MAIN CONTENT WRAPPER
+         ========================================================================== -->
+    <main class="main-wrapper">
+      
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-title-box">
+          <div class="header-page-icon">
+            <i class="fa-regular fa-bell"></i>
+          </div>
+          <div>
+            <h1 class="header-title">Notifications</h1>
+            <p class="header-subtitle">Stay updated with your due dates, fines, library announcements and more.</p>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 18px;">
+          <div onclick="window.location.href='notifications.html'" style="position: relative; width: 42px; height: 42px; border-radius: 50%; background: #FFF; border: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: center; color: #64748B; cursor: pointer;" title="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span style="position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; background: #EF4444; color: #FFF; font-size: 0.7rem; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #FFF;">3</span>
+          </div>
+
+          <div onclick="window.location.href='profile.html'" style="display: flex; align-items: center; gap: 10px; cursor: pointer;" title="View Profile">
+            <img id="student-avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'><circle cx='40' cy='40' r='40' fill='%233D539F'/><circle cx='40' cy='30' r='14' fill='%23FFF0F0'/><path d='M15 68 C15 50, 65 50, 65 68 Z' fill='%23FFF0F0'/></svg>" alt="Student Avatar" style="width: 40px; height: 40px; border-radius: 50%;" />
+            <div style="display: flex; flex-direction: column;">
+              <span id="headerStudentName" style="font-size: 0.9rem; font-weight: 700; color: #0F172A;">Student</span>
+              <span id="headerStudentRole" style="font-size: 0.75rem; color: #64748B;">Student</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Body -->
+      <div class="content-body">
+        
+        <!-- Filter Bar -->
+        <div class="top-action-bar">
+          <div class="filter-pills">
+            <button class="pill-btn active" data-filter="All">
+              <i class="fa-solid fa-layer-group"></i> All (7)
+            </button>
+            <button class="pill-btn" data-filter="Due Date">
+              <i class="fa-regular fa-calendar-check"></i> Due Date (3)
+            </button>
+            <button class="pill-btn" data-filter="Fines">
+              <i class="fa-solid fa-indian-rupee-sign"></i> Fines (2)
+            </button>
+            <button class="pill-btn" data-filter="Announcements">
+              <i class="fa-solid fa-bullhorn"></i> Announcements (2)
+            </button>
+          </div>
+
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="student-search-input" class="search-input" placeholder="Search notifications..." />
+          </div>
+        </div>
+
+        <!-- Page Grid -->
+        <div class="page-grid">
+          
+          <!-- Notifications List -->
+          <div>
+            <div class="notifications-list" id="student-notif-list">
+              <!-- Dynamic Cards rendered via JS -->
+            </div>
+
+            <!-- Pagination Footer -->
+            <div class="pagination-footer">
+              <button class="page-btn disabled">&laquo;</button>
+              <button class="page-btn disabled">&lt;</button>
+              <button class="page-btn active">1</button>
+              <button class="page-btn">2</button>
+              <button class="page-btn">&gt;</button>
+              <button class="page-btn">&raquo;</button>
+            </div>
+          </div>
+
+          <!-- Right Side Widgets -->
+          <div class="right-panel">
+            
+            <!-- Notification Summary -->
+            <div class="widget-card">
+              <h3 class="widget-title">Notification Summary</h3>
+              <div class="summary-2x2">
+                <div class="sum-box">
+                  <div class="sum-box-icon" style="background-color: #EEF2FF; color: #2563EB;"><i class="fa-regular fa-calendar-check"></i></div>
+                  <span class="sum-box-num">3</span>
+                  <span class="sum-box-label">Due Date</span>
+                </div>
+
+                <div class="sum-box">
+                  <div class="sum-box-icon" style="background-color: #FEF2F2; color: #EF4444;"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                  <span class="sum-box-num">2</span>
+                  <span class="sum-box-label">Fines</span>
+                </div>
+
+                <div class="sum-box">
+                  <div class="sum-box-icon" style="background-color: #F3E8FF; color: #9333EA;"><i class="fa-solid fa-bullhorn"></i></div>
+                  <span class="sum-box-num">2</span>
+                  <span class="sum-box-label">Announcements</span>
+                </div>
+
+                <div class="sum-box">
+                  <div class="sum-box-icon" style="background-color: #ECFDF5; color: #10B981;"><i class="fa-regular fa-bell"></i></div>
+                  <span class="sum-box-num">7</span>
+                  <span class="sum-box-label">Total</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Filters Checkboxes -->
+            <div class="widget-card">
+              <h3 class="widget-title"><i class="fa-solid fa-filter" style="color: #3D539F; margin-right: 6px;"></i> Quick Filters</h3>
+              <div class="checkbox-list">
+                <label class="checkbox-item">
+                  <input type="checkbox" id="cb-duedate" class="quick-filter-cb" checked />
+                  <span>Due Date</span>
+                </label>
+
+                <label class="checkbox-item">
+                  <input type="checkbox" id="cb-fines" class="quick-filter-cb" checked />
+                  <span>Fines</span>
+                </label>
+
+                <label class="checkbox-item">
+                  <input type="checkbox" id="cb-announcements" class="quick-filter-cb" checked />
+                  <span>Announcements</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Update Profile Banner Box -->
+            <div class="update-profile-box">
+              <div class="up-icon"><i class="fa-regular fa-envelope-open"></i></div>
+              <p style="font-size: 0.85rem; font-weight: 600; color: #1E3A8A; line-height: 1.4; margin-bottom: 4px;">
+                Keep your details updated to receive important library notifications on time.
+              </p>
+              <button class="btn-primary-full">Update Profile</button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="src/js/notifications.js"></script>
+  <script src="src/js/shared-sidebar-loader.js"></script>
+  <script src="src/js/student-header.js"></script>
+</body>
+</html>

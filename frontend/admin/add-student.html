@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Admin - Add Student</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="src/css/admin-sidebar.css">
+  <link rel="stylesheet" href="src/css/add-student.css">
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Admin Sidebar / Mobile Dock placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <div class="main-wrapper">
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="topbar-right">
+          <div class="admin-dropdown" id="admin-profile-toggle">
+            <div class="user-avatar-circle">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <span class="admin-name" id="admin-username">Admin</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Workspace -->
+      <main class="page-content">
+        <!-- Page Title & Breadcrumb -->
+        <section class="page-header">
+          <div class="title-with-icon">
+            <div class="header-icon-box">
+              <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <h2 class="page-title">Add Student</h2>
+          </div>
+          <nav class="breadcrumb-nav">
+            <a href="dashboard.html"><i class="fa-solid fa-house"></i></a>
+            <span class="separator">&gt;</span>
+            <a href="student-management.html">Student Management</a>
+            <span class="separator">&gt;</span>
+            <span class="current">Add Student</span>
+          </nav>
+        </section>
+
+        <!-- Form Card Container -->
+        <div class="form-card">
+          <div class="form-card-header">
+            <h3 class="section-heading">Student Details</h3>
+            <p class="section-subheading">Fill in the student information below to add a new student to the library system.</p>
+          </div>
+
+          <form id="add-student-form" class="student-form" novalidate>
+            <div class="form-grid">
+              <!-- Name Field -->
+              <div class="form-group">
+                <label for="student-name">Name <span class="required">*</span></label>
+                <div class="input-container">
+                  <i class="fa-regular fa-user input-icon"></i>
+                  <input type="text" id="student-name" name="name" placeholder="Enter full name" required autocomplete="off">
+                </div>
+                <span class="error-msg" id="name-error"></span>
+              </div>
+
+              <!-- Roll Number Field -->
+              <div class="form-group">
+                <label for="roll-number">Roll Number <span class="required">*</span></label>
+                <div class="input-container">
+                  <i class="fa-solid fa-hashtag input-icon"></i>
+                  <input type="text" id="roll-number" name="rollNumber" placeholder="Enter roll number (e.g. 2024CSE001)" required autocomplete="off">
+                </div>
+                <span class="error-msg" id="roll-error"></span>
+              </div>
+
+              <!-- Library Card Number Field -->
+              <div class="form-group">
+                <label for="library-number">Library Card Number <span class="required">*</span></label>
+                <div class="input-container">
+                  <i class="fa-regular fa-id-card input-icon"></i>
+                  <input type="text" id="library-number" name="libraryNumber" placeholder="Enter library card number (e.g. LIB-1001)" required autocomplete="off">
+                </div>
+                <span class="error-msg" id="library-error"></span>
+              </div>
+
+              <!-- Class Field -->
+              <div class="form-group">
+                <label for="student-class">Class <span class="required">*</span></label>
+                <div class="input-container">
+                  <i class="fa-solid fa-layer-group input-icon"></i>
+                  <input type="text" id="student-class" name="class" placeholder="Enter class" required autocomplete="off">
+                </div>
+                <span class="error-msg" id="class-error"></span>
+              </div>
+
+              <!-- Academic Year Field -->
+              <div class="form-group">
+                <label for="academic-year">Academic Year <span class="required">*</span></label>
+                <div class="input-container">
+                  <i class="fa-regular fa-calendar input-icon"></i>
+                  <input type="text" id="academic-year" name="academicYear" placeholder="Enter academic year" required autocomplete="off">
+                </div>
+                <span class="error-msg" id="year-error"></span>
+              </div>
+
+              <!-- Email Field -->
+              <div class="form-group">
+                <label for="student-email">Email <span class="required">*</span></label>
+                <div class="input-container">
+                  <i class="fa-regular fa-envelope input-icon"></i>
+                  <input type="email" id="student-email" name="email" placeholder="Enter email address" required autocomplete="off">
+                </div>
+                <span class="error-msg" id="email-error"></span>
+              </div>
+
+              <!-- Contact Number Field -->
+              <div class="form-group">
+                <label for="contact-number">Contact Number <span class="required">*</span></label>
+                <div class="input-container">
+                  <i class="fa-solid fa-phone input-icon"></i>
+                  <input type="tel" id="contact-number" name="contactNumber" placeholder="Enter contact number" required autocomplete="off">
+                </div>
+                <span class="error-msg" id="contact-error"></span>
+              </div>
+
+              <!-- Department Field -->
+              <div class="form-group">
+                <label for="student-department">Department</label>
+                <div class="input-container">
+                  <i class="fa-solid fa-building-columns input-icon"></i>
+                  <input type="text" id="student-department" name="department" placeholder="e.g. Computer Engineering" autocomplete="off">
+                </div>
+              </div>
+
+              <!-- College Field -->
+              <div class="form-group">
+                <label for="student-college">College</label>
+                <div class="input-container">
+                  <i class="fa-solid fa-graduation-cap input-icon"></i>
+                  <input type="text" id="student-college" name="college" placeholder="e.g. SSGMCE Shegaon" autocomplete="off">
+                </div>
+              </div>
+
+              <!-- Date of Birth Field -->
+              <div class="form-group">
+                <label for="student-dob">Date of Birth</label>
+                <div class="input-container">
+                  <i class="fa-regular fa-calendar-days input-icon"></i>
+                  <input type="date" id="student-dob" name="dob">
+                </div>
+              </div>
+
+              <!-- Gender Field -->
+              <div class="form-group">
+                <label for="student-gender">Gender</label>
+                <div class="input-container">
+                  <i class="fa-solid fa-venus-mars input-icon"></i>
+                  <select id="student-gender" name="gender">
+                    <option value="" selected>Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Address Field -->
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label for="student-address">Address</label>
+                <div class="input-container">
+                  <i class="fa-solid fa-location-dot input-icon"></i>
+                  <input type="text" id="student-address" name="address" placeholder="Enter residential address" autocomplete="off">
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <button type="button" class="btn-secondary" id="cancel-btn">Cancel</button>
+              <button type="submit" class="btn-primary" id="save-btn">
+                <i class="fa-solid fa-user-plus"></i>
+                <span>Save Student</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="src/js/add-student.js"></script>
+  <script src="src/js/admin-header.js"></script>
+</body>
+</html>

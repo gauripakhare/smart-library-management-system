@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Admin - Seat Reservation</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="src/css/admin-sidebar.css">
+  <link rel="stylesheet" href="src/css/seat-reservation.css">
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Dynamic Sidebar Injection Placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <div class="main-wrapper">
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="topbar-right">
+          <div class="header-datetime" id="header-datetime">
+            <i class="fa-regular fa-calendar-days"></i>
+            <span id="live-datetime">--</span>
+          </div>
+
+          <div class="admin-dropdown" id="admin-profile-toggle">
+            <div class="user-avatar-circle">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <span class="admin-name" id="admin-username">Admin</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Workspace -->
+      <main class="page-content">
+        <!-- Page Title & Greeting -->
+        <section class="welcome-section">
+          <h2 class="welcome-title">Welcome, Admin</h2>
+          <p class="welcome-subtitle">Here's an overview of the seat booking system</p>
+        </section>
+
+        <!-- Dynamic Metric Cards -->
+        <section class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-icon-box blue">
+              <i class="fa-solid fa-chair"></i>
+            </div>
+            <div class="metric-info">
+              <span class="metric-label">Total Seats</span>
+              <h3 class="metric-value" id="metric-total-seats">--</h3>
+              <span class="metric-sub" id="metric-seats-per-floor"></span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon-box green">
+              <i class="fa-regular fa-circle-check"></i>
+            </div>
+            <div class="metric-info">
+              <span class="metric-label">Booked Seats</span>
+              <h3 class="metric-value" id="metric-booked-seats">--</h3>
+              <span class="metric-sub" id="metric-booked-percent"></span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon-box purple">
+              <i class="fa-regular fa-user"></i>
+            </div>
+            <div class="metric-info">
+              <span class="metric-label">Available Seats</span>
+              <h3 class="metric-value" id="metric-available-seats">--</h3>
+              <span class="metric-sub" id="metric-available-percent"></span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-icon-box red">
+              <i class="fa-regular fa-circle-xmark"></i>
+            </div>
+            <div class="metric-info">
+              <span class="metric-label">Occupied Seats</span>
+              <h3 class="metric-value" id="metric-occupied-seats">--</h3>
+              <span class="metric-sub" id="metric-occupied-sub"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Primary View Switcher: Floor Map vs Past Booking History -->
+        <section class="view-switcher-bar">
+          <div class="view-tabs">
+            <button type="button" class="view-tab-btn active" id="tab-btn-map">
+              <i class="fa-solid fa-chair"></i>
+              <span>Floor Seat Map</span>
+            </button>
+            <button type="button" class="view-tab-btn" id="tab-btn-history">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span>Past Booking History & Analytics</span>
+              <span class="view-tab-badge" id="view-tab-history-badge">--</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- WRAPPER 1: FLOOR MAP VIEW -->
+        <div id="floor-map-view-wrapper">
+          <!-- Floor Navigation Toggle Tabs -->
+          <div class="floor-tabs-topbar" style="margin-bottom: 16px;">
+            <div class="floor-nav-tabs">
+              <button type="button" class="floor-nav-btn active" data-floor="ground" id="admin-tab-ground">
+                <i class="fa-solid fa-landmark"></i> Ground Floor
+              </button>
+              <button type="button" class="floor-nav-btn" data-floor="first" id="admin-tab-first">
+                <i class="fa-solid fa-building"></i> First Floor
+              </button>
+            </div>
+
+            <div class="topbar-legend">
+              <div class="legend-item"><span class="seat-pill available"></span><span>Available</span></div>
+              <div class="legend-item"><span class="seat-pill reserved"></span><span>Reserved</span></div>
+              <div class="legend-item"><span class="seat-pill occupied"></span><span>Occupied</span></div>
+            </div>
+          </div>
+
+          <!-- Floor Cards -->
+          <section class="floors-container" style="grid-template-columns: 1fr;">
+            <!-- Ground Floor Card -->
+            <div class="floor-card" id="ground-floor-card">
+              <div class="floor-header">
+                <div class="floor-title-group">
+                  <i class="fa-solid fa-chair floor-icon"></i>
+                  <h3 class="floor-heading" id="ground-floor-title">Ground Floor</h3>
+                </div>
+                <span class="seat-badge" id="ground-seat-badge" style="display: none;"></span>
+              </div>
+
+              <div class="floor-status-counts">
+                <div class="status-count-item">
+                  <span class="dot booked"></span>
+                  <span class="count" id="ground-booked-count">0</span>
+                  <span class="label">Booked</span>
+                </div>
+                <div class="status-count-item">
+                  <span class="dot available"></span>
+                  <span class="count" id="ground-available-count">0</span>
+                  <span class="label">Available</span>
+                </div>
+                <div class="status-count-item">
+                  <span class="dot occupied"></span>
+                  <span class="count" id="ground-occupied-count">0</span>
+                  <span class="label">Occupied</span>
+                </div>
+              </div>
+
+              <div class="floor-controls">
+                <div class="control-group">
+                  <label for="ground-date-select">Date</label>
+                  <div class="input-box">
+                    <i class="fa-regular fa-calendar input-icon"></i>
+                    <input type="date" id="ground-date-select" class="floor-date-input">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label for="ground-slot-select">Time Slot</label>
+                  <div class="input-box">
+                    <i class="fa-regular fa-clock input-icon"></i>
+                    <select id="ground-slot-select" class="floor-slot-select">
+                      <option value="07:00">07:00 AM - 07:30 AM</option>
+                      <option value="07:30">07:30 AM - 08:00 AM</option>
+                      <option value="08:00">08:00 AM - 08:30 AM</option>
+                      <option value="08:30">08:30 AM - 09:00 AM</option>
+                      <option value="09:00">09:00 AM - 09:30 AM</option>
+                      <option value="09:30">09:30 AM - 10:00 AM</option>
+                      <option value="10:00">10:00 AM - 10:30 AM</option>
+                      <option value="10:30">10:30 AM - 11:00 AM</option>
+                      <option value="11:00">11:00 AM - 11:30 AM</option>
+                      <option value="11:30">11:30 AM - 12:00 PM</option>
+                      <option value="12:00">12:00 PM - 12:30 PM</option>
+                      <option value="12:30">12:30 PM - 01:00 PM</option>
+                      <option value="13:00">01:00 PM - 01:30 PM</option>
+                      <option value="13:30">01:30 PM - 02:00 PM</option>
+                      <option value="14:00">02:00 PM - 02:30 PM</option>
+                      <option value="14:30">02:30 PM - 03:00 PM</option>
+                      <option value="15:00">03:00 PM - 03:30 PM</option>
+                      <option value="15:30">03:30 PM - 04:00 PM</option>
+                      <option value="16:00">04:00 PM - 04:30 PM</option>
+                      <option value="16:30">04:30 PM - 05:00 PM</option>
+                      <option value="17:00">05:00 PM - 05:30 PM</option>
+                      <option value="17:30">05:30 PM - 06:00 PM</option>
+                      <option value="18:00">06:00 PM - 06:30 PM</option>
+                      <option value="18:30">06:30 PM - 07:00 PM</option>
+                      <option value="19:00">07:00 PM - 07:30 PM</option>
+                      <option value="19:30">07:30 PM - 08:00 PM</option>
+                      <option value="20:00" selected>08:00 PM - 08:30 PM</option>
+                      <option value="20:30">08:30 PM - 09:00 PM</option>
+                      <option value="21:00">09:00 PM - 09:30 PM</option>
+                      <option value="21:30">09:30 PM - 10:00 PM</option>
+                      <option value="22:00">10:00 PM - 10:30 PM</option>
+                      <option value="22:30">10:30 PM - 11:00 PM</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slot Booking Summary Banner -->
+              <div class="slot-summary-banner" id="ground-slot-summary-banner" style="display: none;">
+                <i class="fa-solid fa-calendar-check banner-icon"></i>
+                <div class="banner-content">
+                  <span class="banner-title" id="ground-slot-summary-title">Time Slot Booking Summary</span>
+                  <span class="banner-text" id="ground-slot-summary-text">0 Bookings</span>
+                </div>
+              </div>
+
+              <h4 class="map-label">Seat Map</h4>
+              <div class="map-wrapper">
+                <div class="seat-grid" id="ground-seat-grid">
+                  <div class="empty-placeholder">No seat data loaded</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- First Floor Card (Hidden by default, shown on toggle) -->
+            <div class="floor-card" id="first-floor-card" style="display: none;">
+              <div class="floor-header">
+                <div class="floor-title-group">
+                  <i class="fa-solid fa-chair floor-icon"></i>
+                  <h3 class="floor-heading" id="first-floor-title">First Floor</h3>
+                </div>
+                <span class="seat-badge" id="first-seat-badge" style="display: none;"></span>
+              </div>
+
+              <div class="floor-status-counts">
+                <div class="status-count-item">
+                  <span class="dot booked"></span>
+                  <span class="count" id="first-booked-count">0</span>
+                  <span class="label">Booked</span>
+                </div>
+                <div class="status-count-item">
+                  <span class="dot available"></span>
+                  <span class="count" id="first-available-count">0</span>
+                  <span class="label">Available</span>
+                </div>
+                <div class="status-count-item">
+                  <span class="dot occupied"></span>
+                  <span class="count" id="first-occupied-count">0</span>
+                  <span class="label">Occupied</span>
+                </div>
+              </div>
+
+              <div class="floor-controls">
+                <div class="control-group">
+                  <label for="first-date-select">Date</label>
+                  <div class="input-box">
+                    <i class="fa-regular fa-calendar input-icon"></i>
+                    <input type="date" id="first-date-select" class="floor-date-input">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label for="first-slot-select">Time Slot</label>
+                  <div class="input-box">
+                    <i class="fa-regular fa-clock input-icon"></i>
+                    <select id="first-slot-select" class="floor-slot-select">
+                      <option value="07:00">07:00 AM - 07:30 AM</option>
+                      <option value="07:30">07:30 AM - 08:00 AM</option>
+                      <option value="08:00">08:00 AM - 08:30 AM</option>
+                      <option value="08:30">08:30 AM - 09:00 AM</option>
+                      <option value="09:00">09:00 AM - 09:30 AM</option>
+                      <option value="09:30">09:30 AM - 10:00 AM</option>
+                      <option value="10:00">10:00 AM - 10:30 AM</option>
+                      <option value="10:30">10:30 AM - 11:00 AM</option>
+                      <option value="11:00">11:00 AM - 11:30 AM</option>
+                      <option value="11:30">11:30 AM - 12:00 PM</option>
+                      <option value="12:00">12:00 PM - 12:30 PM</option>
+                      <option value="12:30">12:30 PM - 01:00 PM</option>
+                      <option value="13:00">01:00 PM - 01:30 PM</option>
+                      <option value="13:30">01:30 PM - 02:00 PM</option>
+                      <option value="14:00">02:00 PM - 02:30 PM</option>
+                      <option value="14:30">02:30 PM - 03:00 PM</option>
+                      <option value="15:00">03:00 PM - 03:30 PM</option>
+                      <option value="15:30">03:30 PM - 04:00 PM</option>
+                      <option value="16:00">04:00 PM - 04:30 PM</option>
+                      <option value="16:30">04:30 PM - 05:00 PM</option>
+                      <option value="17:00">05:00 PM - 05:30 PM</option>
+                      <option value="17:30">05:30 PM - 06:00 PM</option>
+                      <option value="18:00">06:00 PM - 06:30 PM</option>
+                      <option value="18:30">06:30 PM - 07:00 PM</option>
+                      <option value="19:00">07:00 PM - 07:30 PM</option>
+                      <option value="19:30">07:30 PM - 08:00 PM</option>
+                      <option value="20:00" selected>08:00 PM - 08:30 PM</option>
+                      <option value="20:30">08:30 PM - 09:00 PM</option>
+                      <option value="21:00">09:00 PM - 09:30 PM</option>
+                      <option value="21:30">09:30 PM - 10:00 PM</option>
+                      <option value="22:00">10:00 PM - 10:30 PM</option>
+                      <option value="22:30">10:30 PM - 11:00 PM</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Slot Booking Summary Banner -->
+              <div class="slot-summary-banner" id="first-slot-summary-banner" style="display: none;">
+                <i class="fa-solid fa-calendar-check banner-icon"></i>
+                <div class="banner-content">
+                  <span class="banner-title" id="first-slot-summary-title">Time Slot Booking Summary</span>
+                  <span class="banner-text" id="first-slot-summary-text">0 Bookings</span>
+                </div>
+              </div>
+
+              <h4 class="map-label">Seat Map</h4>
+              <div class="map-wrapper">
+                <div class="seat-grid" id="first-seat-grid">
+                  <div class="empty-placeholder">No seat data loaded</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- WRAPPER 2: PAST BOOKING HISTORY & ANALYTICS VIEW -->
+        <div id="past-bookings-view-wrapper" style="display: none;">
+          <!-- Section Title & Refresh -->
+          <div class="history-section-header">
+            <div class="history-title-wrap">
+              <h3 class="history-heading"><i class="fa-solid fa-clock-rotate-left"></i> Past Seat Booking History</h3>
+              <p class="history-subheading">View historical seat booking volume by date, filter by time slots, and monitor student attendance</p>
+            </div>
+            <button type="button" class="btn-history-refresh" id="btn-refresh-history">
+              <i class="fa-solid fa-arrows-rotate"></i>
+              <span>Refresh Records</span>
+            </button>
+          </div>
+
+          <!-- Date-wise Count Badges Carousel ("kontya date la kiti hotya") -->
+          <div class="date-summary-section">
+            <div class="date-summary-bar">
+              <div class="date-summary-label">
+                <i class="fa-regular fa-calendar-check"></i>
+                <span>Bookings per Date</span>
+                <span class="summary-hint">(Click any date card to filter table)</span>
+              </div>
+              <span class="active-date-tag" id="active-date-indicator">Showing: All Dates</span>
+            </div>
+            <div class="date-cards-scroll" id="history-date-chips">
+              <div class="date-chip skeleton">Loading dates...</div>
+            </div>
+          </div>
+
+          <!-- Comprehensive Filter Bar -->
+          <div class="history-filter-box">
+            <div class="history-filters-grid">
+              <!-- Date Filter -->
+              <div class="h-filter-item">
+                <label for="history-filter-date"><i class="fa-regular fa-calendar"></i> Specific Date</label>
+                <div class="h-input-box">
+                  <input type="date" id="history-filter-date" class="h-control-input">
+                </div>
+              </div>
+
+              <!-- Time Slot Filter ("time cha pn fiter de") -->
+              <div class="h-filter-item">
+                <label for="history-filter-time"><i class="fa-regular fa-clock"></i> Time Slot Filter</label>
+                <div class="h-input-box">
+                  <select id="history-filter-time" class="h-control-select">
+                    <option value="all">All Time Slots</option>
+                    <option value="morning">Morning (06:00 AM - 12:00 PM)</option>
+                    <option value="afternoon">Afternoon (12:00 PM - 05:00 PM)</option>
+                    <option value="evening">Evening / Night (05:00 PM - 12:00 AM)</option>
+                    <option value="08:00-09:00">08:00 AM - 09:00 AM</option>
+                    <option value="09:00-10:00">09:00 AM - 10:00 AM</option>
+                    <option value="10:00-11:00">10:00 AM - 11:00 AM</option>
+                    <option value="11:00-12:00">11:00 AM - 12:00 PM</option>
+                    <option value="12:00-13:00">12:00 PM - 01:00 PM</option>
+                    <option value="13:00-14:00">01:00 PM - 02:00 PM</option>
+                    <option value="14:00-15:00">02:00 PM - 03:00 PM</option>
+                    <option value="15:00-16:00">03:00 PM - 04:00 PM</option>
+                    <option value="16:00-17:00">04:00 PM - 05:00 PM</option>
+                    <option value="17:00-18:00">05:00 PM - 06:00 PM</option>
+                    <option value="18:00-19:00">06:00 PM - 07:00 PM</option>
+                    <option value="19:00-20:00">07:00 PM - 08:00 PM</option>
+                    <option value="20:00-21:00">08:00 PM - 09:00 PM</option>
+                    <option value="21:00-22:00">09:00 PM - 10:00 PM</option>
+                    <option value="22:00-23:00">10:00 PM - 11:00 PM</option>
+                    <option value="23:00-24:00">11:00 PM - 12:00 AM</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Floor Filter -->
+              <div class="h-filter-item">
+                <label for="history-filter-floor"><i class="fa-solid fa-stairs"></i> Floor</label>
+                <div class="h-input-box">
+                  <select id="history-filter-floor" class="h-control-select">
+                    <option value="all">All Floors</option>
+                    <option value="ground">Ground Floor</option>
+                    <option value="first">First Floor</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Status Filter -->
+              <div class="h-filter-item">
+                <label for="history-filter-status"><i class="fa-solid fa-tag"></i> Status</label>
+                <div class="h-input-box">
+                  <select id="history-filter-status" class="h-control-select">
+                    <option value="all">All Statuses</option>
+                    <option value="CHECKED_IN">Checked In</option>
+                    <option value="CHECKED_OUT">Checked Out</option>
+                    <option value="RESERVED">Reserved</option>
+                    <option value="EXPIRED">Expired</option>
+                    <option value="CANCELLED">Cancelled</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Search Input -->
+              <div class="h-filter-item search-item">
+                <label for="history-filter-search"><i class="fa-solid fa-magnifying-glass"></i> Search</label>
+                <div class="h-input-box">
+                  <input type="text" id="history-filter-search" class="h-control-input" placeholder="Student name, Roll number, Seat...">
+                </div>
+              </div>
+
+              <!-- Reset Action -->
+              <div class="h-filter-item btn-item">
+                <label>&nbsp;</label>
+                <button type="button" class="btn-h-reset" id="btn-history-reset" title="Reset all filters">
+                  <i class="fa-solid fa-rotate-left"></i>
+                  <span>Reset</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Filtered KPI Summary Chips -->
+          <div class="history-metrics-row">
+            <div class="h-kpi-card blue">
+              <div class="h-kpi-icon"><i class="fa-solid fa-ticket"></i></div>
+              <div class="h-kpi-details">
+                <span class="h-kpi-label">Filtered Bookings</span>
+                <h4 class="h-kpi-value" id="kpi-total-bookings">0</h4>
+              </div>
+            </div>
+
+            <div class="h-kpi-card green">
+              <div class="h-kpi-icon"><i class="fa-solid fa-circle-check"></i></div>
+              <div class="h-kpi-details">
+                <span class="h-kpi-label">Checked In / Present</span>
+                <h4 class="h-kpi-value" id="kpi-checked-in">0</h4>
+              </div>
+            </div>
+
+            <div class="h-kpi-card teal">
+              <div class="h-kpi-icon"><i class="fa-solid fa-right-from-bracket"></i></div>
+              <div class="h-kpi-details">
+                <span class="h-kpi-label">Checked Out / Completed</span>
+                <h4 class="h-kpi-value" id="kpi-checked-out">0</h4>
+              </div>
+            </div>
+
+            <div class="h-kpi-card red">
+              <div class="h-kpi-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+              <div class="h-kpi-details">
+                <span class="h-kpi-label">Expired / Cancelled</span>
+                <h4 class="h-kpi-value" id="kpi-expired">0</h4>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detailed Records Table -->
+          <div class="history-table-card">
+            <div class="h-table-header">
+              <div class="h-table-title">
+                <i class="fa-solid fa-table-list"></i>
+                <span>Reservation Records</span>
+                <span class="h-count-badge" id="table-records-badge">0 Records</span>
+              </div>
+            </div>
+
+            <div class="h-table-responsive">
+              <table class="history-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Time Slot</th>
+                    <th>Seat</th>
+                    <th>Floor</th>
+                    <th>Student Details</th>
+                    <th>Check-In</th>
+                    <th>Check-Out</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="history-table-body">
+                  <tr>
+                    <td colspan="9" class="h-loading-cell">Loading past bookings...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Action Bar & Legends -->
+        <section class="bottom-action-bar">
+          <div class="legend-group">
+            <div class="legend-item">
+              <span class="seat-pill available"></span>
+              <span>Available</span>
+            </div>
+            <div class="legend-item">
+              <span class="seat-pill reserved"></span>
+              <span>Reserved</span>
+            </div>
+            <div class="legend-item">
+              <span class="seat-pill occupied"></span>
+              <span>Occupied</span>
+            </div>
+          </div>
+
+          <button type="button" class="btn-refresh" id="btn-refresh-data">
+            <i class="fa-solid fa-arrows-rotate"></i>
+            <span>Refresh Seat Data</span>
+          </button>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="src/js/seat-reservation.js"></script>
+  <script src="src/js/admin-header.js"></script>
+</body>
+</html>

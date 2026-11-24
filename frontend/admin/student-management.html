@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Admin - Student Management</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="src/css/admin-sidebar.css">
+  <link rel="stylesheet" href="src/css/student-management.css">
+</head>
+<body>
+  <div class="layout-container">
+    <!-- Admin Sidebar / Mobile Dock placeholder -->
+    <div id="sidebar-placeholder"></div>
+
+    <div class="main-wrapper">
+      <!-- Topbar Header -->
+      <header class="topbar">
+        <div class="topbar-right">
+          <div class="admin-dropdown" id="admin-profile-toggle">
+            <div class="user-avatar-circle">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <span class="admin-name" id="admin-username">Admin</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Workspace -->
+      <main class="page-content">
+        <!-- Page Title & Breadcrumb -->
+        <section class="page-header">
+          <div class="title-with-icon">
+            <div class="header-icon-box">
+              <i class="fa-solid fa-user-group"></i>
+            </div>
+            <h2 class="page-title">Student Management</h2>
+          </div>
+          <nav class="breadcrumb-nav">
+            <a href="dashboard.html"><i class="fa-solid fa-house"></i> Dashboard</a>
+            <span class="separator">&gt;</span>
+            <span class="current">Student Management</span>
+          </nav>
+        </section>
+
+        <!-- Management Card Container -->
+        <div class="management-card">
+          <!-- Filter Controls Bar -->
+          <div class="toolbar">
+            <div class="search-input-box">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+              <input type="text" id="search-input" placeholder="Search by name, roll number, email or class...">
+            </div>
+
+            <div class="filter-actions">
+              <select id="class-filter" class="custom-select">
+                <option value="">All Classes</option>
+              </select>
+
+              <select id="gender-filter" class="custom-select">
+                <option value="">All Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+
+              <button type="button" class="btn-primary" id="add-student-btn">
+                <i class="fa-solid fa-plus"></i>
+                <span>Add Student</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Data Table Wrapper (Mobile Responsive with Horizontal Scroll) -->
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Sr. No.</th>
+                  <th>Roll Number</th>
+                  <th>Library Card No.</th>
+                  <th>Name</th>
+                  <th>Class</th>
+                  <th>Gender</th>
+                  <th>Email</th>
+                  <th>Contact</th>
+                  <th>Date of Birth</th>
+                  <th class="actions-col">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="student-table-body">
+                <!-- Dynamically populated via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Table Footer / Pagination -->
+          <div class="table-footer">
+            <span class="record-counter" id="record-count-text">Showing 0 to 0 of 0 students</span>
+            <div class="pagination-controls" id="pagination-controls">
+              <!-- Dynamically populated via JavaScript -->
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="src/js/student-management.js"></script>
+  <script src="src/js/admin-header.js"></script>
+</body>
+</html>

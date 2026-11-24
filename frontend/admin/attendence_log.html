@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Library Attendance System - Attendance Log</title>
+
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- FontAwesome Icons -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- Custom CSS -->
+<link rel="stylesheet" href="src/css/attendence_log.css">
+<link rel="stylesheet" href="src/css/admin-sidebar.css">
+    <!-- Top Navigation Header -->
+
+</head>
+
+<body class="bg-slate-50 text-slate-800 flex flex-col h-screen overflow-hidden">
+
+<!-- Top Navigation Header -->
+<header class="bg-white border-b border-slate-200 px-8 py-3.5 flex justify-end items-center shrink-0">
+    <div class="admin-header-actions"></div>
+</header>
+
+
+<!-- Main Content -->
+<main class="flex-1 flex flex-col overflow-y-auto p-8">
+
+    <div class="w-full space-y-6">
+
+        <!-- Page Title -->
+        <div>
+
+            <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+                Attendance Log
+            </h2>
+
+            <p class="text-xs text-slate-500 mt-1">
+                Browse check-ins by day, week or month.
+            </p>
+
+        </div>
+
+
+        <!-- Navigation Tabs -->
+        <div class="flex items-center space-x-2 border-b border-slate-200 pb-4 text-xs font-medium">
+
+            <!-- Overview -->
+            <a href="attendence_overview.html"
+               class="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:bg-slate-200/60 rounded-xl transition">
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>Overview</span>
+
+            </a>
+
+
+            <!-- Attendance Log -->
+            <a href="attendence_log.html"
+               class="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-xl shadow-sm transition">
+
+                <i class="fa-solid fa-bars-staggered"></i>
+
+                <span>Attendance log</span>
+
+            </a>
+
+
+            <!-- Barcode Scanner -->
+            <a href="barcode-scanner.html"
+               class="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:bg-slate-200/60 rounded-xl transition">
+
+                <i class="fa-solid fa-barcode"></i>
+
+                <span>Barcode Scanner</span>
+
+            </a>
+
+
+            <!-- Students -->
+            <a href="student.html"
+               class="flex items-center space-x-2 px-4 py-2 text-slate-600 hover:bg-slate-200/60 rounded-xl transition">
+
+                <i class="fa-solid fa-user-group"></i>
+
+                <span>Students</span>
+
+            </a>
+
+
+        </div>
+
+
+        <!-- Filters + Search -->
+        <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+
+            <!-- Day / Week / Month -->
+            <div class="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl">
+
+                <button
+                    class="filter-btn px-4 py-1.5 text-xs font-semibold rounded-lg bg-blue-600 text-white shadow-sm transition"
+                    data-filter="day">
+                    Day
+                </button>
+
+                <button
+                    class="filter-btn px-4 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition"
+                    data-filter="week">
+                    Week
+                </button>
+
+                <button
+                    class="filter-btn px-4 py-1.5 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900 transition"
+                    data-filter="month">
+                    Month
+                </button>
+
+            </div>
+
+
+            <!-- Search -->
+            <div class="relative w-72">
+
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                </span>
+
+                <input
+                    type="text"
+                    id="search-input"
+                    placeholder="Search student name or roll no"
+                    class="w-full pl-10 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-slate-700 placeholder-slate-400 transition"
+                >
+
+            </div>
+
+        </div>
+
+
+        <!-- Attendance Table -->
+        <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+
+            <div class="overflow-x-auto">
+
+                <table class="w-full text-left border-collapse text-xs">
+
+                    <!-- Table Header -->
+                    <thead>
+
+                        <tr class="text-slate-400 border-b border-slate-100 bg-slate-50/50 text-[11px]">
+
+                            <th class="py-3.5 px-6 font-medium">
+                                STUDENT
+                            </th>
+
+                            <th class="py-3.5 px-6 font-medium">
+                                ROLL
+                            </th>
+
+                            <th class="py-3.5 px-6 font-medium">
+                                DATE
+                            </th>
+
+                            <th class="py-3.5 px-6 font-medium">
+                                BOOKED SEAT
+                            </th>
+
+                            <th class="py-3.5 px-6 font-medium">
+                                CHECK-IN
+                            </th>
+
+                            <th class="py-3.5 px-6 font-medium">
+                                CHECK-OUT
+                            </th>
+
+                            <th class="py-3.5 px-6 font-medium">
+                                STATUS
+                            </th>
+
+                            <th class="py-3.5 px-6 font-medium">
+                                METHOD
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <!-- Dynamic Attendance Data -->
+                    <tbody
+                        id="attendance-table-body"
+                        class="divide-y divide-slate-100">
+
+                        <tr>
+
+                            <td
+                                colspan="8"
+                                class="py-8 text-center text-slate-400">
+
+                                Loading attendance logs from server...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- Custom JavaScript -->
+<script src="src/js/attendence_log.js"></script>
+<script src="src/js/shared-sidebar-loader.js"></script>
+<script src="src/js/admin-header.js"></script>
+
+</body>
+</html>

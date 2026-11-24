@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Smart Library - Student Check-In</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="src/css/sidebar.css">
+  <link rel="stylesheet" href="src/css/check-in.css">
+</head>
+<body>
+  <div class="layout-container">
+    <div id="sidebar-placeholder">
+      <aside class="sidebar">
+        <!-- Desktop Top Header -->
+        <div class="sidebar-top">
+          <div class="panel-header">
+            <div class="user-avatar-icon">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <span class="panel-title">Student Panel</span>
+          </div>
+
+          <!-- 6 Exact Navigation Options -->
+          <nav class="nav-menu">
+            <a href="student_dashboard.html" class="nav-item" data-page="dashboard" title="Dashboard">
+              <i class="fa-solid fa-house nav-icon"></i>
+              <span class="nav-text desktop-name">Dashboard</span>
+              <span class="nav-text mobile-name">HOME</span>
+            </a>
+
+            <a href="search-book.html" class="nav-item" data-page="search-book" title="Search Book">
+              <i class="fa-solid fa-magnifying-glass nav-icon"></i>
+              <span class="nav-text desktop-name">Search Book</span>
+              <span class="nav-text mobile-name">SEARCH</span>
+            </a>
+
+            <a href="check-in.html" class="nav-item active" data-page="attendance" title="Attendance">
+              <i class="fa-regular fa-calendar-days nav-icon"></i>
+              <span class="nav-text desktop-name">Attendance</span>
+              <span class="nav-text mobile-name">ATTEND</span>
+            </a>
+
+            <a href="seat-reservation.html" class="nav-item" data-page="seat-reservation" title="Seat Reservation">
+              <i class="fa-solid fa-chair nav-icon"></i>
+              <span class="nav-text desktop-name">Seat Reservation</span>
+              <span class="nav-text mobile-name">SEATS</span>
+            </a>
+
+            <a href="book-issue-return.html" class="nav-item" data-page="book-issue-return" title="Book Issue / Return">
+              <i class="fa-solid fa-file-invoice nav-icon"></i>
+              <span class="nav-text desktop-name">Book Issue / Return</span>
+              <span class="nav-text mobile-name">ISSUE</span>
+            </a>
+
+            <a href="book-recommendation.html" class="nav-item" data-page="book-recommendation" title="Book Recommendation">
+              <i class="fa-solid fa-book-bookmark nav-icon"></i>
+              <span class="nav-text desktop-name">Book Recommendation</span>
+              <span class="nav-text mobile-name">RECOMMEND</span>
+            </a>
+
+            <a href="reports.html" class="nav-item" data-page="reports" title="My Reports">
+              <i class="fa-solid fa-chart-column nav-icon"></i>
+              <span class="nav-text desktop-name">My Reports</span>
+              <span class="nav-text mobile-name">REPORTS</span>
+            </a>
+          </nav>
+        </div>
+
+        <!-- Desktop Bottom Logout -->
+        <div class="sidebar-footer">
+          <div class="divider"></div>
+          <a href="../login.html" class="nav-item logout-btn" id="logout-btn">
+            <i class="fa-solid fa-arrow-right-from-bracket nav-icon"></i>
+            <span class="nav-text desktop-name">Logout</span>
+          </a>
+        </div>
+      </aside>
+    </div>
+
+    <div class="main-wrapper">
+              <header class="topbar">
+          <div class="header-right">
+            <div class="notification-btn" id="notif-btn" title="Notifications" onclick="window.location.href='notifications.html'">
+              <i class="fa-regular fa-bell"></i>
+              <span class="notification-badge" id="notif-badge" style="display: none;">0</span>
+            </div>
+
+            <a class="user-profile" href="profile.html" title="View Profile">
+              <div class="user-avatar-circle" id="avatar-fallback">ST</div>
+              <img src="" alt="" id="student-avatar" class="avatar-img" style="display:none;" />
+              <span class="user-name" id="student-name">Student</span>
+              <span id="student-role" hidden>Student</span>
+              <i class="fa-solid fa-chevron-down profile-chevron"></i>
+            </a>
+          </div>
+        </header>
+
+      <main class="page-content">
+        <div class="checkin-container">
+          
+          <!-- Top Header Row -->
+          <div class="content-header-row">
+            <div class="header-title-wrap">
+              <div class="header-blue-bar"></div>
+              <div>
+                <h1 class="page-main-title">Student Check-In & Check-Out</h1>
+                <p class="page-main-subtitle">Scan your College ID Barcode to Check-In, and scan again to Check-Out</p>
+              </div>
+            </div>
+
+            <!-- Barcode Attendance Mode Indicator -->
+            <div class="simulator-bar" style="border-color: #93c5fd; background: #eff6ff;">
+              <span class="gps-mode-label" style="color: #1d4ed8;"><i class="fa-solid fa-barcode"></i> Method:</span>
+              <span id="barcode-mode-label" style="font-size: 0.76rem; font-weight: 700; color: #1e40af;">College ID Barcode</span>
+            </div>
+          </div>
+
+          <!-- PRIMARY SOLID ROYAL BLUE CARD (Student Profile & Booked Seat Showcase) -->
+          <div class="geofence-card" id="geofence-card">
+            
+            <!-- Student Header Banner inside Blue Card -->
+            <div class="student-profile-header-card" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.18); padding-bottom: 16px;">
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <div class="student-card-avatar" id="card-student-avatar" style="width: 50px; height: 50px; border-radius: 50%; background: #ffffff; color: #1d4ed8; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; font-weight: 800; box-shadow: 0 4px 12px rgba(0,0,0,0.15); flex-shrink: 0;">
+                  --
+                </div>
+                <div>
+                  <h2 id="card-student-name" style="font-size: 1.35rem; font-weight: 800; color: #ffffff; margin: 0; line-height: 1.2;">Student</h2>
+                  <div style="font-size: 0.82rem; color: rgba(255,255,255,0.85); margin-top: 3px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <span><i class="fa-solid fa-hashtag"></i> Roll: <strong id="metric-roll-no" style="font-family: monospace; font-size: 0.95rem; color: #ffffff;">--</strong></span>
+                    <span style="opacity: 0.6;">•</span>
+                    <span id="card-student-dept"><i class="fa-solid fa-graduation-cap"></i> Student Profile</span>
+                  </div>
+                </div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="status-texts" style="text-align: right;">
+                  <span class="badge-headline" id="geo-card-headline" style="font-size: 0.7rem; opacity: 0.85;">SESSION STATUS:</span>
+                  <div class="sub-pill" id="geo-status-pill" style="font-size: 0.88rem; font-weight: 800; padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,0.22); border: 1px solid rgba(255,255,255,0.3); display: inline-block;">
+                    NO SEAT BOOKED
+                  </div>
+                </div>
+                <div class="status-check-circle" id="geo-shield-icon" style="flex-shrink: 0; background-color: #64748b;">
+                  <i class="fa-solid fa-info"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- PROMINENT BOOKED SEAT SHOWCASE BOX -->
+            <div id="seat-spotlight-box" style="background: rgba(255, 255, 255, 0.12); border: 1.5px solid rgba(255, 255, 255, 0.28); backdrop-filter: blur(8px); border-radius: 16px; padding: 18px 20px; margin: 18px 0; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+              
+              <!-- State A: Active Booked Seat Details (Visible ONLY when seat is booked) -->
+              <div id="seat-active-details" style="display: none;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                  <span style="font-size: 0.72rem; font-weight: 700; letter-spacing: 0.8px; color: rgba(255,255,255,0.85); text-transform: uppercase;">
+                    <i class="fa-solid fa-chair" style="color: #60a5fa; margin-right: 4px;"></i> ASSIGNED LIBRARY SEAT
+                  </span>
+                  <span class="timer-badge-slot" id="slot-timer-badge" style="font-size: 0.82rem; padding: 2px 8px; border-radius: 6px; background: rgba(0,0,0,0.18);">
+                    <span id="slot-time">Active Slot</span>
+                  </span>
+                </div>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                  <div style="display: flex; align-items: center; gap: 12px;">
+                    <span id="seat-label" style="font-size: 1.85rem; font-weight: 900; color: #ffffff; letter-spacing: 0.5px; background: rgba(255, 255, 255, 0.24); padding: 4px 16px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.4); text-shadow: 0 2px 4px rgba(0,0,0,0.15);">
+                      --
+                    </span>
+                    <div>
+                      <div id="floor-name" style="font-size: 1.05rem; font-weight: 800; color: #e0f2fe;">--</div>
+                      <div style="font-size: 0.78rem; color: rgba(255,255,255,0.75);">General Reading Hall</div>
+                    </div>
+                  </div>
+
+                  <div id="seat-session-indicator" style="background: rgba(16, 185, 129, 0.3); border: 1px solid rgba(52, 211, 153, 0.6); padding: 6px 14px; border-radius: 999px; font-size: 0.82rem; font-weight: 700; color: #ecfdf5; display: flex; align-items: center; gap: 6px;">
+                    <i class="fa-solid fa-circle" style="font-size: 7px; color: #34d399;"></i>
+                    <span id="seat-session-text">Reserved • Ready for Check-In</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- State B: No Seat Booked Notice (Visible when currentReservation is null) -->
+              <div id="seat-none-details" style="display: block; text-align: center; padding: 10px 0;">
+                <div style="font-size: 2.2rem; color: rgba(255,255,255,0.7); margin-bottom: 6px;">
+                  <i class="fa-solid fa-chair"></i>
+                </div>
+                <div style="font-size: 1.18rem; font-weight: 800; color: #ffffff;">No Seat Booked Right Now</div>
+                <p style="font-size: 0.85rem; color: rgba(255,255,255,0.85); margin: 6px auto 14px auto; max-width: 440px;">
+                  Please book your preferred desk from the Seat Map before check-in is enabled.
+                </p>
+                <a href="book-seat.html" class="btn-book-seat-link" style="display: inline-flex; align-items: center; gap: 8px; background: #ffffff; color: #1d4ed8; padding: 9px 20px; border-radius: 10px; font-weight: 700; font-size: 0.88rem; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: transform 0.2s;">
+                  <i class="fa-solid fa-chair"></i> Book Seat from Seat Map <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+
+            </div>
+
+            <!-- Card Bottom Meta Info -->
+            <div class="card-info-row" style="border-top: 1px solid rgba(255, 255, 255, 0.16); padding-top: 12px; margin-top: 4px;">
+              <div class="row-left">
+                <div class="row-icon"><i class="fa-solid fa-id-card-clip"></i></div>
+                <span class="row-label" style="font-size: 0.78rem;">VERIFICATION METHOD:</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="signal-status-pill" style="background: rgba(255,255,255,0.22); color: #ffffff; font-weight: 700; font-size: 0.78rem; padding: 4px 10px; border-radius: 6px;">
+                  <i class="fa-solid fa-id-card"></i> College ID Verified • Entrance Scanner Ready
+                </span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Radar wrapper kept hidden for code compatibility -->
+          <div class="radar-wrapper" id="radar-wrapper" style="display: none;"></div>
+
+
+
+          <!-- CANCEL RESERVATION BUTTON (When student has not checked in yet) -->
+          <button type="button" class="btn-cancel-reservation" id="btn-cancel-reservation" style="display: none;">
+            <i class="fa-solid fa-ban"></i>
+            <span>Cancel Seat Reservation</span>
+          </button>
+
+          <!-- Prompt when No Booking exists -->
+          <div id="no-booking-box" class="no-booking-prompt" style="display: none;">
+            <p><i class="fa-solid fa-chair" style="color: #3b82f6;"></i> No seat currently booked. You can book a seat on the map or scan your barcode at the entrance for general library attendance.</p>
+            <a href="book-seat.html">Go to Seat Map to Book a Seat <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+  <script src="src/js/api-config.js"></script>
+  <script src="src/js/shared-sidebar-loader.js"></script>
+  <script src="src/js/check-in.js"></script>
+  <script src="src/js/student-header.js"></script>
+</body>
+</html>

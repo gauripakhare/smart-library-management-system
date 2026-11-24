@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Library — Student Dashboard</title>
+  
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Shared Sidebar & Student Dashboard Styles -->
+  <link rel="stylesheet" href="src/css/sidebar.css">
+  <link rel="stylesheet" href="src/css/student_dashboard.css">
+</head>
+<body>
+
+<div class="layout-container">
+
+  <!-- Desktop Sidebar & Mobile Bottom Dock Spacer -->
+  <div id="sidebar-placeholder"></div>
+
+  <!-- Main Dashboard Workspace -->
+  <div class="main-wrapper">
+
+    <!-- Sticky Top Navigation Bar -->
+    <header class="topbar">
+      <div class="header-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="globalBookSearch" placeholder="Search books by title, author, or ISBN... (Press Enter)">
+      </div>
+
+      <!-- Live Real-Time Clock Badge -->
+      <div class="header-clock" id="headerLiveClock">
+        <i class="fa-regular fa-clock"></i>
+        <span id="liveClockTime">--:--:--</span>
+        <span class="clock-date" id="liveClockDate">Thu, 24 Sep</span>
+      </div>
+
+      <div class="header-right">
+        <!-- Notification Bell with Live Unread Counter -->
+        <a href="notifications.html" class="notif-btn" id="notifBtn" title="Notifications">
+          <i class="fa-regular fa-bell"></i>
+          <span class="notif-badge" id="notifBadge">0</span>
+        </a>
+
+        <!-- Student Profile Pill Link -->
+        <a href="profile.html" class="user-profile-chip" id="profileChip" title="View Profile">
+          <div class="chip-avatar" id="avatarBox">GP</div>
+          <div class="chip-info">
+            <span class="chip-name" id="headerStudentName">Student</span>
+            <span class="chip-role" id="headerStudentRole">4R • Student</span>
+          </div>
+          <i class="fa-solid fa-chevron-right" style="font-size: 10px; color: var(--text-light); margin-left: 4px;"></i>
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Workspace Content -->
+    <main class="dashboard-content">
+
+      <!-- 1. Personalized Welcome Hero Section -->
+      <section class="welcome-hero">
+        <div class="welcome-info">
+          <h1>Welcome back, <span id="heroStudentName">Student</span>! 👋</h1>
+          <div class="welcome-sub">
+            <div class="welcome-pills-row">
+              <span class="welcome-pill"><i class="fa-solid fa-graduation-cap"></i> <span id="heroStudentClass">4R • Computer Science & Engineering</span></span>
+              <span class="welcome-pill"><i class="fa-solid fa-id-card"></i> Card: <span id="heroCardNo">23R005</span></span>
+              <span class="welcome-pill" id="heroGeofence"><i class="fa-solid fa-location-dot"></i> Main Library • Geofence Active (180m)</span>
+            </div>
+            <div class="welcome-pills-row" style="margin-top: 6px;">
+              <span class="welcome-pill pill-schedule" id="heroHours"><i class="fa-regular fa-clock"></i> <span id="heroHoursText">Hours: 08:00 AM - 09:00 PM</span></span>
+              <span class="welcome-pill pill-status-closed" id="heroStatusPill"><i class="fa-solid fa-circle" style="font-size: 7px;"></i> <span id="heroStatusText">Closed Now</span></span>
+              <span class="welcome-pill pill-attendance-none" id="heroAttendancePill"><i class="fa-solid fa-circle-check"></i> <span id="heroAttendanceText">Not Checked In</span></span>
+            </div>
+          </div>
+        </div>
+        <div class="welcome-actions">
+          <a href="book-seat.html" class="btn-hero btn-hero-primary">
+            <i class="fa-solid fa-chair"></i> Book Seat
+          </a>
+          <a href="search-book.html" class="btn-hero btn-hero-secondary">
+            <i class="fa-solid fa-magnifying-glass"></i> Search Books
+          </a>
+        </div>
+      </section>
+
+      <!-- 2. Real-Time Student Metrics Cards -->
+      <section class="metrics-row">
+        <!-- Metric 1: Seat Reservation Status -->
+        <div class="stat-card">
+          <div class="stat-icon blue">
+            <i class="fa-solid fa-chair"></i>
+          </div>
+          <div class="stat-details">
+            <span class="stat-label">Active Seat Reservation</span>
+            <span class="stat-val" id="metricSeatStatus">No Booking</span>
+            <span class="stat-sub" id="metricSeatSub"><i class="fa-regular fa-clock"></i> Ready to reserve</span>
+          </div>
+        </div>
+
+        <!-- Metric 2: Books Currently Borrowed -->
+        <div class="stat-card">
+          <div class="stat-icon teal">
+            <i class="fa-solid fa-book-bookmark"></i>
+          </div>
+          <div class="stat-details">
+            <span class="stat-label">Books Borrowed</span>
+            <span class="stat-val" id="metricBooksIssued">0</span>
+            <span class="stat-sub" id="metricBooksSub">Active library loans</span>
+          </div>
+        </div>
+
+        <!-- Metric 3: Library Seat Availability -->
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <i class="fa-solid fa-users-viewfinder"></i>
+          </div>
+          <div class="stat-details">
+            <span class="stat-label">Available Library Seats</span>
+            <span class="stat-val" id="metricAvailableSeats">--</span>
+            <span class="stat-sub" id="metricAvailableSub">Real-time inventory</span>
+          </div>
+        </div>
+
+        <!-- Metric 4: Library Visits & Attendance -->
+        <div class="stat-card">
+          <div class="stat-icon purple">
+            <i class="fa-regular fa-circle-check"></i>
+          </div>
+          <div class="stat-details">
+            <span class="stat-label">Attendance & Visits</span>
+            <span class="stat-val" id="metricVisits">0</span>
+            <span class="stat-sub"><i class="fa-solid fa-satellite-dish"></i> Geofence Verified</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Active Seat Reservation & Check-in / Check-out Spotlight (Live Component) -->
+      <section class="active-spotlight no-booking" id="activeSpotlightSection">
+        <div class="spotlight-header">
+          <div class="spotlight-title">
+            <i class="fa-solid fa-chair" style="color: #2563eb;"></i>
+            <span>Study Desk & Attendance Session</span>
+          </div>
+          <span class="status-tag none">
+            <i class="fa-regular fa-circle"></i> Ready to Reserve
+          </span>
+        </div>
+        <div class="spotlight-grid" style="grid-template-columns: 1fr auto;">
+          <div>
+            <p style="font-size: 14px; color: #334155; margin-bottom: 4px; font-weight: 500;">
+              You do not have an active seat reserved right now. Ground and 1st floor reading halls are ready for booking.
+            </p>
+            <span style="font-size: 12px; color: #64748b;">
+              <i class="fa-solid fa-circle-check" style="color: #10b981; margin-right: 4px;"></i> Reserve your desk or punch attendance when you arrive at the library.
+            </span>
+          </div>
+          <div class="spotlight-actions">
+            <a href="book-seat.html" class="btn-spotlight btn-spotlight-primary">
+              <i class="fa-solid fa-chair"></i> Book a Seat Now
+            </a>
+            <a href="check-in.html" class="btn-spotlight btn-spotlight-outline">
+              <i class="fa-regular fa-calendar-check"></i> Library Check-In
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Complete Student Modules Hub (Direct access to all 8 modules) -->
+      <section class="section-head">
+        <h2>
+          <i class="fa-solid fa-cubes-stacked" style="color: var(--primary);"></i>
+          <span>Library Modules & Services</span>
+        </h2>
+        <span class="section-sub">Quick access to all student portals and services</span>
+      </section>
+
+      <section class="modules-grid">
+        <!-- Module 1: Book Seat -->
+        <a href="book-seat.html" class="module-card m-blue">
+          <div class="module-icon-wrap">
+            <i class="fa-solid fa-chair"></i>
+          </div>
+          <div class="module-title">
+            <span>Book Seat</span>
+            <i class="fa-solid fa-arrow-right module-arrow"></i>
+          </div>
+          <p class="module-desc">Interactive visual seat map for Ground & 1st floor with instant real-time slot booking.</p>
+        </a>
+
+        <!-- Module 2: Search Books -->
+        <a href="search-book.html" class="module-card m-teal">
+          <div class="module-icon-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <div class="module-title">
+            <span>Search Books</span>
+            <i class="fa-solid fa-arrow-right module-arrow"></i>
+          </div>
+          <p class="module-desc">Browse 1,200+ library catalog books, check copy availability and find shelf rack numbers.</p>
+        </a>
+
+        <!-- Module 3: Attendance & Check-in -->
+        <a href="check-in.html" class="module-card m-green">
+          <div class="module-icon-wrap">
+            <i class="fa-regular fa-calendar-check"></i>
+          </div>
+          <div class="module-title">
+            <span>Attendance & Check-in</span>
+            <i class="fa-solid fa-arrow-right module-arrow"></i>
+          </div>
+          <p class="module-desc">Geofence automatic location validation, GPS live distance, and attendance punching.</p>
+        </a>
+
+        <!-- Module 4: Seat Reservation Overview -->
+        <a href="seat-reservation.html" class="module-card m-purple">
+          <div class="module-icon-wrap">
+            <i class="fa-solid fa-calendar-days"></i>
+          </div>
+          <div class="module-title">
+            <span>Seat Reservation</span>
+            <i class="fa-solid fa-arrow-right module-arrow"></i>
+          </div>
+          <p class="module-desc">View your upcoming bookings, live digital clock, gender schedules and cancellation.</p>
+        </a>
+
+        <!-- Module 5: Book Issue & Return -->
+        <a href="book-issue-return.html" class="module-card m-orange">
+          <div class="module-icon-wrap">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+          <div class="module-title">
+            <span>Book Issue / Return</span>
+            <i class="fa-solid fa-arrow-right module-arrow"></i>
+          </div>
+          <p class="module-desc">Manage borrowed library books, view due dates, request book renewals and check fine logs.</p>
+        </a>
+
+        <!-- Module 6: Book Recommendation -->
+        <a href="book-recommendation.html" class="module-card m-pink">
+          <div class="module-icon-wrap">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+          <div class="module-title">
+            <span>Book Recommendation</span>
+            <i class="fa-solid fa-arrow-right module-arrow"></i>
+          </div>
+          <p class="module-desc">Personalized reading suggestions curated for your academic branch, semester and syllabus.</p>
+        </a>
+
+        <!-- Module 7: Notifications -->
+        <a href="notifications.html" class="module-card m-amber">
+          <div class="module-icon-wrap">
+            <i class="fa-regular fa-bell"></i>
+          </div>
+          <div class="module-title">
+            <span>Notifications</span>
+            <i class="fa-solid fa-arrow-right module-arrow"></i>
+          </div>
+          <p class="module-desc">Real-time alerts for seat reservation confirmations, due date reminders and library news.</p>
+        </a>
+
+        <!-- Module 8: Student Profile -->
+        <a href="profile.html" class="module-card m-indigo">
+          <div class="module-icon-wrap">
+            <i class="fa-solid fa-id-card"></i>
+          </div>
+          <div class="module-title">
+            <span>Student Profile</span>
+            <i class="fa-solid fa-arrow-right module-arrow"></i>
+          </div>
+          <p class="module-desc">Digital library card, registered contact details, department records and account settings.</p>
+        </a>
+      </section>
+
+      <!-- 5. Two Columns Detailed Operational Data -->
+      <div class="dashboard-columns">
+
+        <!-- Column 1: Borrowed Books & Recommended Reads -->
+        <div class="column-left">
+          
+          <!-- Card: Borrowed Books from Database -->
+          <div class="column-card">
+            <div class="card-top">
+              <h3><i class="fa-solid fa-book-bookmark"></i> Currently Borrowed Books</h3>
+              <a href="book-issue-return.html" class="see-all">Manage Loans & Fines ›</a>
+            </div>
+            <div id="issuedBooksContainer">
+              <!-- Dynamically populated by student_dashboard.js -->
+              <div class="book-item skeleton" style="height: 60px;"></div>
+            </div>
+          </div>
+
+          <!-- Card: Recommended Library Catalog Books -->
+          <div class="column-card">
+            <div class="card-top">
+              <h3><i class="fa-solid fa-fire"></i> Recommended for Your Branch</h3>
+              <a href="search-book.html" class="see-all">Search Full Catalog ›</a>
+            </div>
+            <div class="rec-books-grid" id="recBooksGrid">
+              <!-- Dynamically populated by student_dashboard.js -->
+              <div class="rec-book-card skeleton" style="height: 64px;"></div>
+              <div class="rec-book-card skeleton" style="height: 64px;"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Column 2: Recent Attendance History & Library Notice -->
+        <div class="column-right">
+          
+          <!-- Card: Attendance History -->
+          <div class="column-card">
+            <div class="card-top">
+              <h3><i class="fa-solid fa-clock-rotate-left"></i> Recent Library Check-ins</h3>
+              <a href="check-in.html" class="see-all">View All Activity ›</a>
+            </div>
+            <div class="att-list" id="attendanceLogsList">
+              <!-- Dynamically populated by student_dashboard.js -->
+              <div class="att-item skeleton" style="height: 48px;"></div>
+              <div class="att-item skeleton" style="height: 48px;"></div>
+            </div>
+
+            <!-- Library Operational Guidelines Notice -->
+            <div class="notice-box">
+              <i class="fa-solid fa-clock notice-icon"></i>
+              <div class="notice-text">
+                <h4>Library Operational Timings & Rules</h4>
+                <p style="margin-top: 4px; line-height: 1.5;">
+                  • <strong>Male (Mon–Sat):</strong> 08:00 AM – 12:00 AM (Midnight)<br>
+                  • <strong>Female (Mon–Sat):</strong> 08:00 AM – 09:00 PM<br>
+                  • <strong>Sunday (Everyone):</strong> 11:00 AM – 05:00 PM<br>
+                  <span style="display: block; margin-top: 4px; color: #166534; font-size: 11px;">
+                    <i class="fa-solid fa-circle-check"></i> Please punch in within 15 minutes of your booked slot time to verify attendance.
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</div>
+
+<!-- Scripts -->
+<script src="src/js/api-config.js"></script>
+<script src="src/js/shared-sidebar-loader.js"></script>
+<script src="src/js/student-header.js"></script>
+<script src="src/js/student_dashboard.js"></script>
+</body>
+</html>

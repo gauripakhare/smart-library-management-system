@@ -1,0 +1,48 @@
+# Environment & Secret Credentials (NEVER COMMIT)
+.env
+*.env
+backend/.env
+.env.local
+.env.*
+!.env.example
+!*.env.example
+!backend/.env.example
+
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Local Databases & Logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Large Binaries / Downloads
+*.exe
+cloudflared.exe
+backend/cloudflared.exe
+*.zip
+*.tar.gz
+
+# IDE & OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Admin Panel</title>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Link to CSS in sibling directory -->
+  <link rel="stylesheet" href="src/css/admin-sidebar.css">
+</head>
+<body>
+
+  <!-- Admin Navigation Component -->
+  <aside class="sidebar" id="admin-sidebar">
+    <!-- Desktop Header -->
+    <div class="sidebar-top">
+      <div class="panel-header">
+        <div class="user-avatar-icon">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <span class="panel-title">Admin Panel</span>
+      </div>
+
+      <!-- 8 Admin Navigation Items -->
+      <nav class="nav-menu">
+        <a href="dashboard.html" class="nav-item" data-page="dashboard" title="Dashboard">
+          <i class="fa-solid fa-house nav-icon"></i>
+          <span class="nav-text desktop-name">Dashboard</span>
+          <span class="nav-text mobile-name">HOME</span>
+        </a>
+
+        <a href="search-books.html" class="nav-item" data-page="book-search" title="Book Search">
+          <i class="fa-solid fa-magnifying-glass nav-icon"></i>
+          <span class="nav-text desktop-name">Book Search</span>
+          <span class="nav-text mobile-name">SEARCH</span>
+        </a>
+
+        <a href="student-management.html" class="nav-item active" data-page="student-management" title="Student Management">
+          <i class="fa-solid fa-user-group nav-icon"></i>
+          <span class="nav-text desktop-name">Student Management</span>
+          <span class="nav-text mobile-name">STUDENTS</span>
+        </a>
+
+        <a href="book-management.html" class="nav-item" data-page="book-management" title="Book Management">
+          <i class="fa-solid fa-book-open nav-icon"></i>
+          <span class="nav-text desktop-name">Book Management</span>
+          <span class="nav-text mobile-name">BOOKS</span>
+        </a>
+
+        <a href="book-issue-return.html" class="nav-item" data-page="book-issue-return" title="Book Issue / Return">
+          <i class="fa-solid fa-arrow-right-arrow-left nav-icon"></i>
+          <span class="nav-text desktop-name">Book Issue / Return</span>
+          <span class="nav-text mobile-name">ISSUE</span>
+        </a>
+
+        <a href="attendence_overview.html" class="nav-item" data-page="attendence_overview" title="Attendance">
+          <i class="fa-regular fa-calendar-days nav-icon"></i>
+          <span class="nav-text desktop-name">Attendance</span>
+          <span class="nav-text mobile-name">ATTEND</span>
+        </a>
+
+        <a href="barcode-scanner.html" class="nav-item" data-page="barcode-scanner" title="Barcode Scanner Kiosk">
+          <i class="fa-solid fa-barcode nav-icon"></i>
+          <span class="nav-text desktop-name">Barcode Scanner</span>
+          <span class="nav-text mobile-name">SCANNER</span>
+        </a>
+
+        <a href="seat-reservation.html" class="nav-item" data-page="seat-reservation" title="Seat Reservation">
+          <i class="fa-solid fa-chair nav-icon"></i>
+          <span class="nav-text desktop-name">Seat Reservation</span>
+          <span class="nav-text mobile-name">SEATS</span>
+        </a>
+
+        <a href="reports.html" class="nav-item" data-page="reports" title="Report">
+          <i class="fa-solid fa-chart-simple nav-icon"></i>
+          <span class="nav-text desktop-name">Report</span>
+          <span class="nav-text mobile-name">REPORT</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Desktop Bottom Logout -->
+    <div class="sidebar-footer">
+      <div class="divider"></div>
+      <a href="../login.html" class="nav-item logout-btn" id="logout-btn">
+        <i class="fa-solid fa-arrow-right-from-bracket nav-icon"></i>
+        <span class="nav-text desktop-name">Logout</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Link to JS in sibling directory -->
+  <script src="src/js/admin-sidebar.js"></script>
+</body>
+</html>

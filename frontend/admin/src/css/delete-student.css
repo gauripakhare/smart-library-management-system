@@ -1,0 +1,484 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: #f7f9fc;
+  color: #1a2238;
+  min-height: 100vh;
+}
+
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: #f7f9fc;
+}
+
+/* =======================================================
+   TOPBAR
+======================================================= */
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 14px 36px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e9f2;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.admin-dropdown {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.admin-dropdown:hover {
+  background-color: #f1f5f9;
+}
+
+.user-avatar-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #3D539F;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.admin-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.dropdown-arrow {
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
+/* =======================================================
+   PAGE HEADER & BREADCRUMB
+======================================================= */
+.page-content {
+  padding: 24px 36px 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.title-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.back-link-icon {
+  font-size: 1.25rem;
+  color: #0f172a;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.back-link-icon:hover {
+  color: #3D539F;
+  transform: translateX(-3px);
+}
+
+.page-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.breadcrumb-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #64748b;
+}
+
+.breadcrumb-nav a {
+  text-decoration: none;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
+}
+
+.breadcrumb-nav a:hover {
+  color: #3D539F;
+}
+
+.breadcrumb-nav .separator {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.breadcrumb-nav .current {
+  color: #3D539F;
+  font-weight: 600;
+}
+
+/* =======================================================
+   DELETE CANVAS & MAIN CARD
+======================================================= */
+.delete-canvas {
+  background: #ffffff;
+  border: 1px solid #eef2f6;
+  border-radius: 16px;
+  padding: 48px 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 480px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.delete-card {
+  width: 100%;
+  max-width: 520px;
+  background-color: #fdf2f2;
+  border: 1px solid #fecaca;
+  border-radius: 18px;
+  padding: 36px 32px 30px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.05);
+}
+
+.delete-icon-badge {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background-color: #dc2626;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.25);
+}
+
+.delete-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.delete-subtitle {
+  font-size: 0.9rem;
+  color: #475569;
+  margin-bottom: 24px;
+}
+
+/* Summary Box */
+.student-summary-box {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 20px;
+  background-color: rgba(255, 255, 255, 0.65);
+  border-radius: 12px;
+  border: 1px solid #fee2e2;
+  margin-bottom: 28px;
+}
+
+.summary-row {
+  display: flex;
+  align-items: center;
+  font-size: 0.88rem;
+  text-align: left;
+}
+
+.summary-label {
+  width: 100px;
+  color: #64748b;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.colon {
+  width: 16px;
+  color: #64748b;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.summary-value {
+  color: #0f172a;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+/* Actions */
+.delete-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.btn-cancel {
+  min-width: 110px;
+  padding: 10px 24px;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.btn-delete {
+  min-width: 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #dc2626;
+  border: 1px solid #dc2626;
+  color: #ffffff;
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
+}
+
+.btn-delete:hover {
+  background-color: #b91c1c;
+}
+
+/* =======================================================
+   MODAL POPUP STYLES
+======================================================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  animation: modalScaleIn 0.2s ease-out forwards;
+}
+
+@keyframes modalScaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-icon-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #fee2e2;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 14px;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.modal-desc {
+  font-size: 0.86rem;
+  color: #64748b;
+  margin-bottom: 22px;
+  line-height: 1.45;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.modal-btn-no {
+  flex: 1;
+  padding: 11px 16px;
+  background-color: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-btn-no:hover {
+  background-color: #f1f5f9;
+}
+
+.modal-btn-yes {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #dc2626;
+  border: none;
+  color: #ffffff;
+  padding: 11px 16px;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-btn-yes:hover {
+  background-color: #b91c1c;
+}
+
+.modal-btn-yes:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =======================================================
+   RESPONSIVE (MOBILE VIEW)
+======================================================= */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 84px !important;
+  }
+
+  .layout-container {
+    flex-direction: column;
+  }
+
+  .topbar {
+    padding: 12px 18px;
+  }
+
+  .page-content {
+    padding: 16px 14px;
+    gap: 16px;
+  }
+
+  .delete-canvas {
+    padding: 24px 14px;
+    min-height: auto;
+  }
+
+  .delete-card {
+    padding: 24px 18px;
+  }
+
+  .student-summary-box {
+    padding: 14px 16px;
+    margin-bottom: 22px;
+  }
+
+  .summary-label {
+    width: 85px;
+  }
+
+  .delete-actions {
+    flex-direction: column-reverse;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .btn-cancel,
+  .btn-delete {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .modal-btn-no,
+  .modal-btn-yes {
+    width: 100%;
+    padding: 12px;
+  }
+}

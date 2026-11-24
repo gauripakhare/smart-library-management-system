@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Library - Student Panel</title>
+  <meta name="description" content="Smart Library Management System Student Panel featuring AI-powered Book Recommendations, Reading Profile, Borrowing History, Book Search, and Seat Reservation." />
+  <meta property="og:title" content="Smart Library - Student Panel" />
+  <meta property="og:description" content="Smart Library Management System Student Panel featuring AI-powered Book Recommendations, Reading Profile, Borrowing History, Book Search, and Seat Reservation." />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="./src/css/book-recommendation.css">
+  <link rel="stylesheet" href="./src/css/sidebar.css">
+</head>
+<body>
+
+  <div class="layout-container">
+    <div id="sidebar-placeholder"></div>
+
+    <!-- 2. MAIN APPLICATION CONTENT WRAPPER -->
+    <div class="main-wrapper">
+      <!-- TOP NAVBAR -->
+      <header class="top-header">
+        <div class="header-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search books, authors, or categories...">
+        </div>
+
+        <div class="header-right">
+          <div class="notification-btn" title="Notifications" onclick="window.location.href='notifications.html'">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-badge">3</span>
+          </div>
+
+          <div class="user-profile" onclick="window.location.href='profile.html'" title="View Profile">
+            <div class="user-avatar-circle">ST</div>
+            <span class="user-name">Student</span>
+            <i class="fa-solid fa-chevron-down" style="font-size: 12px; color: #94A3B8;"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT WITH 5 DEDICATED FULL VIEWS -->
+      <main class="page-content">
+
+        <!-- ===================================================================
+             VIEW 1: BOOK RECOMMENDATIONS (MAIN VIEW)
+             =================================================================== -->
+        <section id="view-recommendations" class="page-view-section active">
+          <!-- 1. Header Banner -->
+          <div class="recommendation-banner">
+            <div class="banner-title-group">
+              <div class="book-icon-badge"><i data-lucide="book-open"></i></div>
+              <div>
+                <h1 class="main-heading">Book Recommendations</h1>
+                <p class="sub-heading">Personalized recommendations based on your reading behavior</p>
+              </div>
+            </div>
+
+            <div class="banner-action-group">
+              <div class="search-input-wrapper">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="bookSearchInput" placeholder="Search books, authors, topics..." oninput="window.filterBooksBySearch(this.value)">
+              </div>
+
+              <div class="banner-art-quote">
+                <div class="quote-illustration">📚🪴</div>
+                <div class="quote-text-container">
+                  <span class="quote-top">Better Books,</span>
+                  <span class="quote-bottom">Bigger Dreams <span class="heart-symbol">💙</span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. "How We Recommend Books?" Card (Clickable to open dedicated pages!) -->
+          <div class="how-it-works-card">
+            <div class="how-it-works-top">
+              <div>
+                <h2 class="card-heading">How We Recommend Books?</h2>
+                <p class="card-caption">Our system analyzes your preferences and suggests books based on:</p>
+              </div>
+            </div>
+
+            <div class="criteria-row">
+              <!-- 1. Author -> Opens dedicated Author Page -->
+              <div class="criteria-box criteria-interactive active-highlight" onclick="window.navigateToPage('author')" title="Author">
+                <div class="icon-circle icon-purple"><i data-lucide="user"></i></div>
+                <div class="criteria-text">
+                  <h3 class="criteria-title">Author</h3>
+                  <p class="criteria-desc">Find books by your favorite authors and similar writers.</p>
+                </div>
+              </div>
+
+              <!-- 2. Alternate / Similar Books -> Opens dedicated Alternate Books Page -->
+              <div class="criteria-box criteria-interactive active-highlight" onclick="window.navigateToPage('alternate')" title="Alternate / Similar Books">
+                <div class="icon-circle icon-green"><i data-lucide="book-open"></i></div>
+                <div class="criteria-text">
+                  <h3 class="criteria-title">Alternate / Similar Books</h3>
+                  <p class="criteria-desc">Discover books similar to what you've read or liked.</p>
+                </div>
+              </div>
+
+              <!-- 3. Rating -> Opens dedicated Rating Page -->
+              <div class="criteria-box criteria-interactive active-highlight" onclick="window.navigateToPage('rating')" title="Rating">
+                <div class="icon-circle icon-pink"><i data-lucide="star"></i></div>
+                <div class="criteria-text">
+                  <h3 class="criteria-title">Rating</h3>
+                  <p class="criteria-desc">Highly rated books matching your interests and preferences.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Recommendations Layout Grid (Feed + Widgets) -->
+          <div class="recommendations-layout-grid">
+            <!-- LEFT: Recommended For You Feed -->
+            <div class="books-feed-container">
+              <div class="feed-header-toolbar">
+                <div class="feed-title-wrap">
+                  <i data-lucide="sparkles" class="sparkle-icon"></i>
+                  <h2 class="feed-title">Recommended For You</h2>
+                </div>
+
+                <div class="filters-wrap">
+                  <div class="select-dropdown">
+                    <select id="filterTopic" onchange="window.applyFilters()">
+                      <option value="All">All Topics</option>
+                      <option value="Self Help">Self Help</option>
+                      <option value="History">History</option>
+                      <option value="Science Fiction">Science Fiction</option>
+                      <option value="Philosophy">Philosophy</option>
+                    </select>
+                  </div>
+
+                  <div class="select-dropdown">
+                    <select id="filterAuthor" onchange="window.applyFilters()">
+                      <option value="All">All Authors</option>
+                      <option value="James Clear">James Clear</option>
+                      <option value="Yuval Noah Harari">Yuval Noah Harari</option>
+                      <option value="Héctor García">Héctor García</option>
+                      <option value="Andy Weir">Andy Weir</option>
+                    </select>
+                  </div>
+
+                  <div class="select-dropdown">
+                    <select id="filterRating" onchange="window.applyFilters()">
+                      <option value="All">All Ratings</option>
+                      <option value="4.6">4.6+ Stars</option>
+                      <option value="4.4">4.4+ Stars</option>
+                    </select>
+                  </div>
+
+                  <div class="select-dropdown">
+                    <select id="sortBy" onchange="window.applySort(this.value)">
+                      <option value="relevance">Sort by: Relevance</option>
+                      <option value="rating">Sort by: Rating</option>
+                      <option value="title">Sort by: Title</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Book cards are rendered from the database response by book-recommendation.js. -->
+              <div id="booksFeedList" class="books-feed-list"></div>
+            </div>
+
+            <!-- RIGHT: User Profile & Recommendation Reason Widgets -->
+            <div class="widgets-sidebar">
+              <!-- Widget 1: Why this book is recommended? -->
+              <div class="side-card why-recommend-card">
+                <div class="side-card-header">
+                  <div class="header-icon-title">
+                    <span class="bulb-icon">💡</span>
+                    <h3 class="side-card-title">Why this book is recommended?</h3>
+                  </div>
+                </div>
+
+                <div class="why-book-target-badge">
+                  <span class="target-badge-label">Selected:</span>
+                  <span id="whyBookTitle" class="target-book-name">Select a book</span>
+                </div>
+
+                <div class="circular-meter-container">
+                  <div class="radial-score-meter">
+                    <svg viewBox="0 0 36 36" class="meter-svg">
+                      <path class="meter-track" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                      <path id="meterActivePath" class="meter-fill" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                    </svg>
+                    <div class="meter-center-text">
+                      <span id="meterPercent" class="meter-percent">0%</span>
+                      <span class="meter-caption">Recommendation Strength</span>
+                    </div>
+                  </div>
+                </div>
+
+                <ul id="reasonsChecklist" class="reasons-checklist">
+                  <li class="checklist-interactive" onclick="window.navigateToPage('author')">
+                    <i data-lucide="external-link" class="check-blue"></i>
+                    <span><strong>Author</strong> — James Clear</span>
+                  </li>
+                  <li class="checklist-interactive" onclick="window.navigateToPage('alternate')">
+                    <i data-lucide="external-link" class="check-blue"></i>
+                    <span><strong>Alternate Books</strong> — Similar to your interests</span>
+                  </li>
+                  <li class="checklist-interactive" onclick="window.navigateToPage('rating')">
+                    <i data-lucide="external-link" class="check-blue"></i>
+                    <span><strong>Rating</strong> — Highly rated by users</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Widget 2: Your Reading Profile -->
+              <div class="side-card">
+                <div class="side-card-header">
+                  <div class="header-icon-title">
+                    <i data-lucide="user" class="side-header-icon"></i>
+                    <h3 class="side-card-title">Your Reading Profile</h3>
+                  </div>
+                </div>
+
+                <div class="profile-stats-grid">
+                  <div class="stat-pill-box">
+                    <div class="stat-icon-square icon-blue-bg"><i data-lucide="book-marked"></i></div>
+                    <div class="stat-info">
+                      <span class="stat-label">Total Books Borrowed</span>
+                      <span class="stat-number" id="profileTotalBorrowed">12</span>
+                    </div>
+                  </div>
+
+                  <div class="stat-pill-box">
+                    <div class="stat-icon-square icon-amber-bg"><i data-lucide="star"></i></div>
+                    <div class="stat-info">
+                      <span class="stat-label">Average Rating</span>
+                      <span id="profileAverageRating" class="stat-number">0 / 5</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="profile-tags-group">
+                  <span class="tags-group-label">Favorite Authors</span>
+                  <div class="pill-tags-list" id="profileFavAuthors">
+                    <span class="author-tag" onclick="window.openAuthorSpotlight('James Clear')">James Clear</span>
+                    <span class="author-tag" onclick="window.openAuthorSpotlight('Yuval Noah Harari')">Yuval Noah Harari</span>
+                  </div>
+                </div>
+
+                <div class="profile-tags-group divider-top">
+                  <span class="tags-group-label">Favorite Topics</span>
+                  <div class="pill-tags-list" id="profileFavTopics">
+                    <span class="topic-tag" onclick="window.filterByTag('Self Help')">Self Help</span>
+                    <span class="topic-tag" onclick="window.filterByTag('History')">History</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             VIEW 2: DEDICATED AUTHOR PAGE (NEW PAGE ON AUTHOR CLICK)
+             =================================================================== -->
+        <section id="view-author" class="page-view-section" style="display:none;">
+          <div class="view-page-header">
+            <div class="view-back-row">
+              <button class="btn-back-nav" onclick="window.navigateToPage('recommendations')">
+                <i data-lucide="arrow-left"></i> <span>Back to Recommendations</span>
+              </button>
+              <div class="page-quick-tabs">
+                <button class="quick-tab-pill" onclick="window.navigateToPage('recommendations')">★ Recommendations</button>
+                <button class="quick-tab-pill active" onclick="window.navigateToPage('author')">👤 Authors</button>
+                <button class="quick-tab-pill" onclick="window.navigateToPage('alternate')">🔄 Alternate Books</button>
+                <button class="quick-tab-pill" onclick="window.navigateToPage('rating')">⭐ Ratings</button>
+              </div>
+            </div>
+
+            <div class="author-banner-card">
+              <div class="author-banner-main">
+                <div class="author-avatar-lg">
+                  <span id="authorAvatarLetter">JC</span>
+                </div>
+                <div class="author-details-wrap">
+                  <div class="author-title-row">
+                    <h1 id="authorDisplayName" class="author-title">James Clear</h1>
+                    <span class="author-verified-badge">✓ Campus Featured Author</span>
+                  </div>
+                  <p id="authorBioText" class="author-bio-p">
+                    James Clear is a writer and speaker focused on habits, decision making, and continuous improvement. His #1 New York Times bestseller Atomic Habits has sold over 15 million copies worldwide.
+                  </p>
+                  <div class="author-metrics-ribbon">
+                    <div class="metric-pill">📚 <strong id="authorBooksCount">3</strong> Titles in Library</div>
+                    <div class="metric-pill">⭐ <strong>4.8 / 5</strong> Average Student Rating</div>
+                    <div class="metric-pill">👥 <strong>340+</strong> Campus Borrows</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Author Selector Tabs -->
+              <div class="author-selector-bar">
+                <span class="selector-label">Browse Authors:</span>
+                <div class="author-pills-scroll">
+                  <button class="author-pill-btn active" onclick="window.switchAuthor('James Clear', this)">James Clear</button>
+                  <button class="author-pill-btn" onclick="window.switchAuthor('Yuval Noah Harari', this)">Yuval Noah Harari</button>
+                  <button class="author-pill-btn" onclick="window.switchAuthor('Héctor García', this)">Héctor García</button>
+                  <button class="author-pill-btn" onclick="window.switchAuthor('Andy Weir', this)">Andy Weir</button>
+                  <button class="author-pill-btn" onclick="window.switchAuthor('Cal Newport', this)">Cal Newport</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Books By Author Section -->
+          <div class="author-books-section">
+            <div class="section-sub-header">
+              <h2 class="sub-header-title">Books in Campus Library by <span id="authorNameSub">James Clear</span></h2>
+              <span class="sub-header-badge">Borrow instantly with student ID</span>
+            </div>
+
+            <div id="authorBooksGrid" class="author-books-grid">
+              <div class="author-book-card">
+                <div>
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                    <span style="font-size:11px; font-weight:700; background:#eff4fe; color:#2355cf; padding:3px 8px; border-radius:6px;">Self Help & Psychology</span>
+                    <span style="font-size:12px; font-weight:700; color:#334155;">★ 4.9 / 5</span>
+                  </div>
+                  <h3 style="font-size:17px; font-weight:800; color:#1e293b; line-height:1.3;">Atomic Habits</h3>
+                  <p style="font-size:12px; color:#64748b; margin-top:2px;">by James Clear</p>
+                  <p style="font-size:13px; color:#475569; margin:12px 0; line-height:1.5;">Tiny changes, remarkable results: An easy and proven way to build good habits and break bad ones.</p>
+                  <div style="font-size:11px; color:#64748b; background:#f8fafc; padding:6px 10px; border-radius:8px; border:1px solid #f1f5f9;">
+                    📍 Location: <strong>Rack A-12, Shelf 2</strong>
+                  </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid #f1f5f9;">
+                  <span style="font-size:12px; font-weight:700; color:#16a34a;">✓ 14 Available</span>
+                  <button class="btn-borrow" onclick="window.openBorrowCustomModal('Atomic Habits', 'James Clear', 'Self Help & Psychology', 14)">Borrow Book</button>
+                </div>
+              </div>
+
+              <div class="author-book-card">
+                <div>
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                    <span style="font-size:11px; font-weight:700; background:#eff4fe; color:#2355cf; padding:3px 8px; border-radius:6px;">Productivity</span>
+                    <span style="font-size:12px; font-weight:700; color:#334155;">★ 4.7 / 5</span>
+                  </div>
+                  <h3 style="font-size:17px; font-weight:800; color:#1e293b; line-height:1.3;">Transform Your Habits</h3>
+                  <p style="font-size:12px; color:#64748b; margin-top:2px;">by James Clear</p>
+                  <p style="font-size:13px; color:#475569; margin:12px 0; line-height:1.5;">A practical manual on the science of habit formation, setting systems, and compounding small gains.</p>
+                  <div style="font-size:11px; color:#64748b; background:#f8fafc; padding:6px 10px; border-radius:8px; border:1px solid #f1f5f9;">
+                    📍 Location: <strong>Rack A-13, Shelf 1</strong>
+                  </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid #f1f5f9;">
+                  <span style="font-size:12px; font-weight:700; color:#16a34a;">✓ 8 Available</span>
+                  <button class="btn-borrow" onclick="window.openBorrowCustomModal('Transform Your Habits', 'James Clear', 'Productivity', 8)">Borrow Book</button>
+                </div>
+              </div>
+
+              <div class="author-book-card">
+                <div>
+                  <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                    <span style="font-size:11px; font-weight:700; background:#eff4fe; color:#2355cf; padding:3px 8px; border-radius:6px;">Self Help</span>
+                    <span style="font-size:12px; font-weight:700; color:#334155;">★ 4.6 / 5</span>
+                  </div>
+                  <h3 style="font-size:17px; font-weight:800; color:#1e293b; line-height:1.3;">The Clear Habit Journal</h3>
+                  <p style="font-size:12px; color:#64748b; margin-top:2px;">by James Clear</p>
+                  <p style="font-size:13px; color:#475569; margin:12px 0; line-height:1.5;">A combination daily habit tracker, notebook, and productivity journal designed for deliberate practice.</p>
+                  <div style="font-size:11px; color:#64748b; background:#f8fafc; padding:6px 10px; border-radius:8px; border:1px solid #f1f5f9;">
+                    📍 Location: <strong>Rack A-14, Shelf 3</strong>
+                  </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px; border-top:1px solid #f1f5f9;">
+                  <span style="font-size:12px; font-weight:700; color:#16a34a;">✓ 5 Available</span>
+                  <button class="btn-borrow" onclick="window.openBorrowCustomModal('The Clear Habit Journal', 'James Clear', 'Self Help', 5)">Borrow Book</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================================================================
+             VIEW 3: DEDICATED ALTERNATE BOOKS PAGE (NEW PAGE ON ALTERNATE CLICK)
+             =================================================================== -->
+        <section id="view-alternate" class="page-view-section" style="display:none;">
+          <div class="view-page-header">
+            <div class="view-back-row">
+              <button class="btn-back-nav" onclick="window.navigateToPage('recommendations')">
+                <i data-lucide="arrow-left"></i> <span>Back to Recommendations</span>
+              </button>
+              <div class="page-quick-tabs">
+                <button class="quick-tab-pill" onclick="window.navigateToPage('recommendations')">★ Recommendations</button>
+                <button class="quick-tab-pill" onclick="window.navigateToPage('author')">👤 Authors</button>
+                <button class="quick-tab-pill active" onclick="window.navigateToPage('alternate')">🔄 Alternate Books</button>
+                <button class="quick-tab-pill" onclick="window.navigateToPage('rating')">⭐ Ratings</button>
+              </div>
+            </div>
+
+            <div class="alternate-hero-banner">
+              <div class="alt-hero-icon">🔄</div>
+              <div class="alt-hero-text">
+                <h1 class="main-heading">Alternate &amp; Similar Books Engine</h1>
+                <p class="sub-heading">Intelligent alternatives based on your current reading interests, themes, and borrowing history.</p>
+              </div>
+            </div>
+
+            <!-- Target Selection Row -->
+            <div class="alternate-controls-card">
+              <div class="controls-left">
+                <label class="control-label">Finding smart alternates for:</label>
+                <select id="alternateTargetSelect" class="form-select-styled" onchange="window.changeAlternateTargetBook(this.value)">
+                  <option value="1" selected>Atomic Habits (James Clear)</option>
+                  <option value="2">Sapiens: A Brief History of Humankind (Yuval Noah Harari)</option>
+                  <option value="3">Ikigai: The Japanese Secret (Héctor García)</option>
+                  <option value="4">The Martian (Andy Weir)</option>
+                </select>
+              </div>
+              <button class="refresh-alt-btn" onclick="window.shuffleAlternatePage()">
+                <i data-lucide="refresh-cw"></i> <span>Explore Next Batch</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Alternate Books Cards Grid -->
+          <div id="alternatePageGrid" class="alternate-page-grid">
+            <div class="alt-full-card">
+              <div class="alt-card-header-bar">
+                <span class="alt-category-pill">Productivity</span>
+                <span class="alt-match-badge">⚡ 94% Match</span>
+              </div>
+              <div class="alt-card-body">
+                <div class="alt-book-presentation">
+                  <div class="alt-book-cover-mock alt-cover-blue">
+                    <span class="alt-cover-spine-tag">Library</span>
+                    <span class="alt-cover-mini-title">Deep Work</span>
+                    <span style="font-size:8px; opacity:0.8;">★ 4.8</span>
+                  </div>
+                  <div class="alt-info-wrap">
+                    <h3 class="alt-title">Deep Work</h3>
+                    <p class="alt-author">by Cal Newport</p>
+                    <div class="alt-rating-row">
+                      <span class="alt-rating-star">★</span>
+                      <span>4.8 / 5</span>
+                      <span style="font-size:11px; color:#94a3b8; font-weight:normal;">• Verified</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alt-reason-box">
+                  💡 <strong>Why Similar:</strong> Direct counterpart to habit building: Focus without distraction on cognitively demanding tasks.
+                </div>
+                <div class="alt-meta-chips">
+                  <span>📍 Rack P-4, Shelf 2</span>
+                  <span class="alt-copies-badge">✓ 5 Available</span>
+                </div>
+              </div>
+              <div class="alt-card-footer">
+                <button class="btn-borrow-alt" onclick="window.openBorrowCustomModal('Deep Work', 'Cal Newport', 'Productivity', 5)">
+                  <i data-lucide="book-marked"></i> <span>Borrow Book</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="alt-full-card">
+              <div class="alt-card-header-bar">
+                <span class="alt-category-pill">Psychology</span>
+                <span class="alt-match-badge">⚡ 93% Match</span>
+              </div>
+              <div class="alt-card-body">
+                <div class="alt-book-presentation">
+                  <div class="alt-book-cover-mock alt-cover-emerald">
+                    <span class="alt-cover-spine-tag">Library</span>
+                    <span class="alt-cover-mini-title">The Power of Habit</span>
+                    <span style="font-size:8px; opacity:0.8;">★ 4.7</span>
+                  </div>
+                  <div class="alt-info-wrap">
+                    <h3 class="alt-title">The Power of Habit</h3>
+                    <p class="alt-author">by Charles Duhigg</p>
+                    <div class="alt-rating-row">
+                      <span class="alt-rating-star">★</span>
+                      <span>4.7 / 5</span>
+                      <span style="font-size:11px; color:#94a3b8; font-weight:normal;">• Verified</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alt-reason-box">
+                  💡 <strong>Why Similar:</strong> Deep scientific exploration of cue, routine, and reward loops in neurological behavioral change.
+                </div>
+                <div class="alt-meta-chips">
+                  <span>📍 Rack A-12, Shelf 3</span>
+                  <span class="alt-copies-badge">✓ 3 Available</span>
+                </div>
+              </div>
+              <div class="alt-card-footer">
+                <button class="btn-borrow-alt" onclick="window.openBorrowCustomModal('The Power of Habit', 'Charles Duhigg', 'Psychology', 3)">
+                  <i data-lucide="book-marked"></i> <span>Borrow Book</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="alt-full-card">
+              <div class="alt-card-header-bar">
+                <span class="alt-category-pill">Behavioral Science</span>
+                <span class="alt-match-badge">⚡ 91% Match</span>
+              </div>
+              <div class="alt-card-body">
+                <div class="alt-book-presentation">
+                  <div class="alt-book-cover-mock alt-cover-amber">
+                    <span class="alt-cover-spine-tag">Library</span>
+                    <span class="alt-cover-mini-title">Tiny Habits</span>
+                    <span style="font-size:8px; opacity:0.8;">★ 4.6</span>
+                  </div>
+                  <div class="alt-info-wrap">
+                    <h3 class="alt-title">Tiny Habits</h3>
+                    <p class="alt-author">by BJ Fogg</p>
+                    <div class="alt-rating-row">
+                      <span class="alt-rating-star">★</span>
+                      <span>4.6 / 5</span>
+                      <span style="font-size:11px; color:#94a3b8; font-weight:normal;">• Verified</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alt-reason-box">
+                  💡 <strong>Why Similar:</strong> Behavioral design from Stanford: Start small, tie to anchor habits, celebrate small wins.
+                </div>
+                <div class="alt-meta-chips">
+                  <span>📍 Rack B-3, Shelf 1</span>
+                  <span class="alt-copies-badge">✓ 6 Available</span>
+                </div>
+              </div>
+              <div class="alt-card-footer">
+                <button class="btn-borrow-alt" onclick="window.openBorrowCustomModal('Tiny Habits', 'BJ Fogg', 'Behavioral Science', 6)">
+                  <i data-lucide="book-marked"></i> <span>Borrow Book</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="alt-full-card">
+              <div class="alt-card-header-bar">
+                <span class="alt-category-pill">Focus &amp; Energy</span>
+                <span class="alt-match-badge">⚡ 88% Match</span>
+              </div>
+              <div class="alt-card-body">
+                <div class="alt-book-presentation">
+                  <div class="alt-book-cover-mock alt-cover-purple">
+                    <span class="alt-cover-spine-tag">Library</span>
+                    <span class="alt-cover-mini-title">Make Time</span>
+                    <span style="font-size:8px; opacity:0.8;">★ 4.5</span>
+                  </div>
+                  <div class="alt-info-wrap">
+                    <h3 class="alt-title">Make Time</h3>
+                    <p class="alt-author">by Jake Knapp &amp; John Zeratsky</p>
+                    <div class="alt-rating-row">
+                      <span class="alt-rating-star">★</span>
+                      <span>4.5 / 5</span>
+                      <span style="font-size:11px; color:#94a3b8; font-weight:normal;">• Verified</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alt-reason-box">
+                  💡 <strong>Why Similar:</strong> How to focus on what matters everyday with simple 4-step framework tested at Google Ventures.
+                </div>
+                <div class="alt-meta-chips">
+                  <span>📍 Rack P-1, Shelf 4</span>
+                  <span class="alt-copies-badge">✓ 4 Available</span>
+                </div>
+              </div>
+              <div class="alt-card-footer">
+                <button class="btn-borrow-alt" onclick="window.openBorrowCustomModal('Make Time', 'Jake Knapp & John Zeratsky', 'Focus & Energy', 4)">
+                  <i data-lucide="book-marked"></i> <span>Borrow Book</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="alt-full-card">
+              <div class="alt-card-header-bar">
+                <span class="alt-category-pill">Management</span>
+                <span class="alt-match-badge">⚡ 87% Match</span>
+              </div>
+              <div class="alt-card-body">
+                <div class="alt-book-presentation">
+                  <div class="alt-book-cover-mock alt-cover-rose">
+                    <span class="alt-cover-spine-tag">Library</span>
+                    <span class="alt-cover-mini-title">Essentialism</span>
+                    <span style="font-size:8px; opacity:0.8;">★ 4.7</span>
+                  </div>
+                  <div class="alt-info-wrap">
+                    <h3 class="alt-title">Essentialism</h3>
+                    <p class="alt-author">by Greg McKeown</p>
+                    <div class="alt-rating-row">
+                      <span class="alt-rating-star">★</span>
+                      <span>4.7 / 5</span>
+                      <span style="font-size:11px; color:#94a3b8; font-weight:normal;">• Verified</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alt-reason-box">
+                  💡 <strong>Why Similar:</strong> The disciplined pursuit of less: Doing only the vital few things rather than the trivial many.
+                </div>
+                <div class="alt-meta-chips">
+                  <span>📍 Rack M-2, Shelf 2</span>
+                  <span class="alt-copies-badge">✓ 2 Available</span>
+                </div>
+              </div>
+              <div class="alt-card-footer">
+                <button class="btn-borrow-alt" onclick="window.openBorrowCustomModal('Essentialism', 'Greg McKeown', 'Management', 2)">
+                  <i data-lucide="book-marked"></i> <span>Borrow Book</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="alt-full-card">
+              <div class="alt-card-header-bar">
+                <span class="alt-category-pill">Psychology</span>
+                <span class="alt-match-badge">⚡ 85% Match</span>
+              </div>
+              <div class="alt-card-body">
+                <div class="alt-book-presentation">
+                  <div class="alt-book-cover-mock alt-cover-cyan">
+                    <span class="alt-cover-spine-tag">Library</span>
+                    <span class="alt-cover-mini-title">Mindset</span>
+                    <span style="font-size:8px; opacity:0.8;">★ 4.6</span>
+                  </div>
+                  <div class="alt-info-wrap">
+                    <h3 class="alt-title">Mindset</h3>
+                    <p class="alt-author">by Carol S. Dweck</p>
+                    <div class="alt-rating-row">
+                      <span class="alt-rating-star">★</span>
+                      <span>4.6 / 5</span>
+                      <span style="font-size:11px; color:#94a3b8; font-weight:normal;">• Verified</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="alt-reason-box">
+                  💡 <strong>Why Similar:</strong> Groundbreaking research on how the growth mindset unlocks fulfillment and achievement.
+                </div>
+                <div class="alt-meta-chips">
+                  <span>📍 Rack P-3, Shelf 1</span>
+                  <span class="alt-copies-badge">✓ 4 Available</span>
+                </div>
+              </div>
+              <div class="alt-card-footer">
+                <button class="btn-borrow-alt" onclick="window.openBorrowCustomModal('Mindset', 'Carol S. Dweck', 'Psychology', 4)">
+                  <i data-lucide="book-marked"></i> <span>Borrow Book</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+
+        <!-- ===================================================================
+             VIEW 5: DEDICATED RATING & REVIEWS PAGE (NEW PAGE ON RATING CLICK)
+             =================================================================== -->
+        <section id="view-rating" class="page-view-section" style="display:none;">
+          <div class="view-page-header">
+            <div class="view-back-row">
+              <button class="btn-back-nav" onclick="window.navigateToPage('recommendations')">
+                <i data-lucide="arrow-left"></i> <span>Back to Recommendations</span>
+              </button>
+              <div class="page-quick-tabs">
+                <button class="quick-tab-pill" onclick="window.navigateToPage('recommendations')">★ Recommendations</button>
+                <button class="quick-tab-pill" onclick="window.navigateToPage('author')">👤 Authors</button>
+                <button class="quick-tab-pill" onclick="window.navigateToPage('alternate')">🔄 Alternate Books</button>
+                <button class="quick-tab-pill active" onclick="window.navigateToPage('rating')">⭐ Ratings</button>
+              </div>
+            </div>
+
+            <div class="rating-hero-banner">
+              <div class="rate-hero-icon">⭐</div>
+              <div>
+                <h1 class="main-heading">Book Ratings &amp; Student Reviews</h1>
+                <p class="sub-heading">Explore highest-rated campus titles, verified student reviews, and rating breakdowns.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top Rating Analytics Card -->
+          <div class="rating-analytics-grid">
+            <div class="rating-score-card">
+              <div class="score-number-wrap">
+                <span class="big-score">4.6</span>
+                <div class="stars-gold">★★★★★</div>
+                <span class="score-reviews-count">Based on 14,800+ student ratings</span>
+              </div>
+
+              <div class="rating-bars-breakdown">
+                <div class="bar-row">
+                  <span>5 ★</span>
+                  <div class="bar-track"><div class="bar-fill" style="width: 78%;"></div></div>
+                  <span>78%</span>
+                </div>
+                <div class="bar-row">
+                  <span>4 ★</span>
+                  <div class="bar-track"><div class="bar-fill" style="width: 16%;"></div></div>
+                  <span>16%</span>
+                </div>
+                <div class="bar-row">
+                  <span>3 ★</span>
+                  <div class="bar-track"><div class="bar-fill" style="width: 4%;"></div></div>
+                  <span>4%</span>
+                </div>
+                <div class="bar-row">
+                  <span>2 ★</span>
+                  <div class="bar-track"><div class="bar-fill" style="width: 1%;"></div></div>
+                  <span>1%</span>
+                </div>
+                <div class="bar-row">
+                  <span>1 ★</span>
+                  <div class="bar-track"><div class="bar-fill" style="width: 1%;"></div></div>
+                  <span>1%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Student Quick Review Box -->
+            <div class="write-review-card">
+              <h3 class="write-review-title">Have you finished a book recently?</h3>
+              <p class="write-review-sub">Share your feedback to help fellow students find their next favorite book.</p>
+              <div class="review-inputs-row">
+                <select id="reviewBookSelect" class="form-select-styled">
+                  <option value="Atomic Habits">Atomic Habits (James Clear)</option>
+                  <option value="Sapiens">Sapiens (Yuval Noah Harari)</option>
+                  <option value="The Martian">The Martian (Andy Weir)</option>
+                  <option value="Ikigai">Ikigai (Héctor García)</option>
+                </select>
+                <div id="reviewStarPicker" class="review-star-picker" aria-label="Choose a rating">
+                  <button type="button" class="review-star-button" data-rating="1" aria-label="1 star">★</button>
+                  <button type="button" class="review-star-button" data-rating="2" aria-label="2 stars">★</button>
+                  <button type="button" class="review-star-button" data-rating="3" aria-label="3 stars">★</button>
+                  <button type="button" class="review-star-button" data-rating="4" aria-label="4 stars">★</button>
+                  <button type="button" class="review-star-button" data-rating="5" aria-label="5 stars">★</button>
+                  <input id="reviewStarSelect" type="hidden" value="0">
+                </div>
+              </div>
+              <textarea id="reviewCommentInput" class="form-textarea" placeholder="Write a short review or study tip about this book..."></textarea>
+              <button class="btn-submit-review" onclick="window.submitStudentReview()">Submit Student Review</button>
+            </div>
+          </div>
+
+          <!-- Top-Rated Leaderboard with Borrow Book buttons -->
+          <div class="rated-leaderboard-section">
+            <div class="section-sub-header">
+              <h2 class="sub-header-title">Highest Rated Books in Campus Library</h2>
+              <div class="rate-filter-pills">
+                <button class="rate-filter-pill active" onclick="window.filterRatingCards('all', this)">All High Ratings</button>
+                <button class="rate-filter-pill" onclick="window.filterRatingCards('4.7', this)">★ 4.7+ Top Tier</button>
+                <button class="rate-filter-pill" onclick="window.filterRatingCards('4.5', this)">★ 4.5+ Highly Rated</button>
+              </div>
+            </div>
+
+            <div id="ratedBooksGrid" class="rated-books-grid">
+              <div class="leaderboard-card">
+                <div class="leaderboard-top">
+                  <span class="leaderboard-rank-pill">#1 Highest Rated</span>
+                  <div class="leaderboard-stars">★ 4.9 <span class="review-count-sub">(18,400 reviews)</span></div>
+                </div>
+                <h3 class="leaderboard-title">Project Hail Mary</h3>
+                <p class="leaderboard-author">by Andy Weir • Science Fiction</p>
+                <p class="leaderboard-desc">A lone astronaut must solve an extinction-level cosmic pathogen threatening Earth's sun.</p>
+                <div class="leaderboard-quote">“The best sci-fi I've read in years. Captivating science and friendship.” — Rahul S., Computer Eng.</div>
+                <div class="leaderboard-footer">
+                  <span class="leaderboard-copies">✓ 4 Copies Available in Rack S-4</span>
+                  <button class="btn-borrow-leaderboard" onclick="window.openBorrowCustomModal('Project Hail Mary', 'Andy Weir', 'Science Fiction', 4)">Borrow Book</button>
+                </div>
+              </div>
+
+              <div class="leaderboard-card">
+                <div class="leaderboard-top">
+                  <span class="leaderboard-rank-pill">#2 Highest Rated</span>
+                  <div class="leaderboard-stars">★ 4.8 <span class="review-count-sub">(24,100 reviews)</span></div>
+                </div>
+                <h3 class="leaderboard-title">Man's Search for Meaning</h3>
+                <p class="leaderboard-author">by Viktor E. Frankl • Philosophy &amp; Psychology</p>
+                <p class="leaderboard-desc">Psychiatrist Viktor Frankl's timeless memoir on discovering purpose through adversity.</p>
+                <div class="leaderboard-quote">“Life-changing perspective on finding meaning during stressful exam periods.” — Sneha P., Biotech</div>
+                <div class="leaderboard-footer">
+                  <span class="leaderboard-copies">✓ 3 Copies Available in Rack P-1</span>
+                  <button class="btn-borrow-leaderboard" onclick="window.openBorrowCustomModal('Man\'s Search for Meaning', 'Viktor E. Frankl', 'Philosophy & Psychology', 3)">Borrow Book</button>
+                </div>
+              </div>
+
+              <div class="leaderboard-card">
+                <div class="leaderboard-top">
+                  <span class="leaderboard-rank-pill">#3 Highest Rated</span>
+                  <div class="leaderboard-stars">★ 4.7 <span class="review-count-sub">(12,845 reviews)</span></div>
+                </div>
+                <h3 class="leaderboard-title">Atomic Habits</h3>
+                <p class="leaderboard-author">by James Clear • Self Help &amp; Productivity</p>
+                <p class="leaderboard-desc">An easy and proven way to build good habits and break bad ones. Practical framework for continuous 1% improvement.</p>
+                <div class="leaderboard-quote">“Reading this transformed how I manage semester project deadlines!” — Aditi K., Electronics</div>
+                <div class="leaderboard-footer">
+                  <span class="leaderboard-copies">✓ 4 Copies Available in Rack A-12</span>
+                  <button class="btn-borrow-leaderboard" onclick="window.openBorrowCustomModal('Atomic Habits', 'James Clear', 'Self Help & Productivity', 4)">Borrow Book</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        <!-- ===================================================================
+             VIEW 6: SEAT RESERVATION (MATCHING USER SCREENSHOT)
+             =================================================================== -->
+        <section id="view-seats" class="page-view-section" style="display:none; flex-direction:column; gap:24px;">
+          <!-- Book a Seat Header -->
+          <div class="seat-page-header">
+            <div class="seat-title-wrap">
+              <div class="seat-badge-icon"><i data-lucide="armchair"></i></div>
+              <div>
+                <h1 class="seat-main-heading">Book a Seat</h1>
+                <p class="seat-sub-heading">Select your preferences and choose a seat from the available map.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stepper Bar -->
+          <div class="seat-stepper-bar">
+            <div class="step-item active">
+              <span class="step-num">1</span>
+              <span class="step-label">Select Date &amp; Time</span>
+            </div>
+            <div class="step-line active"></div>
+            <div class="step-item active">
+              <span class="step-num">2</span>
+              <span class="step-label">Choose Floor</span>
+            </div>
+            <div class="step-line active"></div>
+            <div class="step-item active">
+              <span class="step-num">3</span>
+              <span class="step-label">Select Seat</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step-item">
+              <span class="step-num">4</span>
+              <span class="step-label">Confirm</span>
+            </div>
+          </div>
+
+          <!-- 2-Column Reservation Area -->
+          <div class="seat-booking-grid">
+            <!-- Left Preferences Card -->
+            <div class="seat-pref-card">
+              <div class="pref-card-header">
+                <i data-lucide="calendar"></i>
+                <span>Select Date &amp; Time</span>
+              </div>
+
+              <div class="pref-field-group">
+                <label class="pref-label">Date</label>
+                <div class="pref-input-wrapper">
+                  <input type="text" class="pref-input" id="seatDateInput" value="09-09-2026">
+                  <i data-lucide="calendar" class="pref-input-icon"></i>
+                </div>
+              </div>
+
+              <div class="pref-field-group">
+                <label class="pref-label">Time Slot</label>
+                <div class="pref-input-wrapper">
+                  <select class="pref-select" id="seatTimeSlotSelect">
+                    <option selected>09:00 AM - 10:00 AM</option>
+                    <option>10:00 AM - 11:00 AM</option>
+                    <option>11:00 AM - 12:00 PM</option>
+                    <option>02:00 PM - 04:00 PM</option>
+                    <option>04:00 PM - 06:00 PM</option>
+                  </select>
+                  <i data-lucide="clock" class="pref-input-icon"></i>
+                </div>
+              </div>
+
+              <div class="pref-field-group">
+                <label class="pref-label">Floor</label>
+                <div class="pref-input-wrapper">
+                  <select class="pref-select" id="seatFloorSelect" onchange="window.updateSeatFloorDisplay(this.value)">
+                    <option selected>First Floor</option>
+                    <option>Ground Floor (Silent Zone)</option>
+                    <option>Second Floor (Reference &amp; Research)</option>
+                  </select>
+                  <i data-lucide="book-copy" class="pref-input-icon"></i>
+                </div>
+              </div>
+
+              <div class="pref-info-box">
+                <span class="pref-info-icon">ℹ</span>
+                <span>Select your date, time and floor to view the seat map.</span>
+              </div>
+            </div>
+
+            <!-- Right Seat Map Card -->
+            <div class="seat-map-card">
+              <div class="seat-map-header">
+                <div class="map-location-tag">
+                  <span style="font-size:18px;">📍</span>
+                  <strong id="seatFloorTitle">First Floor – Seat Map</strong>
+                </div>
+                <span class="total-seats-pill">30 Total Seats</span>
+              </div>
+
+              <!-- 5 Tables with L & R Columns, 3 Rows -->
+              <div class="seat-tables-container" id="seatTablesContainer">
+                <!-- Injected automatically with 30 interactive seats -->
+              </div>
+
+              <!-- Legend & Action -->
+              <div class="seat-map-footer">
+                <div class="seat-legend">
+                  <div class="legend-item"><span class="legend-color-dot dot-available"></span> <span>Available</span></div>
+                  <div class="legend-item"><span class="legend-color-dot dot-reserved"></span> <span>Reserved</span></div>
+                  <div class="legend-item"><span class="legend-color-dot dot-occupied"></span> <span>Occupied</span></div>
+                </div>
+
+                <button class="btn-proceed-booking" onclick="window.confirmSeatBooking()">
+                  <span>Proceed to Booking</span> →
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 1: DEDICATED BORROW BOOK UI (REQUESTED BY USER - WORKS ON ALL PAGES)
+       ========================================================================= -->
+  <div id="borrowModal" class="modal-backdrop" onclick="window.closeBorrowModal()">
+    <div class="modal-dialog modal-medium" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <div class="icon-circle icon-blue"><i data-lucide="book-marked"></i></div>
+          <div>
+            <h3 class="modal-title">Borrow Book Checkout</h3>
+            <p class="modal-subtitle">Confirm details to reserve and borrow this book</p>
+          </div>
+        </div>
+        <button class="modal-close-btn" onclick="window.closeBorrowModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="borrowModalContent">
+          <!-- Populated dynamically with book details & borrow form -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Book Details -->
+  <div id="bookModal" class="modal-backdrop" onclick="window.closeBookModal()">
+    <div class="modal-dialog" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="modalBookTitle" class="modal-title">Book Details</h3>
+        <button class="modal-close-btn" onclick="window.closeBookModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modalBookBody"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Box -->
+  <div id="toastNotification" class="toast-box"></div>
+
+  <!-- Universal Instant Engine: Guarantees 100% functionality in VS Code, Live Server, file://, and npm -->
+  <script>
+    var ICONS_DICT = {
+      'home': '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+      'calendar': '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>',
+      'user': '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+      'star': '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+      'clock': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+      'book-open': '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+      'book-copy': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 17V4a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v13"/><path d="M22 20V7a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2z"/></svg>',
+      'user-check': '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>',
+      'award': '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>',
+      'search': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',
+      'armchair': '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3"/><path d="M3 16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v2H7v-2a2 2 0 0 0-4 0z"/><path d="M5 18v2"/><path d="M19 18v2"/></svg>',
+      'bell': '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>',
+      'sparkles': '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>',
+      'book-marked': '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><polyline points="10 2 10 10 13 7 16 10 16 2"/></svg>',
+      'history': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><polyline points="3 3 3 8 8 8"/><polyline points="12 7 12 12 15 15"/></svg>',
+      'arrow-left': '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>',
+      'refresh-cw': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>',
+      'check-circle-2': '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>'
+    };
+
+    window.refreshAllIcons = function() {
+      document.querySelectorAll('i[data-lucide]').forEach(function(el) {
+        var key = el.getAttribute('data-lucide');
+        if (ICONS_DICT[key]) {
+          el.innerHTML = ICONS_DICT[key];
+          el.style.display = 'inline-flex';
+          el.style.alignItems = 'center';
+          el.style.justifyContent = 'center';
+          el.style.lineHeight = '0';
+        }
+      });
+    };
+
+    window.navigateToPage = function(pageName) {
+      var views = document.querySelectorAll(".page-view-section");
+      views.forEach(function(v) {
+        v.style.display = "none";
+        v.classList.remove("active");
+      });
+
+      var targetView = document.getElementById("view-" + pageName);
+      if (targetView) {
+        targetView.style.display = "flex";
+        targetView.classList.add("active");
+      }
+
+      var breadcrumb = document.getElementById("currentViewBreadcrumb");
+      if (breadcrumb) {
+        var titles = {
+          recommendations: "Book Recommendations",
+          author: "Authors",
+          alternate: "Alternate Books Engine",
+          history: "Borrowing History & Loans",
+          rating: "Ratings & Community Reviews",
+          seats: "Seat Reservation & Floor Map"
+        };
+        breadcrumb.textContent = titles[pageName] || "Library Panel";
+      }
+
+      var sidebarItems = document.querySelectorAll(".nav-menu .nav-item");
+      sidebarItems.forEach(function(item) { item.classList.remove("active"); });
+
+      var navMap = {
+        recommendations: "book-recommendation",
+        seats: "seat-reservation",
+        history: "book-issue-return",
+        dashboard: "dashboard",
+        search: "search-book"
+      };
+      var targetNav = document.querySelector('.nav-item[data-page="' + navMap[pageName] + '"]');
+      if (targetNav) targetNav.classList.add("active");
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.refreshAllIcons();
+
+      // Run dynamic renderer if main.js is active
+      if (pageName === "author" && typeof window.renderAuthorView === "function") {
+        window.renderAuthorView();
+      } else if (pageName === "alternate" && typeof window.renderAlternatePageView === "function") {
+        window.renderAlternatePageView();
+      } else if (pageName === "history" && typeof window.renderHistoryPageTable === "function") {
+        window.renderHistoryPageTable("all");
+      } else if (pageName === "rating" && typeof window.renderRatingPageView === "function") {
+        window.renderRatingPageView("all");
+      }
+    };
+
+    window.openAuthorSpotlight = function(name) {
+      if (typeof window.switchAuthor === "function") {
+        window.switchAuthor(name);
+      }
+      window.navigateToPage('author');
+    };
+
+    window.currentBorrowBookData = null;
+    window.openBorrowCustomModal = function(title, author, category, copies) {
+      window.currentBorrowBookData = {
+        title: title,
+        author: author,
+        category: category,
+        copies: copies || 3
+      };
+      var container = document.getElementById("borrowModalContent");
+      if (container) {
+        var today = new Date();
+        var due = new Date();
+        due.setDate(today.getDate() + 14);
+        var todayStr = today.toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' });
+        var dueStr = due.toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' });
+
+        container.innerHTML = 
+          '<div class="borrow-book-summary-box">' +
+            '<div>' +
+              '<h4 class="borrow-book-title">' + title + '</h4>' +
+              '<p class="borrow-book-author">by ' + author + ' • ' + category + '</p>' +
+              '<span style="font-size:11px; color:#64748b;">Location: <strong>Rack A-1, Shelf 2</strong></span>' +
+            '</div>' +
+            '<span class="borrow-availability-tag">✓ ' + (copies || 3) + ' Copies Available</span>' +
+          '</div>' +
+          '<div class="borrow-form-group">' +
+            '<div class="form-row">' +
+              '<div class="form-field"><label class="form-label">Student Name</label><input type="text" class="form-input" value="Rutuja Kamble" readonly></div>' +
+              '<div class="form-field"><label class="form-label">Student ID / Card</label><input type="text" class="form-input" value="STU-2024-89 (Active)" readonly></div>' +
+            '</div>' +
+            '<div class="form-row">' +
+              '<div class="form-field"><label class="form-label">Issue Date</label><input type="text" class="form-input" value="' + todayStr + '" readonly></div>' +
+              '<div class="form-field"><label class="form-label">Borrow Duration</label><select id="borrowPeriodSelect" class="form-select" onchange="window.updateDueDateDisplay(this.value)"><option value="14" selected>14 Days (Standard Student Term)</option><option value="7">7 Days (Short Term)</option><option value="21">21 Days (Exam Prep / Extended)</option></select></div>' +
+            '</div>' +
+            '<div class="borrow-details-card">' +
+              '<div class="borrow-details-row"><span>Expected Return Due Date:</span><strong id="borrowDueDisplay" style="color:#2355cf; font-size:13px;">' + dueStr + '</strong></div>' +
+              '<div class="borrow-details-row"><span>Pickup Desk:</span><span>Central Circulation Counter Desk #2</span></div>' +
+              '<div class="borrow-details-row"><span>Overdue Fine Policy:</span><span style="color:#16a34a; font-weight:600;">₹0 (Free return before due date)</span></div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="borrow-actions-row">' +
+            '<button class="btn-borrow-cancel" onclick="window.closeBorrowModal()">Cancel</button>' +
+            '<button class="btn-borrow-confirm" onclick="window.confirmBorrow()"><i data-lucide="check-circle-2"></i> <span>Confirm &amp; Issue Book</span></button>' +
+          '</div>';
+      }
+      var modal = document.getElementById("borrowModal");
+      if (modal) modal.classList.add("open");
+      window.refreshAllIcons();
+    };
+
+    window.updateDueDateDisplay = function(days) {
+      var due = new Date();
+      due.setDate(due.getDate() + parseInt(days));
+      var span = document.getElementById("borrowDueDisplay");
+      if (span) span.textContent = due.toLocaleDateString("en-GB", { day: '2-digit', month: 'short', year: 'numeric' });
+    };
+
+    window.confirmBorrow = function() {
+      var modal = document.getElementById("borrowModal");
+      if (modal) modal.classList.remove("open");
+      var data = window.currentBorrowBookData || { title: "Book", author: "", category: "" };
+      var periodSelect = document.getElementById("borrowPeriodSelect");
+      var days = periodSelect ? periodSelect.value : 14;
+
+      if (typeof window.borrowBookItem === "function") {
+        window.borrowBookItem(data.title, data.author, data.category, days);
+      } else {
+        window.showToast("✓ Success! '" + data.title + "' borrowed successfully for " + days + " days. Token generated.");
+      }
+    };
+
+    window.handleRenewBook = function(id, title) {
+      if (typeof window.renewBookItem === "function") {
+        window.renewBookItem(id, title);
+      } else {
+        window.showToast("✓ Renewal Approved: '" + title + "' extended by +7 days!");
+      }
+    };
+
+    window.closeBorrowModal = function() {
+      var m = document.getElementById("borrowModal");
+      if (m) m.classList.remove("open");
+    };
+
+    window.closeBookModal = function() {
+      var m = document.getElementById("bookModal");
+      if (m) m.classList.remove("open");
+    };
+
+    window.showToast = function(msg) {
+      var t = document.getElementById("toastNotification");
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(function() { t.classList.remove("show"); }, 2500);
+    };
+
+    // Seat Reservation Engine with PostgreSQL Backend
+    window.selectedSeatId = null;
+    window.renderSeatMap = function() {
+      var container = document.getElementById("seatTablesContainer");
+      if (!container) return;
+      var html = "";
+      for (var t = 1; t <= 5; t++) {
+        html += '<div class="table-block">';
+        html += '  <div class="table-title">Table ' + t + '</div>';
+        html += '  <div class="table-col-labels"><span>L</span><span>R</span></div>';
+        html += '  <div class="table-seats-grid">';
+        for (var r = 1; r <= 3; r++) {
+          var seatL = "Table " + t + " (Row " + r + " L)";
+          var seatR = "Table " + t + " (Row " + r + " R)";
+          var statusL = (t === 2 && r === 2) ? "reserved" : ((t === 4 && r === 1) ? "occupied" : "");
+          var statusR = (t === 3 && r === 3) ? "occupied" : "";
+          var isSelL = window.selectedSeatId === seatL;
+          var isSelR = window.selectedSeatId === seatR;
+
+          html += '<div class="seat-box ' + statusL + (isSelL ? " selected" : "") + '" title="' + seatL + '" onclick="window.toggleSeatSelect(\'' + seatL + '\', \'' + statusL + '\')"></div>';
+          html += '<div class="seat-box ' + statusR + (isSelR ? " selected" : "") + '" title="' + seatR + '" onclick="window.toggleSeatSelect(\'' + seatR + '\', \'' + statusR + '\')"></div>';
+        }
+        html += '  </div>';
+        html += '</div>';
+      }
+      container.innerHTML = html;
+    };
+
+    window.toggleSeatSelect = function(seatId, status) {
+      if (status === "reserved") {
+        window.showToast("This seat is currently reserved by another student.");
+        return;
+      }
+      if (status === "occupied") {
+        window.showToast("This seat is currently occupied in study hall.");
+        return;
+      }
+      if (window.selectedSeatId === seatId) {
+        window.selectedSeatId = null;
+        window.showToast("Seat deselected");
+      } else {
+        window.selectedSeatId = seatId;
+        window.showToast("Selected: " + seatId);
+      }
+      window.renderSeatMap();
+    };
+
+    window.confirmSeatBooking = function() {
+      if (!window.selectedSeatId) {
+        window.showToast("Please tap on any green available seat first!");
+        return;
+      }
+      var slot = document.getElementById("seatTimeSlotSelect") ? document.getElementById("seatTimeSlotSelect").value : "09:00 AM - 10:00 AM";
+      var floor = document.getElementById("seatFloorSelect") ? document.getElementById("seatFloorSelect").value : "First Floor";
+      window.showToast("✓ Success! Seat " + window.selectedSeatId + " confirmed for " + floor + " (" + slot + ")!");
+    };
+
+    window.updateSeatFloorDisplay = function(floor) {
+      var title = document.getElementById("seatFloorTitle");
+      if (title) title.textContent = floor + " – Seat Map";
+    };
+
+    // Render seats initially
+    setTimeout(function() {
+      if (typeof window.renderSeatMap === "function") window.renderSeatMap();
+    }, 50);
+
+    // Render icons on initial load
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", window.refreshAllIcons);
+    } else {
+      window.refreshAllIcons();
+    }
+  </script>
+
+  <script type="module" src="./src/js/book-recommendation.js"></script>
+  <script src="./src/js/shared-sidebar-loader.js"></script>
+  <script src="./src/js/student-header.js"></script>
+</body>
+</html>

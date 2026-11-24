@@ -1,0 +1,727 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background-color: #f8fafc;
+  color: #1e293b;
+}
+
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.main-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: #f8fafc;
+}
+
+/* =======================================================
+   TOPBAR
+======================================================= */
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 14px 40px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.notification-wrapper {
+  position: relative;
+  cursor: pointer;
+  padding: 6px;
+  font-size: 1.25rem;
+  color: #475569;
+}
+
+.notification-wrapper .badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background-color: #ef4444;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar-box {
+  width: 40px;
+  height: 40px;
+}
+
+.avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: none;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #e2e8f0;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 80px;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.mobile-logout-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+
+.mobile-logout-btn:hover {
+  color: #ef4444;
+}
+
+/* =======================================================
+   PAGE CONTENT & CONTAINER (DESKTOP ARRANGEMENT)
+======================================================= */
+.page-content {
+  flex: 1;
+  padding: 36px 40px 60px 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.checkin-container {
+  width: 100%;
+  max-width: 780px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =======================================================
+   HEADER WITH LEFT BLUE BAR (MATCHES SCREENSHOT)
+======================================================= */
+.content-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.header-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-blue-bar {
+  width: 5px;
+  height: 48px;
+  background-color: #1565c0;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.page-main-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+}
+
+.page-main-subtitle {
+  font-size: 0.92rem;
+  color: #64748b;
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+/* Simulator Bar Pill */
+.simulator-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.gps-mode-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.btn-toggle-sim {
+  border: 1px solid #bfdbfe;
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-toggle-sim:hover {
+  background-color: #dbeafe;
+}
+
+.btn-toggle-sim.active {
+  background-color: #10b981;
+  color: #ffffff;
+  border-color: #059669;
+}
+
+/* =======================================================
+   SOLID ROYAL BLUE CARD (CENTRAL FEATURE IN SCREENSHOT)
+======================================================= */
+.geofence-card {
+  background: #0f5bb5;
+  background: linear-gradient(145deg, #0e56b8 0%, #1565c0 100%);
+  border-radius: 22px;
+  padding: 26px 32px;
+  color: #ffffff;
+  box-shadow: 0 14px 34px -8px rgba(13, 91, 181, 0.38);
+  margin-bottom: 22px;
+  transition: all 0.3s ease;
+}
+
+.geofence-card.outside {
+  background: linear-gradient(145deg, #0f5bb5 0%, #1565c0 100%);
+  box-shadow: 0 14px 34px -8px rgba(245, 158, 11, 0.3);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.geofence-card.nobooking {
+  background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
+  box-shadow: 0 14px 34px -8px rgba(30, 41, 59, 0.3);
+}
+
+.geofence-card.checked-in {
+  background: linear-gradient(145deg, #065f46 0%, #047857 100%);
+  box-shadow: 0 14px 34px -8px rgba(5, 150, 105, 0.4);
+}
+
+.btn-book-seat-link:hover {
+  transform: translateY(-2px);
+  background-color: #f8fafc;
+}
+
+.student-status-badge {
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  display: inline-block;
+  letter-spacing: 0.4px;
+}
+
+/* Top Row: Registration Status + Green Circle */
+.card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 18px;
+}
+
+.status-left-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.status-chart-icon {
+  font-size: 1.6rem;
+  color: #ffffff;
+}
+
+.status-texts {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge-headline {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.sub-pill {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.status-check-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #10b981;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.45);
+}
+
+.geofence-card.outside .status-check-circle {
+  background-color: #f59e0b;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.45);
+}
+
+.geofence-card.nobooking .status-check-circle {
+  background-color: #64748b;
+  box-shadow: 0 4px 12px rgba(100, 116, 139, 0.4);
+}
+
+/* Information Rows inside Blue Card */
+.blue-card-rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.row-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.row-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.row-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.row-value-large {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.row-value-seat {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.seat-badge-text {
+  background: rgba(255, 255, 255, 0.22);
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.sep-dot {
+  opacity: 0.6;
+  font-size: 0.8rem;
+}
+
+.timer-badge-slot {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.92rem;
+  color: #fef08a;
+  font-weight: 700;
+}
+
+.timer-badge-slot.countdown-active {
+  color: #a7f3d0;
+}
+
+/* Signal Quality Flex */
+.signal-quality-flex {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.signal-bar-track {
+  width: 140px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.signal-bar-fill {
+  height: 100%;
+  width: 75%;
+  background: #facc15;
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.signal-status-pill {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+
+/* Coordinates Matching */
+.coords-display {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+.coord-tag {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 4px 10px;
+  border-radius: 6px;
+  color: #ffffff;
+  font-family: monospace;
+  font-size: 0.78rem;
+}
+
+.coord-arrow {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.75rem;
+}
+
+/* =======================================================
+   HORIZONTAL VERIFIED CARD (MATCHES SCREENSHOT)
+======================================================= */
+.verified-card {
+  background-color: #f0f7ff;
+  border: 1px solid #cce3fd;
+  border-radius: 18px;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 15px -3px rgba(21, 101, 192, 0.08);
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+.verified-card.outside {
+  background-color: #fffbeb;
+  border-color: #fde68a;
+  box-shadow: 0 4px 15px -3px rgba(245, 158, 11, 0.08);
+}
+
+.verified-card.nobooking {
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.verified-pin-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #dbeafe;
+  color: #1565c0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.verified-card.outside .verified-pin-avatar {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.verified-card.nobooking .verified-pin-avatar {
+  background-color: #f1f5f9;
+  color: #64748b;
+}
+
+.verified-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.verified-title-wrap {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: #0f172a;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.verified-status-tag {
+  color: #059669;
+  font-weight: 800;
+}
+
+.verified-card.outside .verified-status-tag {
+  color: #d97706;
+}
+
+.verified-card.nobooking .verified-status-tag {
+  color: #64748b;
+}
+
+.status-desc {
+  font-size: 0.84rem;
+  color: #475569;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.verified-check-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2.5px solid #2563eb;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  background-color: #ffffff;
+}
+
+.verified-card.outside .verified-check-avatar {
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+
+.verified-card.nobooking .verified-check-avatar {
+  border-color: #94a3b8;
+  color: #94a3b8;
+}
+
+/* =======================================================
+   MAIN ACTION BUTTON (MATCHES SCREENSHOT)
+======================================================= */
+.btn-action-main {
+  width: 100%;
+  height: 56px;
+  background: #1565c0;
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px -4px rgba(21, 101, 192, 0.42);
+  transition: all 0.2s ease;
+  margin-bottom: 12px;
+}
+
+.btn-action-main:hover:not(:disabled) {
+  background: #0d47a1;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px -4px rgba(21, 101, 192, 0.52);
+}
+
+.btn-action-main:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-action-main.btn-checkout-active {
+  background: #dc2626 !important;
+  box-shadow: 0 8px 24px -4px rgba(220, 38, 38, 0.45) !important;
+}
+
+.btn-action-main.btn-checkout-active:hover:not(:disabled) {
+  background: #b91c1c !important;
+  box-shadow: 0 10px 28px -4px rgba(220, 38, 38, 0.55) !important;
+}
+
+/* Cancel Reservation Button */
+.btn-cancel-reservation {
+  width: 100%;
+  height: 44px;
+  background: transparent;
+  color: #dc2626;
+  border: 1px dashed #fca5a5;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  margin-top: 4px;
+}
+
+.btn-cancel-reservation:hover:not(:disabled) {
+  background: #fef2f2;
+  border-color: #ef4444;
+}
+
+.no-booking-prompt {
+  text-align: center;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  margin-top: 10px;
+}
+
+.no-booking-prompt p {
+  font-size: 0.86rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.no-booking-prompt a {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1565c0;
+  text-decoration: none;
+}
+
+.no-booking-prompt a:hover {
+  text-decoration: underline;
+}
+
+/* =======================================================
+   RESPONSIVENESS (MOBILE COMPATIBILITY)
+======================================================= */
+@media (max-width: 768px) {
+  .page-content {
+    padding: 20px 16px 40px 16px;
+  }
+
+  .content-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .geofence-card {
+    padding: 20px 18px;
+    border-radius: 18px;
+  }
+
+  .card-info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .row-value-large {
+    font-size: 1.6rem;
+  }
+
+  .coords-display {
+    flex-wrap: wrap;
+  }
+
+  .verified-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .verified-check-avatar {
+    align-self: flex-end;
+  }
+}

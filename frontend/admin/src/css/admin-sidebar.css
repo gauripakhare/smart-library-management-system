@@ -1,0 +1,374 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Base Body Styles */
+body {
+  background-color: #f8fafc;
+  color: #1e293b;
+  min-height: 100vh;
+}
+
+.portal-with-sidebar {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+  width: 100%;
+  overflow: hidden !important;
+}
+
+.portal-with-sidebar > .main-wrapper,
+.main-wrapper,
+.main {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Every admin shell should use the space beside the shared sidebar. */
+.portal-with-sidebar .main-wrapper,
+.portal-with-sidebar .page-content,
+.portal-with-sidebar .content-container,
+.portal-with-sidebar .content-body,
+.portal-with-sidebar .content-area,
+.portal-with-sidebar .content {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.portal-with-sidebar .main-wrapper {
+  height: 100vh;
+}
+
+.portal-with-sidebar .page-content,
+.portal-with-sidebar .content-container,
+.portal-with-sidebar .content-body,
+.portal-with-sidebar .content-area,
+.portal-with-sidebar .content {
+  flex: 1 1 auto;
+}
+
+.admin-header-actions,
+.admin-header-profile,
+.admin-header-notification {
+  display: flex;
+  align-items: center;
+}
+
+.admin-header-actions {
+  justify-content: flex-end;
+  gap: 18px;
+  margin-left: auto;
+}
+
+.admin-header-notification {
+  position: relative;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.admin-header-notification i {
+  font-size: 1rem;
+}
+
+.admin-header-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.admin-header-profile {
+  gap: 9px;
+  color: #0f172a;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.admin-profile-avatar {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #3d8df5;
+  color: #ffffff;
+}
+
+.admin-profile-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.admin-header-profile > .fa-chevron-down {
+  color: #94a3b8;
+  font-size: 0.75rem;
+}
+
+/* =======================================================
+   DESKTOP DEFAULT: Blue (#3D539F) Sidebar
+======================================================= */
+#sidebar-placeholder {
+  width: 260px;
+  min-width: 260px;
+  flex-shrink: 0;
+  height: 100vh;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 260px;
+  height: 100vh;
+  background-color: #3D539F;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 14px;
+  box-shadow: 3px 0 10px rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px 20px 10px;
+}
+
+.user-avatar-icon {
+  width: 38px;
+  height: 38px;
+  background-color: rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+}
+
+.panel-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: #ffffff;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 14px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.nav-item .nav-icon {
+  width: 20px;
+  font-size: 1rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.desktop-name {
+  display: inline-block;
+}
+
+.mobile-name {
+  display: none;
+}
+
+.nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.nav-item.active {
+  background-color: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.18);
+  margin-bottom: 10px;
+}
+
+.logout-btn:hover {
+  background-color: rgba(239, 68, 68, 0.25);
+  color: #ffffff;
+}
+
+/* =======================================================
+   MOBILE VIEW (<= 768px): Floating Bottom Dock
+======================================================= */
+@media (max-width: 768px) {
+  #sidebar-placeholder {
+    width: 0 !important;
+    min-width: 0 !important;
+    height: 0 !important;
+    display: block;
+  }
+
+  body {
+    padding-bottom: 84px !important;
+  }
+
+  .sidebar {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 12px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 20px) !important;
+    max-width: 460px !important;
+    height: 60px !important;
+    background: #ffffff !important;
+    border-radius: 32px !important;
+    box-shadow: 0 8px 24px rgba(61, 83, 159, 0.18), 0 2px 6px rgba(0, 0, 0, 0.06) !important;
+    border: 1px solid #e2e8f0 !important;
+    padding: 4px 6px !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 9999 !important;
+    box-sizing: border-box !important;
+  }
+
+  .sidebar-top {
+    width: 100% !important;
+  }
+
+  .panel-header,
+  .sidebar-footer {
+    display: none !important;
+  }
+
+  .desktop-name {
+    display: none !important;
+  }
+
+  .mobile-name {
+    display: block !important;
+  }
+
+  .nav-menu {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    width: 100% !important;
+    gap: 0 !important;
+  }
+
+  .nav-item {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    padding: 4px 1px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #94a3b8 !important;
+    overflow: hidden !important;
+  }
+
+  .nav-item .nav-icon {
+    font-size: 0.98rem !important;
+    color: #94a3b8 !important;
+    width: auto !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .nav-item .nav-text.mobile-name {
+    font-size: 0.52rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.1px !important;
+    color: #94a3b8 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    width: 100% !important;
+  }
+
+  .nav-item.active .nav-icon {
+    color: #3D539F !important;
+    transform: translateY(-2px) !important;
+  }
+
+  .nav-item.active .nav-text.mobile-name {
+    color: #3D539F !important;
+    font-weight: 800 !important;
+  }
+}
+
+.admin-header-profile .admin-profile-avatar,
+.admin-header-profile .user-avatar,
+.admin-header-profile .user-avatar-circle,
+.admin-header-profile .avatar {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #3d8df5 !important;
+  color: #ffffff !important;
+  font-size: 1rem;
+}
+
+.admin-header-profile img#adminAvatar {
+  display: none;
+}
